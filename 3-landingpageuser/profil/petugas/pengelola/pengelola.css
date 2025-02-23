@@ -118,6 +118,94 @@ header {
   color: #ffd700;
 }
 
+/* Atur Pengelola */
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background-color: #f8f9fa;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  width: 100%;
+}
+
+.tentangku, .portfolio {
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+.isi {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+  justify-content: center;
+}
+
+.profile-image {
+  width: auto;
+  max-width: 250px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+}
+
+.long-text {
+  margin-top: 15px;
+  text-align: justify;
+}
+
+.portfolio {
+  margin-top: 45px;
+  margin-bottom: 70px;
+}
+
+.btn {
+  background-color: #6689fc;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px auto 0 auto;
+  width: fit-content;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn i {
+  font-size: 18px;
+}
+
+.btn:hover {
+  background-color: #b0c4ff;
+}
+
 /* Atur Footer */
 .footer {
   background: linear-gradient(to bottom, #6b46c1, #ffffff);

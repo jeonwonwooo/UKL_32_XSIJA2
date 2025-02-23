@@ -118,6 +118,200 @@ header {
   color: #ffd700;
 }
 
+/* Atur Pustakawan */
+.pustakawan {
+  text-align: center;
+  margin: 80px 0 80px;
+}
+
+.pustakawan h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.pustakawan-container {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+  margin-bottom: 120px;
+}
+
+.card {
+  position: relative;
+  width: 300px; 
+  height: 400px;
+  border-radius: 15px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-text {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 30px 0;
+  background: linear-gradient(to bottom, transparent, rgba(38, 54, 196, 0.7));
+  color: white;
+  text-align: center;
+}
+
+.card h4 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.card h6 {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: normal;
+  color: white;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1024px) {
+  .pustakawan-container {
+    gap: 40px;
+  }
+
+  .card {
+    width: 260px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pustakawan-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .card {
+    width: 280px;
+    height: 380px;
+  }
+}
+
+/* Atur Pengelola Situs */
+.pengelola-situs {
+  text-align: center;
+  margin: 80px 0;
+}
+
+.pengelola-situs h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+.pengelola-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kartu {
+  position: relative;
+  width: 970px;
+  height: 490px;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s ease;
+}
+
+.kartu:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.kartu img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.text-kartu {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(38, 54, 196, 0.7));
+  color: white;
+  text-align: right;
+}
+
+.text-kartu h4 {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: -2px;
+  color: white;
+}
+
+.text-kartu p {
+  font-size: 16px;
+  margin: 2px 0;
+  color: white;
+}
+
+.exploreme {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.exploreme:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 1024px) {
+  .kartu {
+      width: 90%;
+      height: auto;
+  }
+
+  .text-kartu {
+      padding: 15px;
+  }
+
+  .text-kartu h4 {
+      font-size: 18px;
+  }
+
+  .text-kartu p {
+      font-size: 14px;
+  }
+
+  .exploreme {
+      font-size: 12px;
+      padding: 6px 12px;
+  }
+}
+
 /* Atur Footer */
 .footer {
   background: linear-gradient(to bottom, #6b46c1, #ffffff);

@@ -118,6 +118,80 @@ header {
   color: #ffd700;
 }
 
+/* Atur Pustakawan */
+.profile-pustakawan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin: 50px auto;
+    width: 80%;
+}
+
+.pustakawan-card {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pustakawan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pustakawan-card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.pustakawan-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.pustakawan-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin: 0 20px;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #2c2f75;
+}
+
+.info p {
+    font-size: 14px;
+    color: #666;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .pustakawan-card {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .pustakawan-card img {
+        margin-bottom: 10px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
 /* Atur Footer */
 .footer {
   background: linear-gradient(to bottom, #6b46c1, #ffffff);
