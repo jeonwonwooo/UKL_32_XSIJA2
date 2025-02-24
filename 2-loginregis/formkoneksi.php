@@ -1,17 +1,14 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "perpustakaan";
-
+// Koneksi ke database menggunakan PDO
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+    $host = 'localhost'; // Ganti sesuai konfigurasi
+    $db_name = 'perpustakaan'; // Ganti sesuai nama database
+    $username = 'root'; // Ganti sesuai username database
+    $password = ''; // Ganti sesuai password database
+
+    $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Koneksi berhasil!";
 } catch (PDOException $e) {
-    echo "Koneksi gagal: " . $e->getMessage();
+    die("Koneksi gagal: " . $e->getMessage());
 }
 ?>

@@ -13,18 +13,16 @@
     <div class="wrapper">
         <!-- Pesan error dengan Bootstrap -->
         <?php if (isset($error)): ?>
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert" style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px;">
                 <?php echo htmlspecialchars($error); ?>
             </div>
         <?php endif; ?>
-
         <!-- Pesan sukses dengan Bootstrap -->
         <?php if (isset($success)): ?>
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert" style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px;">
                 <?php echo htmlspecialchars($success); ?>
             </div>
         <?php endif; ?>
-
         <form action="process.php" method="POST">
             <input type="hidden" name="type" value="register">
             <h1>Register</h1>
@@ -49,7 +47,7 @@
             </div>
             <button type="submit" class="button" name="submit">Register</button>
             <div class="register-link">
-                <p>Already have an account? <a href="formloginusr.html">Login</a></p>
+                <p>Already have an account? <a href="formloginusr.php">Login</a></p>
             </div>
         </form>
     </div>
