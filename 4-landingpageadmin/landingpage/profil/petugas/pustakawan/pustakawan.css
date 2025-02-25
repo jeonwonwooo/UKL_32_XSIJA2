@@ -1,0 +1,301 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Atur Font */
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+/* Atur Navbar */
+header {
+  background-color: #2e2b8d;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 10vh;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline-block;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+
+.profil .akun i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.profil .akun i:hover {
+  color: #ffd700;
+}
+
+/* Atur Pustakawan */
+.profile-pustakawan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin: 50px auto;
+    width: 80%;
+}
+
+.pustakawan-card {
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 900px;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pustakawan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pustakawan-card:nth-child(odd) {
+    flex-direction: row;
+}
+
+.pustakawan-card:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.pustakawan-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin: 0 20px;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #2c2f75;
+}
+
+.info p {
+    font-size: 14px;
+    color: #666;
+    text-align: justify;
+}
+
+@media (max-width: 768px) {
+    .pustakawan-card {
+        flex-direction: column !important;
+        align-items: center;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .pustakawan-card img {
+        margin-bottom: 10px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
+
+/* Atur Footer */
+.footer {
+  background: linear-gradient(to bottom, #6b46c1, #ffffff);
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+
+.left img {
+  width: 190px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.left p {
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+}
+
+.social-icons a {
+  color: white;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #d1d5db;
+}
+
+.right {
+  flex: 1;
+  margin: 0.5rem;
+  padding-left: 2rem;
+  text-align: right;
+  max-width: 400px;
+}
+
+.right h2 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.right ul li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.right ul li a:hover {
+  color: #d1d5db;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .right {
+    text-align: right;
+    margin-left: auto;
+    padding-left: 5rem;
+    max-width: 450px;
+  }
+}

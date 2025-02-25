@@ -1,5 +1,5 @@
 <?php
-include 'formkoneksi.php'; // Koneksi database
+include '/xampp/htdocs/CODINGAN/formkoneksi.php'; // Koneksi database
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'] ?? '';
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_start();
                 $_SESSION['admin_id'] = $admin['id'];
                 $_SESSION['admin_username'] = $admin['username'];
-                header("Location: /CODINGAN/4-landingpageadmin/3-landingpageuser/beranda/beranda.html");
+                header("Location: /CODINGAN/4-landingpageadmin/landingpage/beranda/beranda.html");
                 exit;
             } else {
                 $error = "Username atau password salah.";
