@@ -186,18 +186,25 @@ p {
   font-size: 16px;
   border-radius: 10px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   margin: 15px auto 0 auto;
-  width: fit-content;
+  text-decoration: none; 
   font-weight: bold;
   transition: background 0.3s ease;
+  width: fit-content;
 }
 
 .btn i {
   font-size: 18px;
+}
+
+.btn:link,
+.btn:visited {
+  color: white; 
+  text-decoration: none; 
 }
 
 .btn:hover {

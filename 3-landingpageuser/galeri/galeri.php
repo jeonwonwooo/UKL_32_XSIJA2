@@ -41,28 +41,30 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Logo Perpus" srcset="" />
-    </div>
-    <nav class="navbar">
-      <ul>
-        <li><a href="beranda.html">Beranda</a></li>
-        <li><a href="/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-        <li><a href="#">Layanan</a></li>
-        <li><a href="#">Galeri</a></li>
-        <li><a href="#">Kontak</a></li>
-        <li class="profil">
-          <a href="#" class="akun"><i class="fas fa-user"></i></a>
-        </li>
-        <li>
-          <button class="btn-logout">
-            <i class="fas fa-sign-out-alt"></i> <a href="/z-yakinlogout/formyakin.html">Logout</a>
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </header>
+<header>
+      <div class="logo">
+        <img src="logo.png" alt="Logo Perpus" srcset="" />
+      </div>
+      <nav class="navbar">
+        <ul>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
+          <li>
+            <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a>
+          </li>
+          <li><a href="#">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+          <li><a href="#">Kontak</a></li>
+          <li class="profil">
+            <a href="#" class="akun"><i class="fas fa-user"></i></a>
+          </li>
+          <li>
+            <button class="btn-logout">
+              <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
   <main>
     <section class="get2">
       <div class="get2-content">

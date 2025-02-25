@@ -65,13 +65,21 @@ header {
 }
 
 .logo img {
-  height: 10vh;
+  height: 8vh;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .navbar ul {
   list-style: none;
   display: flex;
   gap: 20px;
+  padding: 0;
+  margin: 0;
 }
 
 .navbar ul li {
@@ -90,21 +98,10 @@ header {
   color: #ffd700;
 }
 
-.btn-logout {
-  background: none;
-  border: 2px solid #fff;
-  padding: 5px 15px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.btn-logout:hover {
-  background: #fff;
-  color: #2e2b8d;
+.profil {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .profil .akun i {
@@ -114,6 +111,27 @@ header {
 
 .profil .akun i:hover {
   color: #ffd700;
+}
+
+/* Tombol Kembali */
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 8px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
 }
 
 /* Atur Get2 */
@@ -249,16 +267,6 @@ header {
   background-color: #5a31a5;
 }
 
-/* Footer utk Merapikan Isi */
-.footer {
-  margin-top: 50px;
-  text-align: center;
-  padding: 20px;
-  background: #333;
-  color: white;
-  border-radius: 10px;
-}
-
 @media (max-width: 768px) {
   .card-img-top {
       height: 150px;
@@ -267,9 +275,15 @@ header {
 
 /* Atur Footer */
 .footer {
+  text-align: left;
   background: linear-gradient(to bottom, #6b46c1, #ffffff);
   color: white;
   padding: 2rem 1rem;
+  margin-top: 50px;
+  padding: 20px;
+  background: #333;
+  color: white;
+  border-radius: 10px;
 }
 
 .container {
