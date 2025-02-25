@@ -1,7 +1,6 @@
 <?php
 include '../../formkoneksi.php';
 
-// Ambil filter dari URL
 $filter = $_GET['filter'] ?? 'semua';
 
 // Query berdasarkan filter

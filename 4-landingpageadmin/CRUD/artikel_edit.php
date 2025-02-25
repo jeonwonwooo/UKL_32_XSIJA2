@@ -10,7 +10,6 @@ if (!$artikel) {
     die("Artikel tidak ditemukan.");
 }
 
-// Ambil daftar admin dari database
 $stmt = $conn->query("SELECT id, nama FROM admin");
 $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -20,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tanggal_publikasi = $_POST['tanggal_publikasi'];
     $admin_id = $_POST['admin_id'];
 
-    // Upload gambar baru jika ada
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $file_name = basename($_FILES['gambar']['name']);
         $file_tmp = $_FILES['gambar']['tmp_name'];
@@ -32,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         move_uploaded_file($file_tmp, $upload_dir . $file_name);
 
-        // Hapus gambar lama
         if ($artikel['gambar']) {
             unlink($upload_dir . $artikel['gambar']);
         }

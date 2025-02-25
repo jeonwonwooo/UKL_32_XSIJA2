@@ -1,13 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
 
-/* Reset CSS */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Atur Font */
 body {
   font-family: "Poppins", sans-serif;
   color: #333;
@@ -251,7 +249,7 @@ header {
   background-color: #5a31a5;
 }
 
-/* Footer */
+/* Footer utk Merapikan Isi */
 .footer {
   margin-top: 50px;
   text-align: center;
@@ -261,7 +259,6 @@ header {
   border-radius: 10px;
 }
 
-/* Responsif */
 @media (max-width: 768px) {
   .card-img-top {
       height: 150px;

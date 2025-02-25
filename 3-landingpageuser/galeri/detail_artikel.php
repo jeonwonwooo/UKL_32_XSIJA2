@@ -1,15 +1,12 @@
 <?php
 include '../../formkoneksi.php';
 
-// Ambil ID artikel dari URL
 $id = $_GET['id'] ?? '';
 
-// Query untuk mengambil data artikel berdasarkan ID
 $stmt = $conn->prepare("SELECT * FROM artikel WHERE id = ? AND status = 'published'");
 $stmt->execute([$id]);
 $artikel = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Jika artikel tidak ditemukan, tampilkan pesan error
 if (!$artikel) {
     die("Artikel tidak ditemukan.");
 }

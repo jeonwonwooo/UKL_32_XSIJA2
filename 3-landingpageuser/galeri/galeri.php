@@ -1,10 +1,8 @@
 <?php
 include '../../formkoneksi.php';
 
-// Ambil filter dari URL (default = 'terbaru')
 $filter = $_GET['filter'] ?? 'terbaru';
 
-// Query berdasarkan filter
 if ($filter === 'terbaru') {
     $stmt = $conn->prepare("
         SELECT id, judul, konten, gambar, tanggal_publikasi
@@ -20,7 +18,6 @@ if ($filter === 'terbaru') {
         ORDER BY judul ASC
     ");
 } else {
-    // Default: Semua artikel (tanpa filter khusus)
     $stmt = $conn->prepare("
         SELECT id, judul, konten, gambar, tanggal_publikasi
         FROM artikel
@@ -74,7 +71,6 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
       </div>
     </section>
     <div class="mb-4">
-        <!-- Dropdown Filter -->
         <div class="filter-dropdown">
           <button class="filter-btn">Pilih Filter ▼</button>
           <div class="filter-content">

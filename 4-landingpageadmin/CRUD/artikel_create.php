@@ -6,16 +6,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $konten = trim($_POST['konten']);
     $tanggal_publikasi = $_POST['tanggal_publikasi'];
     $admin_id = $_POST['admin_id'];
-    $status = 'draft'; // Default status adalah draft
+    $status = 'draft';
 
-    // Upload gambar
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $file_name = basename($_FILES['gambar']['name']);
         $file_tmp = $_FILES['gambar']['tmp_name'];
         $upload_dir = "../../uploads/";
 
         if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true); // Buat folder uploads jika belum ada
+            mkdir($upload_dir, 0777, true);
         }
 
         move_uploaded_file($file_tmp, $upload_dir . $file_name);

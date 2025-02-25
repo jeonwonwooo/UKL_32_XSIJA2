@@ -1,10 +1,10 @@
 <?php
-include '/xampp/htdocs/CODINGAN/formkoneksi.php'; // Koneksi database
+include '/xampp/htdocs/CODINGAN/formkoneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'] ?? '';
 
-    // ====================== LOGIN ADMIN =================================
+// login admin
     if ($type === 'admin_login') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ====================== LOGIN USER ==================================
+// login user
     elseif ($type === 'user_login') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ====================== REGISTRASI USER =============================
+// register user
     elseif ($type === 'register') {
         $username = trim($_POST['username'] ?? '');
         $name = trim($_POST['name'] ?? '');
@@ -86,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         try {
-            // Cek apakah username atau email sudah ada
             $stmt = $conn->prepare("SELECT * FROM anggota WHERE username = ? OR email = ?");
             $stmt->execute([$username, $email]);
             $existing_user = $stmt->fetch();
@@ -104,14 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Simpan data registrasi ke database
             $stmt = $conn->prepare("INSERT INTO anggota (username, password, nama, email) VALUES (?, ?, ?, ?)");
             $stmt->execute([$username, $password, $name, $email]);
 
-            // Simpan pesan sukses ke session
             session_start();
             $_SESSION['success'] = "Registrasi berhasil. Silakan login.";
-            header("Location: formloginusr.php"); // Redirect ke halaman login
+            header("Location: formloginusr.php");
             exit;
         } catch (PDOException $e) {
             $error = "Terjadi kesalahan. Silakan coba lagi.";
@@ -120,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ====================== DEFAULT REDIRECT ============================
+// default redirect
     else {
         header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.html");
         exit;

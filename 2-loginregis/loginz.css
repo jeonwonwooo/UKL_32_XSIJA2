@@ -1,15 +1,15 @@
 .alert {
     position: absolute;
-    top: -60px; /* Geser ke atas agar tidak menggeser form */
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 420px; /* Sesuaikan dengan lebar form */
+    max-width: 420px;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
     font-size: 14px;
-    z-index: 1000; /* Pastikan pesan tampil di atas form */
+    z-index: 1000;
 }
 
 .alert-danger {
@@ -24,7 +24,6 @@
     border: 1px solid #c3e6cb;
 }
 
-/* Sisanya tetap sama seperti sebelumnya */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
 * {
     margin: 0;
@@ -53,10 +52,10 @@ body {
 }
 .wrapper h1 {
     font-family: "Poppins", sans-serif;
-    font-weight: 600; /* Tebal */
+    font-weight: 600;
     font-size: 36px;
     text-align: center;
-    margin-bottom: 20px; /* Tambahkan jarak bawah */
+    margin-bottom: 20px;
 }
 .wrapper .input-box {
     position: relative;
@@ -75,11 +74,11 @@ body {
     font-size: 16px;
     color: white;
     padding: 20px 45px 20px 20px;
-    font-family: "Poppins", sans-serif; /* Font normal */
+    font-family: "Poppins", sans-serif;
 }
 .input-box input::placeholder {
     color: white;
-    font-family: "Poppins", sans-serif; /* Font normal */
+    font-family: "Poppins", sans-serif;
 }
 .input-box i {
     position: absolute;
@@ -93,7 +92,7 @@ body {
     justify-content: space-between;
     font-size: 14.5px;
     margin: -15px 0 15px;
-    font-family: "Poppins", sans-serif; /* Font normal */
+    font-family: "Poppins", sans-serif;
 }
 .remember-forgot label input {
     accent-color: white;
@@ -102,7 +101,7 @@ body {
 .remember-forgot a {
     color: white;
     text-decoration: none;
-    font-family: "Poppins", sans-serif; /* Font normal */
+    font-family: "Poppins", sans-serif;
 }
 .remember-forgot a:hover {
     text-decoration: underline;
@@ -119,19 +118,19 @@ body {
     font-size: 16px;
     color: #333;
     font-weight: 600;
-    font-family: "Poppins", sans-serif; /* Font tebal */
+    font-family: "Poppins", sans-serif;
 }
 .wrapper .register-link {
     font-size: 14.5px;
     text-align: center;
     margin-top: 20px;
-    font-family: "Poppins", sans-serif; /* Font normal */
+    font-family: "Poppins", sans-serif;
 }
 .register-link p a {
     color: white;
     text-decoration: none;
     font-weight: 600;
-    font-family: "Poppins", sans-serif; /* Font tebal */
+    font-family: "Poppins", sans-serif;
 }
 .register-link p a:hover {
     text-decoration: underline;
