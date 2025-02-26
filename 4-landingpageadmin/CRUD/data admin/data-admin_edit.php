@@ -1,31 +1,26 @@
 <?php
 include '../../formkoneksi.php';
 
-// Ambil ID admin dari parameter URL
 $id = $_GET['id'] ?? '';
 $stmt = $conn->prepare("SELECT * FROM admin WHERE id = ?");
 $stmt->execute([$id]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Jika admin tidak ditemukan, tampilkan pesan error
 if (!$admin) {
     die("Admin tidak ditemukan.");
 }
 
-// Proses form jika metode request adalah POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = trim($_POST['nama']);
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    // Hash password jika ada perubahan
     if (!empty($password)) {
         $password = password_hash($password, PASSWORD_DEFAULT);
     } else {
-        $password = $admin['password']; // Tetap gunakan password lama jika tidak diubah
+        $password = $admin['password'];
     }
 
-    // Upload foto profil jika ada
     $foto_profil = $admin['foto_profil'];
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
         $file_name = basename($_FILES['foto_profil']['name']);
@@ -41,11 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Query untuk mengupdate data admin
         $stmt = $conn->prepare("UPDATE admin SET nama = ?, username = ?, password = ?, foto_profil = ? WHERE id = ?");
         $stmt->execute([$nama, $username, $password, $foto_profil, $id]);
 
-        // Redirect ke halaman daftar admin setelah berhasil mengedit
         header("Location: data-admin_list.php");
         exit;
     } catch (PDOException $e) {
@@ -56,35 +49,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Admin</title>
     <link rel="stylesheet" href="data-admin_edit.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Edit Admin</h1>
         <form action="" method="POST" enctype="multipart/form-data">
-            <!-- Nama -->
             <div class="form-group">
                 <label for="nama" class="form-label">Nama</label>
                 <input type="text" id="nama" name="nama" class="form-control" value="<?= htmlspecialchars($admin['nama']) ?>" placeholder="Masukkan nama lengkap" required>
             </div>
-
-            <!-- Username -->
             <div class="form-group">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" name="username" class="form-control" value="<?= htmlspecialchars($admin['username']) ?>" placeholder="Masukkan username" required>
             </div>
 
-            <!-- Password -->
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah">
             </div>
 
-            <!-- Foto Profil -->
             <div class="form-group">
                 <label for="foto_profil" class="form-label">Foto Profil</label>
                 <div class="file-input-container">
@@ -99,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
             </div>
 
-            <!-- Tombol Simpan dan Kembali -->
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                 <a href="data-admin_list.php" class="btn btn-secondary">Kembali</a>
@@ -107,4 +96,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>

@@ -4,7 +4,6 @@ include '../../formkoneksi.php';
 $action = $_GET['action'] ?? '';
 $id = $_GET['id'] ?? '';
 
-// delete
 if ($action === 'publish' && $id) {
     try {
         $stmt = $conn->prepare("UPDATE artikel SET status = 'published' WHERE id = ?");
@@ -38,4 +37,3 @@ if ($action === 'publish' && $id) {
 } else {
     die("Invalid action.");
 }
-?>

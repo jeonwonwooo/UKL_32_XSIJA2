@@ -2,9 +2,8 @@
 include '../../formkoneksi.php';
 
 $filter = $_GET['filter'] ?? 'semua';
-$order_by = $_GET['order_by'] ?? 'created_at'; // Default order by created_at
+$order_by = $_GET['order_by'] ?? 'created_at';
 
-// Query berdasarkan filter
 $query = "
     SELECT artikel.id, artikel.judul, artikel.gambar, artikel.tanggal_publikasi, admin.nama AS nama_admin, artikel.status
     FROM artikel
@@ -17,7 +16,6 @@ if ($filter === 'draft') {
     $query .= " WHERE artikel.status = 'published'";
 }
 
-// Order by based on user selection
 if ($order_by === 'judul') {
     $query .= " ORDER BY artikel.judul ASC";
 } elseif ($order_by === 'id') {
@@ -35,6 +33,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,24 +41,22 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="artikel_list.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <div class="container mt-5">
         <h1>Daftar Artikel</h1>
         <div class="filter-container">
-            <!-- Dropdown Filter -->
             <div class="filter-dropdown">
                 <button class="filter-button">
                     <i class="fas fa-filter"></i> Filter
                 </button>
                 <div class="dropdown-content">
-                    <!-- Filter Status -->
                     <div class="dropdown-section">
                         <span class="dropdown-title">Status:</span>
                         <a href="?filter=semua">Semua</a>
                         <a href="?filter=draft">Draft</a>
                         <a href="?filter=published">Published</a>
                     </div>
-                    <!-- Filter Urutan -->
                     <div class="dropdown-section">
                         <span class="dropdown-title">Urutkan:</span>
                         <a href="?order_by=id">ID</a>
@@ -69,7 +66,6 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <!-- Tombol Tambah Artikel -->
             <a href="artikel_create.php" class="btn btn-info"><i class="fas fa-plus"></i> Tambah Artikel</a>
         </div>
         <table class="custom-table">
@@ -86,24 +82,25 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </thead>
             <tbody>
                 <?php foreach ($artikel as $row): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['id']) ?></td>
-                    <td><?= htmlspecialchars($row['judul']) ?></td>
-                    <td><img src="../../uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" width="100"></td>
-                    <td><?= htmlspecialchars($row['tanggal_publikasi']) ?></td>
-                    <td><?= htmlspecialchars($row['nama_admin']) ?></td>
-                    <td><?= htmlspecialchars($row['status']) ?></td>
-                    <td>
-                        <a href="artikel_edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
-                        <?php if ($row['status'] === 'draft'): ?>
-                            <a href="process_artikel.php?action=publish&id=<?= $row['id'] ?>" class="btn btn-success btn-sm"><i class="fas fa-upload"></i> Publikasikan</a>
-                        <?php endif; ?>
-                        <a href="process_artikel.php?action=delete&id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')"><i class="fas fa-trash"></i> Hapus</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><?= htmlspecialchars($row['id']) ?></td>
+                        <td><?= htmlspecialchars($row['judul']) ?></td>
+                        <td><img src="../../uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" width="100"></td>
+                        <td><?= htmlspecialchars($row['tanggal_publikasi']) ?></td>
+                        <td><?= htmlspecialchars($row['nama_admin']) ?></td>
+                        <td><?= htmlspecialchars($row['status']) ?></td>
+                        <td>
+                            <a href="artikel_edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                            <?php if ($row['status'] === 'draft'): ?>
+                                <a href="process_artikel.php?action=publish&id=<?= $row['id'] ?>" class="btn btn-success btn-sm"><i class="fas fa-upload"></i> Publikasikan</a>
+                            <?php endif; ?>
+                            <a href="process_artikel.php?action=delete&id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')"><i class="fas fa-trash"></i> Hapus</a>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </body>
+
 </html>
