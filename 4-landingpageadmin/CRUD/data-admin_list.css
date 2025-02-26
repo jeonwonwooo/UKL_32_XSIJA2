@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styling untuk body */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Font lebih modern */
+    background-color: #f4f6f8; /* Warna latar lebih lembut */
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Styling untuk container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 15px; /* Sudut lebih melengkung */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Bayangan lebih halus */
+    position: relative;
+}
+
+/* Styling untuk judul */
+h1 {
+    font-size: 32px;
+    color: #3b4465; /* Warna teks lebih hangat */
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 1px; /* Spasi antar huruf */
+}
+
+/* Styling untuk tombol tambah admin */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* Jarak antara logo dan teks */
+    padding: 12px 25px;
+    font-size: 16px;
+    background-color: #4c75af; /* Warna biru tua yang lebih kalem */
+    color: #fff;
+    border: none;
+    border-radius: 8px; /* Sudut lebih melengkung */
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Efek bayangan */
+}
+
+.btn-primary:hover {
+    background-color: #3b5e9d; /* Warna lebih gelap saat hover */
+    transform: scale(1.05); /* Efek zoom kecil */
+}
+
+/* Styling untuk tabel */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    border-radius: 10px;
+    overflow: hidden; /* Agar border radius bekerja pada tabel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan tabel */
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Garis lebih tipis */
+    text-align: center;
+    vertical-align: middle;
+}
+
+.custom-table thead {
+    background-color: #4c75af; /* Warna header seragam dengan tombol */
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase; /* Huruf kapital */
+    letter-spacing: 1px; /* Spasi antar huruf */
+}
+
+.custom-table tbody tr:nth-child(even) {
+    background-color: #f9fafb; /* Warna baris genap lebih lembut */
+}
+
+.custom-table tbody tr:hover {
+    background-color: #eef2f7; /* Warna hover lebih soft */
+    transform: scale(1.01); /* Efek zoom kecil */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Styling untuk gambar dalam tabel */
+.custom-table img {
+    max-width: 50px;
+    height: auto;
+    border-radius: 50%; /* Foto profil berbentuk lingkaran */
+    border: 2px solid #fff; /* Border putih untuk kontras */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bayangan pada gambar */
+}
+
+/* Styling untuk tombol aksi */
+.btn-sm {
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Bayangan tombol */
+    margin-right: 10px; /* Jarak antara tombol Edit dan Hapus */
+}
+
+.btn-warning.btn-sm {
+    background-color: #f7b955; /* Warna kuning lebih soft */
+    color: #fff;
+}
+
+.btn-warning.btn-sm:hover {
+    background-color: #f5a623; /* Warna lebih gelap saat hover */
+    transform: scale(1.05);
+}
+
+.btn-danger.btn-sm {
+    background-color: #e74c3c; /* Warna merah lebih cerah */
+    color: #fff;
+    margin-right: 0;
+}
+
+.btn-danger.btn-sm:hover {
+    background-color: #c0392b; /* Warna lebih gelap saat hover */
+    transform: scale(1.05);
+}
+
+/* Styling untuk tombol kembali */
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
