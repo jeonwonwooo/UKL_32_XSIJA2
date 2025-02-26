@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Artikel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="artikel_edit.css">
 </head>
 <body>
     <div class="container mt-5">
@@ -69,11 +69,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="konten" class="form-label">Konten</label>
                 <textarea class="form-control" id="konten" name="konten" rows="5" required><?= htmlspecialchars($artikel['konten']) ?></textarea>
             </div>
-            <div class="mb-3">
-                <label for="gambar" class="form-label">Gambar</label>
-                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
-                <small class="text-muted">Biarkan kosong jika tidak ingin mengganti gambar.</small>
-            </div>
+            <!-- Input Gambar -->
+<div class="mb-3">
+    <label for="gambar" class="form-label">Gambar</label>
+    <div class="file-input-container">
+        <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
+        <span class="file-custom">Pilih File...</span>
+    </div>
+    <small class="text-muted">Biarkan kosong jika tidak ingin mengganti gambar.</small>
+</div>
             <div class="mb-3">
                 <label for="tanggal_publikasi" class="form-label">Tanggal Publikasi</label>
                 <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi" value="<?= htmlspecialchars($artikel['tanggal_publikasi']) ?>" required>
