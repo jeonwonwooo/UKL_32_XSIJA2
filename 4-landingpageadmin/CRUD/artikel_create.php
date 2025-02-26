@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $conn->prepare("INSERT INTO artikel (judul, konten, gambar, tanggal_publikasi, admin_id, status) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->execute([$judul, $konten, $file_name, $tanggal_publikasi, $admin_id, $status]);
-
         header("Location: artikel_list.php");
         exit;
     } catch (PDOException $e) {
@@ -33,51 +32,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Artikel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="artikel_create.css">
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <h1>Tambah Artikel</h1>
         <form action="" method="POST" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="judul" class="form-label">Judul</label>
-                <input type="text" class="form-control" id="judul" name="judul" required>
-            </div>
-            <div class="mb-3">
-                <label for="konten" class="form-label">Konten</label>
-                <textarea class="form-control" id="konten" name="konten" rows="5" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="gambar" class="form-label">Gambar</label>
-                <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" required>
-            </div>
-            <div class="mb-3">
-                <label for="tanggal_publikasi" class="form-label">Tanggal Publikasi</label>
-                <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi" required>
-            </div>
-            <div class="mb-3">
-                <label for="admin_id" class="form-label">Pilih Admin</label>
-                <select class="form-select" id="admin_id" name="admin_id" required>
-                    <?php
-                    $stmt = $conn->query("SELECT id, nama FROM admin");
-                    $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($admins as $admin): ?>
-                        <option value="<?= htmlspecialchars($admin['id']) ?>">
-                            <?= htmlspecialchars($admin['nama']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Simpan Sebagai Draft</button>
-            <a href="/CODINGAN/4-landingpageadmin/landingpage/beranda/beranda.html" class="btn btn-secondary">Kembali ke Beranda</a>
-        </form>
+    <!-- Input Judul -->
+    <div class="mb-3">
+        <label for="judul" class="form-label">Judul</label>
+        <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan judul..." required>
+    </div>
+
+    <!-- Textarea Konten -->
+    <div class="mb-3">
+        <label for="konten" class="form-label">Konten</label>
+        <textarea class="form-control" id="konten" name="konten" rows="5" placeholder="Tulis konten di sini..." required style="resize: none; overflow-y: auto;"></textarea>
+    </div>
+
+    <!-- Input Gambar -->
+    <div class="mb-3">
+        <label for="gambar" class="form-label">Gambar</label>
+        <div class="file-input-container">
+            <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*" required>
+            <span class="file-custom">Pilih File...</span>
+        </div>
+    </div>
+
+    <!-- Input Tanggal Publikasi -->
+    <div class="mb-3">
+        <label for="tanggal_publikasi" class="form-label">Tanggal Publikasi</label>
+        <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi" required>
+    </div>
+
+    <!-- Dropdown Pilih Admin -->
+    <div class="mb-3">
+        <label for="admin_id" class="form-label">Pilih Admin</label>
+        <select class="form-select" id="admin_id" name="admin_id" required>
+            <option value="" disabled selected>Pilih admin...</option>
+            <?php
+            $stmt = $conn->query("SELECT id, nama FROM admin");
+            $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($admins as $admin): ?>
+                <option value="<?= htmlspecialchars($admin['id']) ?>">
+                    <?= htmlspecialchars($admin['nama']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <!-- Tombol Simpan dan Kembali -->
+    <div class="button-group">
+        <button type="submit" class="btn btn-primary">Simpan Sebagai Draft</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='beranda.html'">Kembali ke Beranda</button>
+    </div>
+</form>
     </div>
 </body>
 </html>
