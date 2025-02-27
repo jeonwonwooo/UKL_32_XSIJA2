@@ -1,0 +1,331 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+/* Atur Navbar */
+header {
+  background-color: #2e2b8d;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 10vh;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline-block;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+
+.profil .akun i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.profil .akun i:hover {
+  color: #ffd700;
+}
+
+/* Atur Kontak */
+.contact-container {
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px); /* Supaya ada jarak dari navbar */
+    padding-top: 120px; /* Biar makin jauh */
+}
+
+.contact-card {
+    background-color: #d7dbf1;
+    padding: 40px;
+    margin-top: 7vh;
+    margin-left: 70vh;
+    border-radius: 10px;
+    max-width: 500px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px);
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Container Form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.kotak-form { 
+    padding: 20px;
+    border-radius: 10px;
+    width: 45%;
+}
+
+.kotak-form iframe {
+    border-radius: 5px;
+    border: none;
+}
+
+iframe + div {
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px;
+    background: #f8f8f8;
+    border-radius: 5px;
+}
+
+/* Kotak Informasi */
+.kotak-info {
+    width: 50%;
+    padding: 20px;
+}
+
+.kotak-info h2 {
+    margin-bottom: 10px;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .kotak-form, .kotak-info {
+        width: 100%;
+    }
+}
+
+/* Atur Footer */
+.footer {
+    background: linear-gradient(to bottom, #6b46c1, #ffffff);
+    color: white;
+    padding: 2rem 1rem;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: transparent;
+    box-shadow: none;
+}
+
+.left, .right {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0.5rem;
+}
+
+.left img {
+    width: 190px;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+
+.left p {
+    font-size: 0.875rem;
+    margin: 0.5rem 0;
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+}
+
+.social-icons a {
+    color: white;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #d1d5db;
+}
+
+.right {
+    flex: 1;
+    margin: 0.5rem;
+    padding-left: 2rem;
+    text-align: right;
+    max-width: 400px;
+}
+
+.right h2 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.right ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.right ul li {
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.right ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.right ul li a:hover {
+    color: #d1d5db;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #4a5568;
+    font-size: 0.875rem;
+    margin-top: 2rem;
+    box-shadow: none;
+    background: none;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-wrap: nowrap;
+        align-items: flex-start;
+    }
+
+    .right {
+        text-align: right;
+        margin-left: auto;
+        padding-left: 5rem;
+        max-width: 450px;
+    }
+}

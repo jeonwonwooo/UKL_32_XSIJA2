@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $id = $_GET['id'] ?? '';
 
@@ -18,7 +18,6 @@ if (!$artikel) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($artikel['judul']) ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="detail_artikel.css">
     <link
       rel="stylesheet"
@@ -34,8 +33,8 @@ if (!$artikel) {
                 <li><a href="beranda.html">Beranda</a></li>
                 <li><a href="/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
                 <li><a href="#">Layanan</a></li>
-                <li><a href="#">Galeri</a></li>
-                <li><a href="#">Kontak</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
                 <li class="profil">
                     <a href="#" class="akun"><i class="fas fa-user"></i></a>
                 </li>

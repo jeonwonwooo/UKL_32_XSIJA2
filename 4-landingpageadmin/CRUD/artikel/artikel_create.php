@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary">Simpan Sebagai Draft</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='beranda.html'">Kembali ke Beranda</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='artikel_list.php'">Kembali ke Beranda</button>
             </div>
         </form>
     </div>

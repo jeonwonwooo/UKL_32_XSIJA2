@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $filter = $_GET['filter'] ?? 'terbaru';
 
@@ -36,7 +36,6 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galeri Artikel</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="galeri.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
@@ -53,7 +52,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </li>
           <li><a href="#">Layanan</a></li>
           <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-          <li><a href="#">Kontak</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
           <li class="profil">
             <a href="#" class="akun"><i class="fas fa-user"></i></a>
           </li>
@@ -87,7 +86,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($artikel as $row): ?>
           <div class="col-md-4 mb-4">
             <div class="card">
-              <img src="../../uploads/<?= htmlspecialchars($row['gambar']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['judul']) ?>">
+              <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" class="card-img-top" alt="<?= htmlspecialchars($row['judul']) ?>">
               <div class="card-body">
                 <h5 class="card-title"><?= htmlspecialchars($row['judul']) ?></h5>
                 <p class="card-text"><?= substr(htmlspecialchars($row['konten']), 0, 100) ?>...</p>
