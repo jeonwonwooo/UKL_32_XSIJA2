@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $filter = $_GET['filter'] ?? 'semua';
 $order_by = $_GET['order_by'] ?? 'created_at';

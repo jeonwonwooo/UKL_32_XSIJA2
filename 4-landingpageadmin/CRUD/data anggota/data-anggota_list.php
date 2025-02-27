@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $stmt = $conn->query("SELECT * FROM anggota");
 $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);

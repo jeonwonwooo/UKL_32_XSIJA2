@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $id = $_GET['id'] ?? '';
 $stmt = $conn->prepare("SELECT * FROM admin WHERE id = ?");

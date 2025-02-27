@@ -1,5 +1,5 @@
 <?php
-include '../../formkoneksi.php';
+include 'formkoneksi.php';
 
 $action = $_GET['action'] ?? '';
 $id = $_GET['id'] ?? '';
