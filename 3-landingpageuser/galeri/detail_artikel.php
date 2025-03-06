@@ -52,7 +52,7 @@ if (!$artikel) {
             <div class="container mt-5">
                 <h1 class="judul"><?= htmlspecialchars($artikel['judul']) ?></h1>
                 <p class="tanggal-publikasi"><strong>Tanggal Publikasi:</strong> <?= htmlspecialchars($artikel['tanggal_publikasi']) ?></p>
-                <img src="../../uploads/<?= htmlspecialchars($artikel['gambar']) ?>" class="img-fluid mb-4" alt="<?= htmlspecialchars($artikel['judul']) ?>">
+                <img src="/CODINGAN/4-landingpageadmin/zzuploads/<?= htmlspecialchars($artikel['gambar']) ?>" class="img-fluid mb-4" alt="<?= htmlspecialchars($artikel['judul']) ?>">
                 <div class="konten">
                     <?= nl2br(htmlspecialchars($artikel['konten'])) ?>
                 </div>

@@ -7,7 +7,7 @@ $order_by = $_GET['order_by'] ?? 'created_at';
 $query = "
     SELECT artikel.id, artikel.judul, artikel.gambar, artikel.tanggal_publikasi, admin.nama AS nama_admin, artikel.status
     FROM artikel
-    JOIN admin ON artikel.admin_id = admin.id
+     admin ON artikel.admin_id = admin.id
 ";
 
 if ($filter === 'draft') {

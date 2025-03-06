@@ -67,7 +67,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <main>
     <section class="get2">
       <div class="get2-content">
-        <h1>Ingin Mengetahui Kami Lebih Dalam?</h1>
+        <h1>Ingin Tahu Kegiatan Kami?</h1>
         <p>Ayo gulir lebih jauh!</p>
       </div>
     </section>
