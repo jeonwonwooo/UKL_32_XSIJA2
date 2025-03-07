@@ -231,6 +231,7 @@ header {
 
 /* Atur Isi */
 .container {
+  margin-bottom: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -267,6 +268,7 @@ header {
   align-items: center;
   text-align: center;
   padding: 15px;
+  margin-bottom: 50px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -355,15 +357,9 @@ header {
 
 /* Atur Footer */
 .footer {
-  text-align: left;
   background: linear-gradient(to bottom, #6b46c1, #ffffff);
   color: white;
   padding: 2rem 1rem;
-  margin-top: 50px;
-  padding: 20px;
-  background: #333;
-  color: white;
-  border-radius: 10px;
 }
 
 .container {
