@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Buku</title>
+    <link rel="stylesheet" href="buku_edit.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
@@ -123,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
-                <input type="text" class="form-control" id="isbn" name="isbn" value="<?= htmlspecialchars($buku['isbn']) ?>" required>
+                <input type="text" class="form-control" id="isbn" name="isbn" value="<?= htmlspecialchars($buku['isbn'] ?? '') ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
         </form>
