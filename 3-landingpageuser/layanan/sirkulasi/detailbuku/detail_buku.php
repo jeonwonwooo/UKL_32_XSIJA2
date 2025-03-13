@@ -131,24 +131,76 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
                 <p><strong>Deskripsi:</strong> <?php echo nl2br(htmlspecialchars($buku['deskripsi'])); ?></p>
             </div>
         </section>
-        
-<!-- Action Buttons -->
-<div class="action-buttons">
-    <form action="proses_pinjam.php" method="POST" style="display: inline-block;">
-        <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-        <button type="submit" class="btn-pinjam">Pinjam Sekarang</button>
-    </form>
+        <section class="rating">
+        <section class="rating">
+    <!-- Rating Overview -->
+    <div class="rating-overview">
+        <p><strong>Rating:</strong> 
+            ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
+        </p>
+    </div>
 
-    <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
-        <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-        <button type="submit" class="btn-favorit" <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
-            <?php echo $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit'; ?>
-        </button>
-    </form>
-</div>
+    <!-- Star Distribution -->
+    <div class="star-distribution">
+        <?php if (!empty($distribusi_rating)): ?>
+            <?php foreach ($distribusi_rating as $row): 
+                $percentage = ($jumlah_ulasan > 0) ? ($row['count'] / $jumlah_ulasan) * 100 : 0;
+            ?>
+                <div class="rating-bar">
+                    <span><?= $row['rating'] ?> stars</span>
+                    <div class="bar-container">
+                        <div class="bar" style="width: <?= $percentage ?>%;"></div>
+                    </div>
+                    <span><?= $row['count'] ?></span>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>Tidak ada rating untuk buku ini.</p>
+        <?php endif; ?>
+    </div>
+</section>
 
-<!-- Notifikasi Favorit -->
-<p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
+<!-- User Reviews -->
+<section class="user-reviews">
+    <h3>Ulasan</h3>
+    <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
+
+    <?php if (!empty($ulasan)): ?>
+        <?php foreach ($ulasan as $review): ?>
+            <div class="review">
+                <div class="review-header">
+                    <span><?= htmlspecialchars($review['username']) ?></span>
+                    <span>
+                        <?php for ($i = 0; $i < $review['rating']; $i++): ?>
+                            ★
+                        <?php endfor; ?>
+                    </span>
+                </div>
+                <p class="review-comment"><?= htmlspecialchars($review['komentar']) ?></p>
+                <small class="show-more">Show more ▼</small>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="no-reviews-container">
+            <p>Belum ada ulasan untuk buku ini.</p>
+            <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="btn-tambah-ulasan">Tambah Ulasan Sekarang</a>
+        </div>
+    <?php endif; ?>
+</section>
+        </section>
+        <div class="action-buttons">
+            <form action="proses_pinjam.php" method="POST" style="display: inline-block;">
+                <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
+                <button type="submit" class="btn-pinjam">Pinjam Sekarang</button>
+            </form>
+            <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
+                <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
+                <button type="submit" class="btn-favorit" <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
+                    <?php echo $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit'; ?>
+                </button>
+            </form>
+        </div>
+        <p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
     </main>
     <footer class="footer">
         <div class="container">
@@ -182,4 +234,5 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
         </div>
     </footer>
 </body>
+
 </html>
