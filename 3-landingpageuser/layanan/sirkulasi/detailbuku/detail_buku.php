@@ -189,7 +189,7 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
 </section>
         </section>
         <div class="action-buttons">
-            <form action="proses_pinjam.php" method="POST" style="display: inline-block;">
+            <form action="form_milihtype.html" method="POST" style="display: inline-block;">
                 <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
                 <button type="submit" class="btn-pinjam">Pinjam Sekarang</button>
             </form>
