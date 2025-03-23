@@ -275,65 +275,77 @@ section {
   background-color: #1c1a5e;
 }
 
+/* Menggunakan Google Font Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 /* Action Buttons */
 .action-buttons {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .action-buttons form {
-    display: inline-block;
-  }
-  
-  .action-buttons button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: center; /* Menengahkan tombol secara horizontal */
+    align-items: center; /* Menyelaraskan tombol secara vertikal */
+    gap: 15px; /* Jarak antar tombol */
     margin-top: 20px;
     margin-bottom: 20px;
-  }
+}
 
-  .btn-pinjam {
-    background-color: #2e2b8d;
-  }
-  
-  .btn-pinjam:hover {
-    background-color: #1c1a5e;
-    transform: scale(1.05);
-  }
+.action-buttons form {
+    display: inline-block; /* Pastikan form tidak mengganggu layout */
+}
 
-  .btn-favorit {
-    background-color: #ffcc00;
-    color: #2e2b8d;
-  }
-  
-  .btn-favorit:hover {
-    background-color: #e6b800;
-    transform: scale(1.05);
-  }
-  
-  .btn-favorit:disabled {
-    background-color: #ccc; 
-    color: #666;
-    cursor: not-allowed;
-  }
-  
-  .btn-favorit:disabled:hover {
-    transform: none;
-  }
+.action-buttons button,
+.action-buttons a.btn-pinjam {
+    padding: 12px 24px; /* Padding untuk tombol */
+    font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+    font-size: 14px; /* Ukuran font yang presisi */
+    font-weight: 600; /* Font tebal (semi-bold) */
+    color: #fff; /* Warna teks putih */
+    border: none; /* Tanpa border */
+    border-radius: 8px; /* Sudut melengkung */
+    cursor: pointer; /* Penunjuk mouse */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Efek hover */
+    text-decoration: none; /* Menghilangkan underline untuk <a> */
+    text-align: center; /* Teks di tengah */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    white-space: nowrap; /* Mencegah teks patah ke baris baru */
+}
+
+/* Tombol Pinjam Sekarang */
+.action-buttons .btn-pinjam {
+    background-color: #1c1a5e; /* Warna biru tua */
+}
+
+.action-buttons .btn-pinjam:hover {
+    background-color: #141240; /* Warna biru lebih gelap saat hover */
+    transform: scale(1.05); /* Efek zoom */
+}
+
+.action-buttons .btn-pinjam.disabled {
+    background-color: #ccc; /* Warna abu-abu jika dinonaktifkan */
+    cursor: not-allowed; /* Penunjuk mouse "tidak tersedia" */
+    box-shadow: none; /* Hilangkan bayangan jika dinonaktifkan */
+}
+
+/* Tombol Favorit */
+.action-buttons .btn-favorit {
+    background-color: #ffcc00; /* Warna kuning */
+    color: #2e2b8d; /* Warna teks ungu tua */
+}
+
+.action-buttons .btn-favorit:hover {
+    background-color: #e6b800; /* Warna kuning lebih gelap saat hover */
+    transform: scale(1.05); /* Efek zoom */
+}
+
+.action-buttons .btn-favorit:disabled {
+    background-color: #ccc; /* Warna abu-abu jika dinonaktifkan */
+    color: #666; /* Warna teks abu-abu */
+    cursor: not-allowed; /* Penunjuk mouse "tidak tersedia" */
+    box-shadow: none; /* Hilangkan bayangan jika dinonaktifkan */
+}
+
+.action-buttons .btn-favorit:disabled:hover {
+    transform: none; /* Tidak ada efek zoom jika dinonaktifkan */
+}
 
 /* Atur Footer */
 .footer {

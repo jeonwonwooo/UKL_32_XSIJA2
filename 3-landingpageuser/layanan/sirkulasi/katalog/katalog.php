@@ -66,11 +66,11 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
         </li>
         <li>
-          <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a>
+          <a href="#">Katalog</a>
         </li>
-        <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+        <li><a href="#">Aktivitas</a></li>
         <li>
-          <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
+          <a href="#">Favorit</a>
         </li>
         <li>
           <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
@@ -111,7 +111,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <div class="dropdown-content">
             <a href="?filter=semua" class="<?= $filter === 'semua' ? 'active' : '' ?>">Semua</a>
             <a href="?filter=fisik" class="<?= $filter === 'fisik' ? 'active' : '' ?>">Fisik</a>
-      <a href="?filter=ebook" class="<?= $filter === 'ebook' ? 'active' : '' ?>">Ebook</a>
+            <a href="?filter=ebook" class="<?= $filter === 'ebook' ? 'active' : '' ?>">Ebook</a>
             <a href="?filter=tersedia" class="<?= $filter === 'tersedia' ? 'active' : '' ?>">Tersedia</a>
             <a href="?filter=dipinjam" class="<?= $filter === 'dipinjam' ? 'active' : '' ?>">Dipinjam</a>
             <a href="?filter=habis" class="<?= $filter === 'habis' ? 'active' : '' ?>">Habis</a>
@@ -119,20 +119,24 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
       </div>
     </section>
-      <section class="book-list">
-        <?php foreach ($buku as $row): ?>
-          <div class="book-item">
-            <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" class="book-image">
-            <div class="book-info">
-              <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
-              <div class="book-actions">
-                <a href="#" class="btn">Pinjam</a>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['id'] ?>" class="btn">Detail</a>
-              </div>
+    <section class="book-list">
+      <?php foreach ($buku as $row): ?>
+        <div class="book-item">
+          <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" class="book-image">
+          <div class="book-info">
+            <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
+            <div class="book-actions">
+              <?php if ($row['status'] === 'tersedia'): ?>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/form_peminjaman.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
+              <?php else: ?>
+                <span class="btn disabled">Tidak Tersedia</span>
+              <?php endif; ?>
+              <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['id'] ?>" class="btn">Detail</a>
             </div>
           </div>
-        <?php endforeach; ?>
-      </section>
+        </div>
+      <?php endforeach; ?>
+    </section>
   </main>
   <footer class="footer">
     <div class="container">
@@ -155,7 +159,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h2>Tautan Fungsional</h2>
         <ul>
           <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-          <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
           <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
         </ul>
       </div>

@@ -1,0 +1,189 @@
+/* General Styles */
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Judul */
+h1 {
+    font-size: 32px;
+    color: #2e2b8d;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* Form Filter dan Pencarian */
+.filter-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-form label {
+    font-size: 16px;
+    color: #555;
+}
+
+.filter-form select,
+.filter-form input[type="text"],
+.filter-form button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+
+.filter-form select {
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.filter-form input[type="text"] {
+    flex: 1;
+    max-width: 300px;
+}
+
+.filter-form button {
+    background-color: #2e2b8d;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-form button:hover {
+    background-color: #1c1a5e;
+}
+
+/* Tabel */
+.peminjaman-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #ddd; /* Border diperbesar */
+    border-radius: 15px;
+    overflow: hidden;
+    table-layout: fixed; /* Agar lebar kolom sama */
+}
+
+.peminjaman-table th,
+.peminjaman-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word; /* Agar teks tidak overflow */
+}
+
+.peminjaman-table thead {
+    background-color: #2e2b8d;
+    color: #fff;
+}
+
+.peminjaman-table thead th {
+    font-weight: 700; /* Judul tabel lebih tebal */
+}
+
+.peminjaman-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.peminjaman-table tbody tr:hover {
+    background-color: #eef2f7;
+    transition: background-color 0.3s ease;
+}
+
+/* No Data Message */
+.no-data {
+    text-align: center;
+    font-style: italic;
+    color: #888;
+    padding: 20px;
+}
+
+/* Denda Status */
+.denda {
+    color: red;
+    font-weight: bold;
+}
+
+/* Action Buttons */
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #bd2130;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .filter-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-form input[type="text"] {
+        max-width: 100%;
+    }
+
+    .peminjaman-table th,
+    .peminjaman-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}

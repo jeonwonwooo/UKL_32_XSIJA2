@@ -14,17 +14,15 @@ body {
   padding: 20px;
 }
 
-/* Styling untuk container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 10px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Styling untuk judul */
 h1 {
   font-size: 28px;
   color: #2e2b8d;
@@ -32,105 +30,43 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Styling untuk filter container */
-.filter-container {
+.filter-form {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-/* Styling untuk dropdown */
-.filter-dropdown {
-  position: relative;
-  display: inline-block;
+.filter-form select, .filter-form input, .filter-form button {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.filter-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 16px;
+.filter-form button {
   background-color: #2e2b8d;
   color: #fff;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.filter-button:hover {
+.filter-form button:hover {
   background-color: #1c1a5e;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1;
-  width: 250px;
-  padding: 10px;
-}
-
-.filter-dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown-section {
-  margin-bottom: 10px;
-}
-
-.dropdown-title {
-  font-weight: bold;
-  color: #2e2b8d;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 8px 10px;
-  text-decoration: none;
-  color: #333;
-  border-radius: 3px;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown-content a:hover {
-  background-color: #f0f0f0;
-}
-
-/* Styling untuk tombol tambah artikel */
-.btn-info {
-  background-color: #17a2b8;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-}
-
-.btn-info:hover {
-  background-color: #117a8b;
-}
-
-/* Styling untuk tabel */
 .custom-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  border: 1px solid #ddd;
 }
 
-.custom-table th,
-.custom-table td {
+.custom-table th, .custom-table td {
   padding: 12px;
   border: 1px solid #ddd;
   text-align: center;
@@ -147,69 +83,67 @@ h1 {
 }
 
 .custom-table tbody tr:hover {
-    background-color: #eef2f7;
-    transform: scale(1.01);
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-
-.custom-table img {
-  max-width: 100px;
-  height: auto;
-  border-radius: 5px;
-}
-
-/* Styling untuk tombol aksi */
-.btn-sm {
-  padding: 5px 10px;
-  font-size: 14px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  background-color: #eef2f7;
   transition: background-color 0.3s ease;
 }
 
-.btn-warning.btn-sm {
-  background-color: #ffc107;
-  color: #333;
+.btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.btn-warning.btn-sm:hover {
-  background-color: #e0a800;
-}
-
-.btn-success.btn-sm {
+.btn-success {
   background-color: #28a745;
   color: #fff;
 }
 
-.btn-success.btn-sm:hover {
-  background-color: #1e7e34;
+.btn-success:hover {
+  background-color: #218838;
 }
 
-.btn-danger.btn-sm {
+.btn-danger {
   background-color: #dc3545;
   color: #fff;
 }
 
-.btn-danger.btn-sm:hover {
+.btn-danger:hover {
   background-color: #bd2130;
 }
 
-/* Responsive Design */
+.add-button {
+  background-color: #17a2b8;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s ease;
+  float: right;
+}
+
+.add-button:hover {
+  background-color: #138496;
+}
+
 @media (max-width: 768px) {
-  .filter-container {
+  .filter-form {
     flex-direction: column;
     gap: 10px;
   }
 
-  .custom-table th,
-  .custom-table td {
+  .custom-table th, .custom-table td {
     font-size: 14px;
     padding: 8px;
-  }
-
-  .btn-info {
-    width: 100%;
-    margin-top: 10px;
   }
 }

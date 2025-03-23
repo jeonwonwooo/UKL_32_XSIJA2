@@ -1,7 +1,6 @@
 <?php
-include 'formkoneksi.php'; // Pastikan ada koneksi database
+include 'formkoneksi.php';
 
-// Cek apakah buku_id tersedia di URL
 if (!isset($_GET['id'])) {
     echo "ID buku tidak ditemukan!";
     exit;
@@ -9,19 +8,16 @@ if (!isset($_GET['id'])) {
 
 $buku_id = $_GET['id'];
 
-// Ambil data buku dari database
 $query = "SELECT * FROM buku WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
 $buku = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Pastikan buku ditemukan
 if (!$buku) {
     echo "Buku tidak ditemukan!";
     exit;
 }
 
-// Ambil data buku dari database dengan join kategori
 $query = "SELECT pb.*, pk.nama_kategori FROM buku pb
           LEFT JOIN kategori pk ON pb.kategori_id = pk.id
           WHERE pb.id = ?";
@@ -29,7 +25,6 @@ $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
 $buku = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Ambil rating rata-rata dan jumlah ulasan
 $query = "SELECT COALESCE(AVG(nilai), 0) as rata_rating, COUNT(*) as jumlah_ulasan FROM rating WHERE buku_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
@@ -37,22 +32,17 @@ $rating_result = $stmt->fetch(PDO::FETCH_ASSOC);
 $rata_rating = round($rating_result['rata_rating'], 1);
 $jumlah_ulasan = $rating_result['jumlah_ulasan'];
 
-// Cek apakah buku sudah ada di favorit pengguna (tanpa login)
 $query = "SELECT * FROM favorit WHERE buku_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
 $favorit_aktif = $stmt->rowCount() > 0;
 
-// Pastikan gambar buku ada atau gunakan default
 $folder_uploads = '/CODINGAN/4-landingpageadmin/uploads/'; // Path utama penyimpanan gambar
 
-// Path gambar dari database
 $gambar_path = $folder_uploads . htmlspecialchars($buku['gambar']);
 
-// Path gambar default
 $default_gambar = $folder_uploads . 'default.jpg';
 
-// Cek apakah file gambar benar-benar ada di folder
 if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_path)) {
     $gambar = $gambar_path;
 } else {
@@ -62,7 +52,6 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,31 +76,31 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
             <img src="../../logo.png" alt="Logo Perpus" srcset="" />
         </div>
         <nav class="navbar">
-            <ul>
-                <li>
-                    <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
-                </li>
-                <li>
-                    <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a>
-                </li>
-                <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-                <li>
-                    <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-                </li>
-                <li>
-                    <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
-                </li>
-                <li class="profil">
-                    <a href="#" class="akun"><i class="fas fa-user"></i></a>
-                </li>
-                <li>
-                    <button class="btn-logout">
-                        <i class="fas fa-arrow-left"></i>
-                        <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
-                    </button>
-                </li>
-            </ul>
-        </nav>
+      <ul>
+        <li>
+          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
+        </li>
+        <li>
+          <a href="#">Katalog</a>
+        </li>
+        <li><a href="#">Aktivitas</a></li>
+        <li>
+          <a href="#">Favorit</a>
+        </li>
+        <li>
+          <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
+        </li>
+        <li class="profil">
+          <a href="#" class="akun"><i class="fas fa-user"></i></a>
+        </li>
+        <li>
+          <button class="btn-logout">
+            <i class="fas fa-arrow-left"></i>
+            <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
     </header>
     <main>
         <section class="judul">
@@ -189,10 +178,11 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
 </section>
         </section>
         <div class="action-buttons">
-            <form action="form_milihtype.html" method="POST" style="display: inline-block;">
-                <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-                <button type="submit" class="btn-pinjam">Pinjam Sekarang</button>
-            </form>
+            <?php if ($buku['status'] === 'tersedia'): ?>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/form_peminjaman.php?buku_id=<?= $buku_id ?>" class="btn-pinjam">Pinjam Sekarang</a>
+            <?php else: ?>
+                <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
+            <?php endif; ?>
             <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
                 <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
                 <button type="submit" class="btn-favorit" <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
