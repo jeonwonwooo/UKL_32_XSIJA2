@@ -1,43 +1,24 @@
 <?php include 'formkoneksi.php'; ?>
 
 <?php
-// Ambil parameter filter dan search dari URL
+// Ambil parameter filter dari URL
 $filter = $_GET['filter'] ?? 'semua';
-$search = $_GET['search'] ?? '';
 
 // Query dasar
 $query = "
-    SELECT buku.id, buku.judul, buku.penulis, buku.tahun_terbit, buku.gambar, buku.status, kategori.nama_kategori
+    SELECT buku.id, buku.judul, buku.penulis, buku.tahun_terbit, buku.gambar, buku.status, kategori.nama_kategori, buku.tipe_buku
     FROM buku
     JOIN kategori ON buku.kategori_id = kategori.id
 ";
 
 // Tambahkan kondisi filter
-if ($filter === 'tersedia') {
-  $query .= " WHERE buku.status = 'tersedia'";
-} elseif ($filter === 'dipinjam') {
-  $query .= " WHERE buku.status = 'dipinjam'";
-} elseif ($filter === 'habis') {
-  $query .= " WHERE buku.status = 'habis'";
+if ($filter === 'fisik') {
+    $query .= " WHERE buku.tipe_buku = 'Buku Fisik'";
+} elseif ($filter === 'ebook') {
+    $query .= " WHERE buku.tipe_buku = 'Buku Elektronik'";
 }
 
-// Tambahkan kondisi pencarian
-if (!empty($search)) {
-  if (strpos($query, 'WHERE') !== false) {
-    $query .= " AND (buku.judul LIKE :search OR buku.penulis LIKE :search)";
-  } else {
-    $query .= " WHERE (buku.judul LIKE :search OR buku.penulis LIKE :search)";
-  }
-}
-
-// Persiapkan statement
 $stmt = $conn->prepare($query);
-
-// Bind parameter pencarian jika ada
-if (!empty($search)) {
-  $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
-}
-
 $stmt->execute();
 $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -94,14 +75,15 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Selamat datang di perpustakaan sekolah Rivenhill! Temukan berbagai koleksi buku menarik yang dapat kamu pinjam.
         Jelajahi pengetahuan dan inspirasi melalui buku-buku terbaik kami.
       </p>
-      <form action="" method="GET" class="search-bar">
-        <div class="search-container">
-          <i class="fas fa-search"></i>
-          <input type="text" name="search" placeholder="Cari judul, penulis, atau kategori..." value="<?= htmlspecialchars($search) ?>">
-          <button type="submit">Cari</button>
-        </div>
-      </form>
+
+      <!-- Form Pencarian -->
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Cari judul, penulis, atau kategori..." onkeyup="searchBooks()">
+      </div>
     </section>
+
+    <!-- Filter Dropdown -->
     <section class="filter">
       <div class="filter-container">
         <div class="filter-dropdown">
@@ -110,32 +92,41 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
           </button>
           <div class="dropdown-content">
             <a href="?filter=semua" class="<?= $filter === 'semua' ? 'active' : '' ?>">Semua</a>
-            <a href="?filter=fisik" class="<?= $filter === 'fisik' ? 'active' : '' ?>">Fisik</a>
-            <a href="?filter=ebook" class="<?= $filter === 'ebook' ? 'active' : '' ?>">Ebook</a>
-            <a href="?filter=tersedia" class="<?= $filter === 'tersedia' ? 'active' : '' ?>">Tersedia</a>
-            <a href="?filter=dipinjam" class="<?= $filter === 'dipinjam' ? 'active' : '' ?>">Dipinjam</a>
-            <a href="?filter=habis" class="<?= $filter === 'habis' ? 'active' : '' ?>">Habis</a>
+            <a href="?filter=fisik" class="<?= $filter === 'fisik' ? 'active' : '' ?>">Buku Fisik</a>
+            <a href="?filter=ebook" class="<?= $filter === 'ebook' ? 'active' : '' ?>">Buku Elektronik</a>
           </div>
         </div>
       </div>
     </section>
-    <section class="book-list">
-      <?php foreach ($buku as $row): ?>
-        <div class="book-item">
-          <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" class="book-image">
-          <div class="book-info">
-            <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
-            <div class="book-actions">
-              <?php if ($row['status'] === 'tersedia'): ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
-              <?php else: ?>
-                <span class="btn disabled">Tidak Tersedia</span>
-              <?php endif; ?>
-              <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['id'] ?>" class="btn">Detail</a>
+
+    <!-- Daftar Buku -->
+    <section class="book-list" id="book-list">
+      <?php if (empty($buku)): ?>
+        <p>Tidak ada buku yang ditemukan.</p>
+      <?php else: ?>
+        <?php foreach ($buku as $row): ?>
+          <div class="book-item" data-title="<?= htmlspecialchars(strtolower($row['judul'])) ?>" 
+               data-author="<?= htmlspecialchars(strtolower($row['penulis'])) ?>" 
+               data-category="<?= htmlspecialchars(strtolower($row['nama_kategori'])) ?>">
+            <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" class="book-image">
+            <div class="book-info">
+              <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
+              <div class="book-actions">
+                <?php if ($row['status'] === 'tersedia'): ?>
+                  <?php if ($row['tipe_buku'] === 'fisik'): ?>
+                    <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
+                  <?php elseif ($row['tipe_buku'] === 'ebook'): ?>
+                    <a href="/CODINGAN/uploads/<?= htmlspecialchars($row['file_path']) ?>" download class="btn">Download</a>
+                  <?php endif; ?>
+                <?php else: ?>
+                  <span class="btn disabled">Tidak Tersedia</span>
+                <?php endif; ?>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['id'] ?>" class="btn">Detail</a>
+              </div>
             </div>
           </div>
-        </div>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
+      <?php endif; ?>
     </section>
   </main>
   <footer class="footer">
@@ -169,5 +160,25 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       Reserved
     </div>
   </footer>
+
+  <!-- JavaScript untuk Pencarian -->
+  <script>
+    function searchBooks() {
+      const input = document.getElementById('search-input').value.toLowerCase();
+      const bookItems = document.querySelectorAll('.book-item');
+
+      bookItems.forEach(item => {
+        const title = item.getAttribute('data-title');
+        const author = item.getAttribute('data-author');
+        const category = item.getAttribute('data-category');
+
+        if (title.includes(input) || author.includes(input) || category.includes(input)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>

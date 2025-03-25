@@ -1,21 +1,27 @@
-<?php include 'includes/formkoneksi.php'; ?>
-
 <?php
+include 'formkoneksi.php';
+
 $action = $_GET['action'] ?? '';
 $id = $_GET['id'] ?? '';
 
 if ($action === 'delete' && $id) {
     try {
-        // Ambil data gambar dari database
-        $stmt = $conn->prepare("SELECT gambar FROM buku WHERE id = ?");
+        // Ambil data gambar dan file eBook sebelum menghapus buku
+        $stmt = $conn->prepare("SELECT gambar, file_path FROM buku WHERE id = ?");
         $stmt->execute([$id]);
-        $buku = $stmt->fetch(PDO::FETCH_ASSOC);
+        $buku = $stmt->fetch();
 
         if ($buku) {
-            // Hapus gambar dari folder uploads jika ada
             $upload_dir = "../../uploads/";
-            if ($buku['gambar'] && file_exists($upload_dir . $buku['gambar'])) {
+
+            // Hapus gambar jika ada
+            if (!empty($buku['gambar']) && file_exists($upload_dir . $buku['gambar'])) {
                 unlink($upload_dir . $buku['gambar']);
+            }
+
+            // Hapus file eBook jika ada
+            if (!empty($buku['file_path']) && file_exists("../../" . $buku['file_path'])) {
+                unlink("../../" . $buku['file_path']);
             }
 
             // Hapus data buku dari database

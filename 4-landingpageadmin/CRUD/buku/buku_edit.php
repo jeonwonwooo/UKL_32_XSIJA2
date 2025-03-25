@@ -1,19 +1,14 @@
-<?php include 'formkoneksi.php'; ?>
-
 <?php
-// Ambil ID buku dari URL
+include 'formkoneksi.php';
+
+// Ambil ID buku dari URL (jika ada)
 $id = $_GET['id'] ?? '';
-$stmt = $conn->prepare("SELECT * FROM buku WHERE id = ?");
-$stmt->execute([$id]);
-$buku = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$buku) {
-    die("Buku tidak ditemukan.");
+$buku = null;
+if ($id) {
+    $stmt = $conn->prepare("SELECT * FROM buku WHERE id = ?");
+    $stmt->execute([$id]);
+    $buku = $stmt->fetch();
 }
-
-// Ambil daftar kategori untuk dropdown
-$stmt = $conn->query("SELECT id, nama_kategori FROM kategori");
-$categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $judul = trim($_POST['judul']);
@@ -25,30 +20,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stok = $_POST['stok'];
     $tipe_buku = $_POST['tipe_buku'];
     $isbn = trim($_POST['isbn']);
+    $existing_file_path = $_POST['existing_file_path'];
 
-    // Upload gambar baru jika ada
-    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
-        $file_name = basename($_FILES['gambar']['name']);
-        $file_tmp = $_FILES['gambar']['tmp_name'];
-        $upload_dir = "../../uploads/";
+    $upload_dir = "../../uploads/";
 
-        if (!is_dir($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
+    // Gambar Cover (Kalau Ganti)
+    $gambar_name = $buku ? $buku['gambar'] : null;
+    if (!empty($_FILES['gambar']['name'])) {
+        $gambar_ext = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
+        $allowed_image_ext = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (!in_array($gambar_ext, $allowed_image_ext)) {
+            die("Error: Format gambar harus JPG, JPEG, PNG, atau GIF.");
         }
 
-        move_uploaded_file($file_tmp, $upload_dir . $file_name);
-
-        // Hapus gambar lama jika ada
-        if ($buku['gambar']) {
-            unlink($upload_dir . $buku['gambar']);
+        $gambar_name = uniqid() . '_' . basename($_FILES['gambar']['name']);
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $upload_dir . $gambar_name)) {
+            if ($buku && !empty($buku['gambar']) && file_exists($upload_dir . $buku['gambar'])) {
+                unlink($upload_dir . $buku['gambar']); // Hapus gambar lama
+            }
+        } else {
+            die("Error: Gagal mengupload gambar.");
         }
-    } else {
-        $file_name = $buku['gambar']; // Gunakan gambar lama jika tidak diupload
+    }
+
+    // File eBook (Kalau Ganti)
+    $file_path = $buku ? $buku['file_path'] : null; // Tetap gunakan file_path lama jika tidak ada perubahan
+    if ($tipe_buku === 'Buku Elektronik' && !empty($_FILES['file_ebook']['name'])) {
+        $file_ext = strtolower(pathinfo($_FILES['file_ebook']['name'], PATHINFO_EXTENSION));
+        if ($file_ext !== 'pdf') {
+            die("Error: File harus dalam format PDF.");
+        }
+
+        $file_name = uniqid() . '_' . basename($_FILES['file_ebook']['name']);
+        if (move_uploaded_file($_FILES['file_ebook']['tmp_name'], $upload_dir . $file_name)) {
+            if ($buku && !empty($buku['file_path']) && file_exists("../../" . $buku['file_path'])) {
+                unlink("../../" . $buku['file_path']); // Hapus file eBook lama
+            }
+            $file_path = "uploads/" . $file_name;
+        } else {
+            die("Error: Gagal mengupload file eBook.");
+        }
     }
 
     try {
-        $stmt = $conn->prepare("UPDATE buku SET judul = ?, penulis = ?, tahun_terbit = ?, jumlah_halaman = ?, deskripsi = ?, gambar = ?, kategori_id = ?, stok = ?, tipe_buku = ?, isbn = ? WHERE id = ?");
-        $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $file_name, $kategori_id, $stok, $tipe_buku, $isbn, $id]);
+        if ($buku) {
+            // Update data buku
+            $stmt = $conn->prepare("UPDATE buku 
+                                    SET judul = ?, penulis = ?, tahun_terbit = ?, jumlah_halaman = ?, deskripsi = ?, gambar = ?, kategori_id = ?, stok = ?, tipe_buku = ?, isbn = ?, file_path = ? 
+                                    WHERE id = ?");
+            $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $kategori_id, $stok, $tipe_buku, $isbn, $file_path, $id]);
+        } else {
+            // Insert data buku baru
+            $stmt = $conn->prepare("INSERT INTO buku (judul, penulis, tahun_terbit, jumlah_halaman, deskripsi, gambar, kategori_id, stok, tipe_buku, isbn, file_path)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $kategori_id, $stok, $tipe_buku, $isbn, $file_path]);
+        }
 
         header("Location: buku_list.php");
         exit;
@@ -59,76 +86,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Buku</title>
+    <title><?= $buku ? 'Edit Buku' : 'Tambah Buku' ?></title>
     <link rel="stylesheet" href="buku_edit.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
     <div class="container mt-5">
-        <h1>Edit Buku</h1>
+        <h1><?= $buku ? 'Edit Buku' : 'Tambah Buku' ?></h1>
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="judul" class="form-label">Judul</label>
-                <input type="text" class="form-control" id="judul" name="judul" value="<?= htmlspecialchars($buku['judul']) ?>" required>
+                <label for="judul">Judul</label>
+                <input type="text" name="judul" value="<?= $buku ? htmlspecialchars($buku['judul']) : '' ?>" required>
             </div>
+
             <div class="mb-3">
-                <label for="penulis" class="form-label">Penulis</label>
-                <input type="text" class="form-control" id="penulis" name="penulis" value="<?= htmlspecialchars($buku['penulis']) ?>" required>
+                <label for="penulis">Penulis</label>
+                <input type="text" name="penulis" value="<?= $buku ? htmlspecialchars($buku['penulis']) : '' ?>" required>
             </div>
+
             <div class="mb-3">
-                <label for="tahun_terbit" class="form-label">Tahun Terbit</label>
-                <input type="number" class="form-control" id="tahun_terbit" name="tahun_terbit" value="<?= htmlspecialchars($buku['tahun_terbit']) ?>" required>
+                <label for="tahun_terbit">Tahun Terbit</label>
+                <input type="number" name="tahun_terbit" value="<?= $buku ? htmlspecialchars($buku['tahun_terbit']) : '' ?>" required>
             </div>
+
             <div class="mb-3">
-                <label for="jumlah_halaman" class="form-label">Jumlah Halaman</label>
-                <input type="number" class="form-control" id="jumlah_halaman" name="jumlah_halaman" value="<?= htmlspecialchars($buku['jumlah_halaman']) ?>" required>
+                <label for="jumlah_halaman">Jumlah Halaman</label>
+                <input type="number" name="jumlah_halaman" value="<?= $buku ? htmlspecialchars($buku['jumlah_halaman']) : '' ?>" required>
             </div>
+
             <div class="mb-3">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="5" required><?= htmlspecialchars($buku['deskripsi']) ?></textarea>
+                <label for="deskripsi">Deskripsi</label>
+                <textarea name="deskripsi" rows="5" required><?= $buku ? htmlspecialchars($buku['deskripsi']) : '' ?></textarea>
             </div>
+
             <div class="mb-3">
-                <label for="gambar" class="form-label">Gambar</label>
-                <div class="file-input-container">
-                    <input type="file" class="form-control" id="gambar" name="gambar" accept="image/*">
-                    <span class="file-custom">Pilih File...</span>
-                </div>
-                <small class="text-muted">Biarkan kosong jika tidak ingin mengganti gambar.</small>
+                <label for="gambar">Gambar Cover</label>
+                <input type="file" name="gambar">
+                <?php if ($buku && $buku['gambar']): ?>
+                    <p>Gambar saat ini: <img src="../../uploads/<?= htmlspecialchars($buku['gambar']) ?>" width="100"></p>
+                <?php endif; ?>
             </div>
+
             <div class="mb-3">
-                <label for="kategori_id" class="form-label">Pilih Kategori</label>
-                <select class="form-select" id="kategori_id" name="kategori_id" required>
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?= htmlspecialchars($category['id']) ?>" <?= ($category['id'] == $buku['kategori_id']) ? 'selected' : '' ?>>
+                <label for="kategori_id">Pilih Kategori</label>
+                <select name="kategori_id" required>
+                    <?php
+                    $stmt = $conn->query("SELECT id, nama_kategori FROM kategori");
+                    while ($category = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                        <option value="<?= htmlspecialchars($category['id']) ?>" <?= ($buku && $category['id'] == $buku['kategori_id']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($category['nama_kategori']) ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="stok">Stok</label>
+                <input type="number" name="stok" value="<?= $buku ? htmlspecialchars($buku['stok']) : '' ?>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tipe_buku">Tipe Buku</label>
+                <select name="tipe_buku" id="tipe_buku" required>
+                    <option value="" disabled <?= !$buku ? 'selected' : '' ?>>Pilih tipe buku...</option>
+                    <?php
+                    $tipe_buku_options = ['Buku Fisik', 'Buku Elektronik'];
+                    foreach ($tipe_buku_options as $tipe): ?>
+                        <option value="<?= htmlspecialchars($tipe) ?>" <?= ($buku && $buku['tipe_buku'] === $tipe) ? 'selected' : '' ?>>
+                            <?= ucfirst(htmlspecialchars($tipe)) ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="stok" class="form-label">Stok</label>
-                <input type="number" class="form-control" id="stok" name="stok" value="<?= htmlspecialchars($buku['stok']) ?>" required>
+
+            <div class="mb-3 ebook-file" style="display: <?= ($buku && $buku['tipe_buku'] === 'Buku Elektronik') ? 'block' : 'none' ?>;">
+                <label for="file_ebook">File Ebook (PDF)</label>
+                <input type="file" name="file_ebook" accept=".pdf">
+                <?php if ($buku && $buku['file_path']): ?>
+                    <p>File saat ini: <a href="../../<?= htmlspecialchars($buku['file_path']) ?>" target="_blank">Lihat File</a></p>
+                <?php endif; ?>
+                <input type="hidden" name="existing_file_path" value="<?= $buku ? htmlspecialchars($buku['file_path']) : '' ?>">
             </div>
-            <div class="mb-3">
-                <label for="tipe_buku" class="form-label">Tipe Buku</label>
-                <select class="form-select" id="tipe_buku" name="tipe_buku" required>
-                    <option value="fisik" <?= ($buku['tipe_buku'] === 'fisik') ? 'selected' : '' ?>>Fisik</option>
-                    <option value="ebook" <?= ($buku['tipe_buku'] === 'ebook') ? 'selected' : '' ?>>Ebook</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="isbn" class="form-label">ISBN</label>
-                <input type="text" class="form-control" id="isbn" name="isbn" value="<?= htmlspecialchars($buku['isbn'] ?? '') ?>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+
+            <button type="submit" class="btn btn-primary"><?= $buku ? 'Simpan Perubahan' : 'Tambah Buku' ?></button>
         </form>
     </div>
-</body>
 
+    <script>
+        document.getElementById('tipe_buku').addEventListener('change', function() {
+            const ebookFileSection = document.querySelector('.ebook-file');
+            ebookFileSection.style.display = (this.value === 'Buku Elektronik') ? 'block' : 'none';
+        });
+
+        // Default behavior based on current book type
+        document.addEventListener('DOMContentLoaded', function() {
+            const tipeBuku = document.getElementById('tipe_buku');
+            const ebookFileSection = document.querySelector('.ebook-file');
+            ebookFileSection.style.display = (tipeBuku.value === 'Buku Elektronik') ? 'block' : 'none';
+        });
+    </script>
+</body>
 </html>
