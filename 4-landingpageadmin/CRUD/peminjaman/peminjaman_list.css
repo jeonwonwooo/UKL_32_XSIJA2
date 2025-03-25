@@ -29,7 +29,6 @@ h1 {
 .filter-form {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
     align-items: center;
 }
 
@@ -64,6 +63,10 @@ h1 {
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .filter-form button:hover {
@@ -93,10 +96,6 @@ h1 {
 .peminjaman-table thead {
     background-color: #2e2b8d;
     color: #fff;
-}
-
-.peminjaman-table thead th {
-    font-weight: 700; /* Judul tabel lebih tebal */
 }
 
 .peminjaman-table tbody tr:nth-child(even) {

@@ -96,46 +96,46 @@ try {
 
         <!-- Tabel Peminjaman -->
         <table class="peminjaman-table">
-    <thead>
-        <tr>
-            <th>ID Peminjaman</th>
-            <th>Username Anggota</th>
-            <th>Judul Buku</th>
-            <th>Tipe Buku</th>
-            <th>Tanggal Pinjam</th>
-            <th>Batas Pengembalian</th>
-            <th>Status</th>
-            <th>Denda</th>
-            <th>Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (empty($peminjaman)): ?>
-            <tr>
-                <td colspan="9" class="no-data">Tidak ada data peminjaman.</td>
-            </tr>
-        <?php else: ?>
-            <?php foreach ($peminjaman as $pinjam): ?>
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($pinjam['id']) ?></td>
-                    <td><?= htmlspecialchars($pinjam['username']) ?></td>
-                    <td><?= htmlspecialchars($pinjam['judul']) ?></td>
-                    <td><?= htmlspecialchars(ucfirst($pinjam['tipe_buku'])) ?></td>
-                    <td><?= htmlspecialchars($pinjam['tanggal_pinjam']) ?></td>
-                    <td><?= htmlspecialchars($pinjam['batas_pengembalian']) ?></td>
-                    <td><?= htmlspecialchars(ucfirst($pinjam['status'])) ?></td>
-                    <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
-                    <td class="actions">
-                        <?php if ($pinjam['status'] === 'dipinjam'): ?>
-                            <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
-                        <?php endif; ?>
-                        <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
-                    </td>
+                    <th>ID Peminjaman</th>
+                    <th>Username Anggota</th>
+                    <th>Judul Buku</th>
+                    <th>Tipe Buku</th>
+                    <th>Tanggal Pinjam</th>
+                    <th>Batas Pengembalian</th>
+                    <th>Status</th>
+                    <th>Denda</th>
+                    <th>Aksi</th>
                 </tr>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </tbody>
-</table>
+            </thead>
+            <tbody>
+                <?php if (empty($peminjaman)): ?>
+                    <tr>
+                        <td colspan="9" class="no-data">Tidak ada data peminjaman.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($peminjaman as $pinjam): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($pinjam['id']) ?></td>
+                            <td><?= htmlspecialchars($pinjam['username']) ?></td>
+                            <td><?= htmlspecialchars($pinjam['judul']) ?></td>
+                            <td><?= htmlspecialchars(ucfirst($pinjam['tipe_buku'])) ?></td>
+                            <td><?= htmlspecialchars($pinjam['tanggal_pinjam']) ?></td>
+                            <td><?= htmlspecialchars($pinjam['batas_pengembalian']) ?></td>
+                            <td><?= htmlspecialchars(ucfirst($pinjam['status'])) ?></td>
+                            <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
+                            <td class="actions">
+    <?php if ($pinjam['status'] === 'dipinjam'): ?>
+        <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
+    <?php endif; ?>
+    <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>

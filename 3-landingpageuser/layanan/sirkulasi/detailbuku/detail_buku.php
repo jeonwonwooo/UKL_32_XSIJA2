@@ -179,7 +179,7 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
         </section>
         <div class="action-buttons">
             <?php if ($buku['status'] === 'tersedia'): ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/form_peminjaman.php?buku_id=<?= $buku_id ?>" class="btn-pinjam">Pinjam Sekarang</a>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $buku_id ?>" class="btn-pinjam">Pinjam Sekarang</a>
             <?php else: ?>
                 <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
             <?php endif; ?>

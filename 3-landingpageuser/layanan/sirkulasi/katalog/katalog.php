@@ -127,7 +127,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
             <div class="book-actions">
               <?php if ($row['status'] === 'tersedia'): ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/form_peminjaman.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
               <?php else: ?>
                 <span class="btn disabled">Tidak Tersedia</span>
               <?php endif; ?>
