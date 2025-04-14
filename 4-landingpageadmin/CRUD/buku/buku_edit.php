@@ -171,6 +171,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="hidden" name="existing_file_path" value="<?= $buku ? htmlspecialchars($buku['file_path']) : '' ?>">
             </div>
 
+            <div class="mb-3">
+                <label for="isbn">ISBN</label>
+                <input type="text" name="isbn" required>
+            </div>
+
             <button type="submit" class="btn btn-primary"><?= $buku ? 'Simpan Perubahan' : 'Tambah Buku' ?></button>
         </form>
     </div>

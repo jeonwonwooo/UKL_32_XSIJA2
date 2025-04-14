@@ -178,18 +178,31 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
 </section>
         </section>
         <div class="action-buttons">
-            <?php if ($buku['status'] === 'tersedia'): ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $buku_id ?>" class="btn-pinjam">Pinjam Sekarang</a>
-            <?php else: ?>
-                <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
-            <?php endif; ?>
-            <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
-                <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-                <button type="submit" class="btn-favorit" <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
-                    <?php echo $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit'; ?>
-                </button>
-            </form>
-        </div>
+    <?php if ($buku['status'] === 'tersedia'): ?>
+        <?php if ($buku['tipe_buku'] === 'Buku Elektronik' && $buku['file_path']): ?>
+            <!-- Tombol untuk Ebook -->
+            <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($buku['file_path'])) ?>" 
+               target="_blank" 
+               class="btn-pinjam">Lihat Sekarang</a>
+        <?php else: ?>
+            <!-- Tombol untuk Buku Fisik -->
+            <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $buku_id ?>" 
+               class="btn-pinjam">Pinjam Sekarang</a>
+        <?php endif; ?>
+    <?php else: ?>
+        <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
+    <?php endif; ?>
+
+    <!-- Tombol Tambah ke Favorit -->
+    <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
+        <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
+        <button type="submit" 
+                class="btn-favorit" 
+                <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
+            <?php echo $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit'; ?>
+        </button>
+    </form>
+</div>
         <p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
     </main>
     <footer class="footer">
@@ -223,6 +236,16 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
             Reserved
         </div>
     </footer>
+    <script>
+    function tampilkanNotifikasi() {
+        const notifikasi = document.getElementById("notif-favorit");
+        if (notifikasi) {
+            notifikasi.style.display = "block";
+            setTimeout(() => {
+                notifikasi.style.display = "none";
+            }, 3000);
+        }
+    }
+</script>
 </body>
-
 </html>
