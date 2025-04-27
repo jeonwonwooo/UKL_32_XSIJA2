@@ -8,29 +8,29 @@ session_start();
 // [2] DATABASE CONNECTION
 include 'formkoneksi.php';
 if (!$conn) {
-    die("🔥 DATABASE DOWN: Cek file formkoneksi.php");
+    die("DATABASE DOWN: Cek file formkoneksi.php");
 }
 
 // [3] SECURITY VALIDATION
 if (!isset($_SESSION['user_id'])) {
-    die("🔒 HARUS LOGIN DULU!");
+    die("HARUS LOGIN DULU!");
 }
 
 $buku_id = filter_input(INPUT_GET, 'buku_id', FILTER_VALIDATE_INT);
 if (!$buku_id) {
-    die("📛 ID BUKU TIDAK VALID");
+    die("ID BUKU TIDAK VALID");
 }
 
 // [4] BOOK AVAILABILITY CHECK - UPDATED TO INCLUDE tipe_buku
 $stmt = $conn->prepare("SELECT judul, tipe_buku FROM buku WHERE id = ? AND status = 'tersedia'");
 if (!$stmt->execute([$buku_id])) {
-    die("📚 ERROR: Gagal memeriksa ketersediaan buku");
+    die("ERROR: Gagal memeriksa ketersediaan buku");
 }
 
 $book = $stmt->fetch();
 
 if (!$book) {
-    die("📚 BUKU SUDAH DIPINJAM/TIDAK ADA");
+    die("BUKU SUDAH DIPINJAM/TIDAK ADA");
 }
 
 // [5] PINJAM PROCESS
@@ -38,13 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->beginTransaction();
     try {
         // [A] INSERT PEMINJAMAN
-        $sql = "INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, batas_pengembalian, status) 
-                VALUES (?, ?, ?, ?, 'dipinjam')";
+        $sql = "INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, status, tipe_buku) 
+                VALUES (?, ?, ?, 'dipinjam', ?)";
         $tanggal_pinjam = date('Y-m-d');
-        $batas_pengembalian = date('Y-m-d', strtotime('+7 days'));
         
         $stmt = $conn->prepare($sql);
-        $stmt->execute([$_SESSION['user_id'], $buku_id, $tanggal_pinjam, $batas_pengembalian]);
+        $stmt->execute([$_SESSION['user_id'], $buku_id, $tanggal_pinjam, $book['tipe_buku']]);
         
         // [B] GET LAST ID (3 LAYER FALLBACK)
         $last_id = $conn->lastInsertId(); // METHOD 1
@@ -52,11 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $last_id = $conn->query("SELECT MAX(id) FROM peminjaman WHERE anggota_id = " . $_SESSION['user_id'])->fetchColumn(); // METHOD 2
         }
         if (!$last_id) {
-            throw new Exception("❌ GAGAL DAPATKAN ID");
+            throw new Exception("GAGAL DAPATKAN ID");
         }
         
         // [C] UPDATE BOOK STATUS
-        $conn->exec("UPDATE buku SET status = 'dipinjam' WHERE id = $buku_id");
+        if ($book['tipe_buku'] === 'fisik') {
+            $conn->exec("UPDATE buku SET status = 'dipinjam' WHERE id = $buku_id");
+        } elseif ($book['tipe_buku'] === 'ebook') {
+            // Untuk eBook, tidak perlu mengubah status buku
+        }
         
         $conn->commit();
         
@@ -67,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     } catch (Exception $e) {
         $conn->rollBack();
-        die("💥 ERROR SYSTEM: " . $e->getMessage());
+        die("ERROR SYSTEM: " . $e->getMessage());
     }
 }
 ?>
@@ -100,10 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3">
                 <label for="tanggal_pinjam" class="form-label">Tanggal Pinjam</label>
                 <input type="text" class="form-control" id="tanggal_pinjam" value="<?= date('Y-m-d') ?>" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="batas_pengembalian" class="form-label">Batas Pengembalian</label>
-                <input type="text" class="form-control" id="batas_pengembalian" value="<?= date('Y-m-d', strtotime('+7 days')) ?>" readonly>
             </div>
             <button type="submit" class="btn btn-primary">Konfirmasi Peminjaman</button>
             <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php" class="btn btn-secondary">Kembali ke Katalog</a>

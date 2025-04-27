@@ -5,7 +5,7 @@ $id = $_GET['id'] ?? '';
 
 $stmt = $conn->prepare("SELECT * FROM artikel WHERE id = ? AND status = 'published'");
 $stmt->execute([$id]);
-$artikel = $stmt->fetch(PDO::FETCH_ASSOC);
+$artikel = $stmt->fetch();
 
 if (!$artikel) {
     die("Artikel tidak ditemukan.");

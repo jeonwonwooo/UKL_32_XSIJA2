@@ -8,49 +8,59 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // [2] SANITASI INPUT
+$peminjaman_id = $_GET['peminjaman_id'] ?? null;
+
+if (!$peminjaman_id) {
+    die("ID PEMINJAMAN TIDAK VALID");
+}
+
+// [3] AMBIL DATA PEMINJAMAN
+$stmt = $conn->prepare("SELECT buku.tipe_buku FROM peminjaman JOIN buku ON peminjaman.buku_id = buku.id WHERE peminjaman.id = ?");
+$stmt->execute([$peminjaman_id]);
+$result = $stmt->fetch();
+
+if (!$result) {
+    die("PEMINJAMAN TIDAK DITEMUKAN");
+}
+
+$tipe_buku = $result['tipe_buku'];
+
+// [4] PROSES PENGEMBALIAN
+if ($tipe_buku === 'fisik') {
+    $conn->beginTransaction();
+    try {
+        // Catat tanggal pengembalian
+        $update_query = "UPDATE peminjaman SET status = 'dikembalikan', tanggal_kembali = CURDATE() WHERE id = ?";
+        $stmt = $conn->prepare($update_query);
+        $stmt->execute([$peminjaman_id]);
+
+        // Update status buku kembali tersedia
+        $conn->exec("UPDATE buku SET status = 'tersedia' WHERE id = (SELECT buku_id FROM peminjaman WHERE id = $peminjaman_id)");
+
+        $conn->commit();
+        
+        echo "Peminjaman berhasil dicatat sebagai dikembalikan.";
+    } catch (Exception $e) {
+        $conn->rollBack();
+        die("ERROR SYSTEM: " . $e->getMessage());
+    }
+} else {
+    echo "Buku eBook tidak memerlukan pengembalian.";
+}
+
+// [5] HEADER PDF
 $file = $_GET['file'] ?? '';
 $file = basename($file); // Hapus path traversal
 $file = preg_replace('/[^\w\s\-\.()]/u', '', $file); // Hapus karakter khusus
 $file = trim($file); // Hilangkan spasi di awal/akhir
 
-// [3] VALIDASI DASAR
-if (empty($file)) {
-    die('<h2 style="color:red">Nama file tidak boleh kosong</h2>');
-}
-
-if (!preg_match('/\.pdf$/i', $file)) {
-    die('<h2 style="color:red">Hanya file PDF yang diperbolehkan</h2>');
-}
-
-// [4] PATH AMAN - UPDATED TO CORRECT PATH
-$base_dir = "C:/xampp/htdocs/CODINGAN/4-landingpageadmin/uploads/";
-
-// Check if directory exists
-if (!is_dir($base_dir)) {
-    die('<h2 style="color:red">Direktori upload tidak ditemukan. Hubungi administrator.</h2>');
-}
-
+$base_dir = __DIR__ . "/uploads/";
 $file_path = $base_dir . $file;
 
-// [5] CEK FILE EXISTENCE
 if (!file_exists($file_path)) {
-    echo "<h3>Debug Info:</h3>";
-    echo "Nama file diminta: <strong>" . htmlspecialchars($file) . "</strong><br>";
-    echo "Dicari di lokasi: <strong>" . htmlspecialchars($base_dir) . "</strong><br><br>";
-
-    echo "Daftar file yang ada:<ul>";
-    $files = scandir($base_dir);
-    foreach ($files as $f) {
-        if ($f !== '.' && $f !== '..') {
-            echo "<li>" . htmlspecialchars($f) . "</li>";
-        }
-    }
-    echo "</ul>";
-
-    die('<span style="color:red">File tidak ditemukan. Pastikan nama file benar!</span>');
+    die('<h2 style="color:red">File tidak ditemukan. Pastikan nama file benar!</h2>');
 }
 
-// [6] HEADER PDF
 header('Content-Type: application/pdf');
 header('Content-Disposition: inline; filename="' . htmlspecialchars($file) . '"');
 header('Content-Length: ' . filesize($file_path));

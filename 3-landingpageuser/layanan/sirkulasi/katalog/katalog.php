@@ -47,9 +47,9 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
           <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
         </li>
         <li>
-          <a href="#">Katalog</a>
+          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a>
         </li>
-        <li><a href="#">Aktivitas</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
         <li>
           <a href="#">Favorit</a>
         </li>
