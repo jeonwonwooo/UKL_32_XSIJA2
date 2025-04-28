@@ -8,20 +8,31 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+    <?php
+    session_start();
+    if (isset($_SESSION['error'])) {
+        $error = $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    if (isset($_SESSION['success'])) {
+        $success = $_SESSION['success'];
+        unset($_SESSION['success']);
+    }
+    ?>
+
+    <?php if (isset($error)): ?>
+        <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 420px; background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center; z-index: 1000;">
+            <?php echo htmlspecialchars($error); ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if (isset($success)): ?>
+        <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 420px; background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center; z-index: 1000;">
+            <?php echo htmlspecialchars($success); ?>
+        </div>
+    <?php endif; ?>
 
     <div class="wrapper">
-        <?php if (isset($error)): ?>
-            <div class="alert alert-danger" role="alert" style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px;">
-                <?php echo htmlspecialchars($error); ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (isset($success)): ?>
-            <div class="alert alert-success" role="alert" style="position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px;">
-                <?php echo htmlspecialchars($success); ?>
-            </div>
-        <?php endif; ?>
-        
         <form action="process.php" method="POST">
             <input type="hidden" name="type" value="register">
             <h1>Register</h1>
