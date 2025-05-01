@@ -11,14 +11,10 @@ body {
   color: #333;
   font-weight: 300;
   line-height: 1.6;
+  background-color: #f9f9f9;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Alexandria", sans-serif;
   font-weight: 700;
   color: #333;
@@ -30,31 +26,14 @@ p {
   color: #333;
 }
 
-h1 {
-  font-size: 36px;
-}
+/* Heading Sizes */
+h1 { font-size: 36px; }
+h2 { font-size: 30px; }
+h3 { font-size: 24px; }
+h4 { font-size: 20px; }
+h5 { font-size: 18px; }
+h6 { font-size: 16px; }
 
-h2 {
-  font-size: 30px;
-}
-
-h3 {
-  font-size: 24px;
-}
-
-h4 {
-  font-size: 20px;
-}
-
-h5 {
-  font-size: 18px;
-}
-
-h6 {
-  font-size: 16px;
-}
-
-/* Atur Navbar */
 header {
   background-color: #2e2b8d;
   padding: 15px 30px;
@@ -78,12 +57,6 @@ header {
   list-style: none;
   display: flex;
   gap: 20px;
-  padding: 0;
-  margin: 0;
-}
-
-.navbar ul li {
-  display: inline-block;
 }
 
 .navbar ul li a {
@@ -107,6 +80,7 @@ header {
 .profil .akun i {
   font-size: 18px;
   color: #fff;
+  transition: color 0.3s ease;
 }
 
 .profil .akun i:hover {
@@ -122,10 +96,10 @@ header {
   font-weight: 500;
   cursor: pointer;
   border-radius: 5px;
-  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: all 0.3s ease;
 }
 
 .btn-logout:hover {
@@ -133,283 +107,426 @@ header {
   color: #2e2b8d;
 }
 
-/* Atur Konten */
-/* Header dengan Background Image */
 .intro-content {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('library-bg.jpg');
-  background-size: cover;
-  background-position: center;
+  background: 
+    linear-gradient(
+      to bottom,
+      rgba(46, 43, 141, 0) 0%,
+      rgba(46, 43, 141, 0.8) 100%
+    ),
+    url('young-woman-choosing-book-library.jpg') center/cover no-repeat;
+  width: 100%;
+  min-height: 600px;
   color: white;
-  padding: 100px 20px;
+  padding: 40px 20px;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.intro-content::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+  border-radius: 8px;
 }
 
 .intro-content h3 {
-  font-size: 36px;
+  font-size: 2.8rem;
+  color: #fff;
   margin-bottom: 15px;
-  border-bottom: none;
-  color: white;
+  font-weight: 700;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
 }
 
 .intro-content p {
+  font-size: 1.3rem;
+  color: #fff;
+  line-height: 1.6;
   max-width: 800px;
   margin: 0 auto;
-  font-size: 18px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 2;
+  opacity: 0.9;
 }
 
-/* Kontainer utama */
-main {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.isi {
+  padding: 20px;
+  max-width: 1200px; /* Batasi lebar maksimum untuk responsifitas */
+  margin: 0 auto; /* Sentralisasi konten secara keseluruhan */
 }
 
-h3 {
-  color: #2c3e50;
-  font-size: 24px;
+.isi h3 {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-/* Statistik Utama - Tabel kiri dan teks kanan */
-.statistik-container {
+.statistik-wrapper {
   display: flex;
-  gap: 30px;
-  margin-bottom: 40px;
   align-items: flex-start;
+  gap: 60px; /* Tingkatkan jarak antara teks dan tabel */
+  padding: 0 40px; /* Jarak dari tepi container */
 }
 
-.statistik {
+.text1 {
   flex: 1;
+  font-size: 16px;
+  line-height: 1.5;
+  min-width: 0; /* Agar tidak overflow */
+  text-align: justify; /* Justifikasi teks */
+  hyphens: auto; /* Memungkinkan pemotongan kata untuk layout yang lebih baik */
 }
 
 .statistik table {
-  width: 100%;
+  width: auto; /* Tabel menyesuaikan dengan konten */
   border-collapse: collapse;
+  table-layout: auto; /* Biar kolom sesuai panjang teks */
+  max-width: 100%;
 }
 
-.statistik th, .statistik td {
-  padding: 12px 15px;
+.statistik th,
+.statistik td {
+  padding: 16px; /* Tingkatkan padding untuk lebih lega */
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
+  white-space: nowrap; /* Agar teks tidak wrap */
+  font-size: 18px; /* Perbesar ukuran teks */
 }
 
 .statistik th {
-  background-color: #3498db;
-  color: white;
-  font-weight: 500;
+  text-align: center;
+  background-color: #333; /* Warna header tabel (opsional) */
+  color: #fff; /* Warna teks header tabel */
 }
 
-.statistik tr:hover {
-  background-color: #f0f0f0;
-}
+/* Responsif */
+@media (max-width: 768px) {
+  .statistik-wrapper {
+    flex-direction: column;
+    padding: 0; /* Hilangkan padding saat responsif */
+  }
 
-.statistik-text {
-  flex: 1;
-  padding: 15px;
-  color: #555;
-  line-height: 1.7;
-}
+  .statistik table {
+    width: 100%;
+  }
 
-/* Aktivitas Terbaru - Tabel kanan dan teks kiri */
-.aktivitas-container {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 40px;
-  align-items: flex-start;
-  flex-direction: row-reverse;
+  .text1 {
+    margin-top: 10px;
+  }
 }
 
 .aktivitas {
-  flex: 1;
+  max-width: 800px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 0 20px; /* Biar ga mepet */
+}
+
+.aktivitas h3 {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center; /* Ini penting banget */
 }
 
 .aktivitas table {
   width: 100%;
   border-collapse: collapse;
-}
-
-.aktivitas th, .aktivitas td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .aktivitas th {
   background-color: #2c3e50;
   color: white;
-  font-weight: 500;
+  padding: 16px 20px;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.aktivitas td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.aktivitas tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 .aktivitas tr:hover {
-  background-color: #f0f0f0;
+  background-color: #f5faff;
+  transition: background-color 0.2s ease;
 }
 
-.aktivitas-text {
-  flex: 1;
-  padding: 15px;
-  color: #555;
-  line-height: 1.7;
+.aktivitas tbody tr:last-child td {
+  border-bottom: none;
 }
 
-/* Laporan Kerusakan - Form kiri dan teks kanan */
+/* Gaya alternatif untuk teks status */
+.aktivitas td:nth-child(4),
+.aktivitas td:nth-child(5) {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+/* --- Laporan Kerusakan Section --- */
 .laporan-kerusakan {
   display: flex;
-  gap: 30px;
-  margin-bottom: 40px;
   align-items: flex-start;
+  gap: 40px; /* jarak antara form dan teks */
+  margin: 50px auto;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
-.laporan-kerusakan .left-column {
-  flex: 1;
+/* Form di SEBELAH KIRI */
+.form-laporan {
+  min-width: 400px; /* Diperbesar dari sebelumnya */
+  max-height: 600px; /* tinggi maksimal */
+  overflow-y: auto; /* scroll vertikal jika form panjang */
+  padding-right: 10px;
+  flex: 1 1 auto;
 }
 
-.laporan-kerusakan .right-column {
-  flex: 1;
-  padding: 15px;
-  color: #555;
-  line-height: 1.7;
-}
-
-.laporan-kerusakan .right-column h4 {
+.form-laporan h3 {
   color: #2c3e50;
-  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.form-laporan label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-laporan input,
+.form-laporan textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.form-laporan button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-laporan button:hover {
+  background-color: #1a252f;
+}
+
+/* Teks di SEBELAH KANAN */
+.teks-info {
+  min-width: 300px;
+  text-align: right;
+}
+
+.teks-info h4 {
+  color: #2e2b8d;
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  display: inline-block;
+  float: right;
+}
+
+.teks-info p {
+  line-height: 1.6;
+  color: #555;
+  font-size: 14px;
   margin-bottom: 15px;
 }
 
-iframe {
-  width: 100%;
-  height: 500px;
-  border: none;
-  border-radius: 4px;
+.teks-info::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-/* Responsive Design */
+/* Responsif */
 @media (max-width: 768px) {
-  .statistik-container,
-  .aktivitas-container,
   .laporan-kerusakan {
-      flex-direction: column;
+    flex-direction: column;
   }
-  
+
+  .form-laporan,
+  .teks-info {
+    width: 100%;
+    max-height: none;
+    text-align: left;
+  }
+
+  .teks-info h4 {
+    float: none;
+    text-align: left;
+    border-bottom: 2px solid #eee;
+  }
+}
+
+/* --- Responsive Adjustments --- */
+/* Responsive */
+@media (max-width: 768px) {
   .intro-content {
-      padding: 60px 20px;
+    min-height: 300px;
+    padding: 30px 15px;
   }
   
   .intro-content h3 {
-      font-size: 28px;
+    font-size: 2rem;
   }
   
+  .intro-content p {
+    font-size: 1.1rem;
+  }
+}
+  
+  .laporan-kerusakan {
+    flex-direction: column;
+  }
+
+.footer {
+  background: linear-gradient(to bottom, #6b46c1, #ffffff);
+  padding: 2rem 1rem;
+}
+
+.footer .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer .left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+}
+
+.footer .left img {
+  width: 190px;
+  margin-bottom: 0.5rem;
+}
+
+.footer .left p {
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer .social-icons {
+  display: flex;
+  align-items: center;
+}
+
+.footer .social-icons a {
+  color: white;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .social-icons a:hover {
+  color: #d1d5db;
+}
+
+.footer .right {
+  flex: 1;
+  margin: 0.5rem;
+  padding-left: 2rem;
+  max-width: 400px;
+}
+
+.footer .right h2 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer .right ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer .right ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer .right ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer .right ul li a:hover {
+  color: #d1d5db;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 2rem;
+}
+
+/* --- Responsif --- */
+@media (max-width: 768px) {
+  .statistik-container,
+  .aktivitas-container,
+  .laporan-kerusakan,
+  .footer .container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .intro-content {
+    padding: 60px 20px;
+  }
+
+  .intro-content h3 {
+    font-size: 28px;
+  }
+
   .statistik-text,
   .aktivitas-text,
   .laporan-kerusakan .right-column {
-      padding: 15px 0;
+    padding: 15px 0;
+  }
+
+  .footer .right {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .footer .right h2,
+  .footer .right ul {
+    text-align: center;
   }
 }
-
-/* Atur Footer */
-.footer {
-    background: linear-gradient(to bottom, #6b46c1, #ffffff);
-    padding: 2rem 1rem;
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 0.5rem;
-  }
-  
-  .left img {
-    width: 190px;
-    height: auto;
-    margin-bottom: 0.5rem;
-  }
-  
-  .left p {
-    font-size: 0.875rem;
-    margin: 0.5rem 0 0 0;
-    margin-bottom: 0.5rem;
-  }
-  
-  .social-icons {
-    display: flex;
-    align-items: center;
-  }
-  
-  .social-icons a {
-    color: white;
-    margin-right: 0.5rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .social-icons a:hover {
-    color: #d1d5db;
-  }
-  
-  .right {
-    flex: 1;
-    margin: 0.5rem;
-    padding-left: 2rem;
-    text-align: right;
-    max-width: 400px;
-  }
-  
-  .right h2 {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-    text-align: left;
-  }
-  
-  .right ul {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-  }
-  
-  .right ul li {
-    margin-bottom: 0.5rem;
-    text-align: left;
-  }
-  
-  .right ul li a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .right ul li a:hover {
-    color: #d1d5db;
-  }
-  
-  .footer-bottom {
-    text-align: center;
-    color: #4a5568;
-    font-size: 0.875rem;
-    margin-top: 2rem;
-  }
-  
-  @media (min-width: 768px) {
-    .container {
-      flex-wrap: nowrap;
-      align-items: flex-start;
-    }
-  
-    .right {
-      text-align: right;
-      margin-left: auto;
-      padding-left: 5rem;
-      max-width: 450px;
-    }
-  }

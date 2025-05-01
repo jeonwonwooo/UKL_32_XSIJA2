@@ -1,17 +1,14 @@
 <?php include 'formkoneksi.php'; ?>
 
 <?php
-// Ambil parameter filter dari URL
 $filter = $_GET['filter'] ?? 'semua';
 
-// Query dasar
 $query = "
     SELECT buku.id, buku.judul, buku.penulis, buku.tahun_terbit, buku.gambar, buku.status, kategori.nama_kategori, buku.tipe_buku
     FROM buku
     JOIN kategori ON buku.kategori_id = kategori.id
 ";
 
-// Tambahkan kondisi filter
 if ($filter === 'fisik') {
     $query .= " WHERE buku.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
@@ -160,8 +157,6 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       Reserved
     </div>
   </footer>
-
-  <!-- JavaScript untuk Pencarian -->
   <script>
     function searchBooks() {
       const input = document.getElementById('search-input').value.toLowerCase();

@@ -56,59 +56,6 @@ try {
   <title>Katalog Buku</title>
   <link rel="stylesheet" href="aktivitas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
-    }
-    th {
-      background-color: #f4f4f4;
-      font-weight: bold;
-    }
-    tr:hover {
-      background-color: #f9f9f9;
-    }
-    .statistik, .aktivitas, .laporan-kerusakan {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .text1 {
-      margin-top: 20px;
-      text-align: center;
-      color: #555;
-    }
-
-    .laporan-kerusakan {
-      display: flex;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    .laporan-kerusakan .left-column {
-      flex: 1;
-      border: 1px solid #ccc;
-      padding: 10px;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-    .laporan-kerusakan .right-column {
-      flex: 1;
-      padding: 10px;
-      text-align: justify;
-    }
-    iframe {
-      width: 100%;
-      height: 400px;
-      border: none;
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -134,65 +81,67 @@ try {
   </header>
   <main>
     <div class="intro-content">
-      <h3>Aktivitas Pengunjung</h3>
+      <h3>Aktivitas Anda</h3>
       <p>
-        Statistik peminjaman dan pengembalian buku di perpustakaan kami. Pantau aktivitas terkini dan tren peminjaman.
+        Statistik peminjaman dan pengembalian buku Anda di perpustakaan kami. Pantau aktivitas terkini dari peminjaman dan pengembalian Anda.
       </p>
     </div>
     <div class="isi">
-      <!-- Statistik Utama -->
-      <h3>Statistik Utama</h3>
-      <div class="statistik">
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Nama Statistik</th>
-              <th>Nilai</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Total Buku</td>
-              <td><?= htmlspecialchars($stats['total_buku'] ?? 0) ?></td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Total Peminjaman Aktif</td>
-              <td><?= htmlspecialchars($stats['peminjaman_aktif'] ?? 0) ?></td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Peminjaman Hari Ini</td>
-              <td><?= htmlspecialchars($stats['peminjaman_hari_ini'] ?? 0) ?></td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Pengembalian Hari Ini</td>
-              <td><?= htmlspecialchars($stats['pengembalian_hari_ini'] ?? 0) ?></td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>Total eBook Diakses</td>
-              <td><?= htmlspecialchars($stats['ebook_dipinjam'] ?? 0) ?></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="text1">
-        <p>Statistik ini diperbarui secara real-time dan menunjukkan aktivitas terkini di perpustakaan kami. Anda dapat memantau tren peminjaman dan pengembalian buku.</p>
-      </div>
-
-      <!-- Aktivitas Terbaru -->
-      <h3>Aktivitas Terbaru</h3>
+  <!-- Statistik Utama -->
+  <h3>Statistik Utama</h3>
+  <div class="statistik-wrapper">
+    <!-- Teks Penjelasan di KIRI -->
+    <div class="text1">
+      <p>Statistik ini akan diperbarui secara <i>real-time.</i> Berisikan tentang riwayat aktivitas secara keseluruhan di perpustakaan kami. Anda dapat memantau aktivitas Anda melalui ringkasa statistik ini.</p>
+    </div>
+    <!-- Tabel Statistik di KANAN -->
+    <div class="statistik">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Nama Statistik</th>
+            <th>Nilai</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Total Buku</td>
+            <td><?= htmlspecialchars($stats['total_buku'] ?? 0) ?></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Total Peminjaman Aktif</td>
+            <td><?= htmlspecialchars($stats['peminjaman_aktif'] ?? 0) ?></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Peminjaman Hari Ini</td>
+            <td><?= htmlspecialchars($stats['peminjaman_hari_ini'] ?? 0) ?></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Pengembalian Hari Ini</td>
+            <td><?= htmlspecialchars($stats['pengembalian_hari_ini'] ?? 0) ?></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Total eBook Diakses</td>
+            <td><?= htmlspecialchars($stats['ebook_dipinjam'] ?? 0) ?></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
       <div class="aktivitas">
+      <h3>Aktivitas Terbaru</h3>
         <table>
           <thead>
             <tr>
               <th>No.</th>
               <th>Judul Buku</th>
-              <th>Nama Anggota</th>
               <th>Tanggal Pinjam</th>
               <th>Status</th>
               <th>Tipe Buku</th>
@@ -204,7 +153,6 @@ try {
                 <tr>
                   <td><?= $index + 1 ?></td>
                   <td><?= htmlspecialchars($activity['judul_buku']) ?></td>
-                  <td><?= htmlspecialchars($activity['nama_anggota']) ?></td>
                   <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
                   <td><?= htmlspecialchars(ucfirst($activity['status'])) ?></td>
                   <td><?= htmlspecialchars(ucfirst($activity['tipe_buku'])) ?></td>
@@ -220,8 +168,8 @@ try {
       </div>
 
       <!-- Laporan Kerusakan -->
-      <h3>Laporan Kerusakan</h3>
       <div class="laporan-kerusakan">
+      <h3>Laporan Kerusakan</h3>
         <div class="left-column">
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeeHmEzoQgW-ZkDoWk7NKS_2sXPFqMoPTHLIkQ-Dd5-kF7xwQ/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
         </div>
