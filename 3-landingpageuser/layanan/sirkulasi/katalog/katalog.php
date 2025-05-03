@@ -72,12 +72,6 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Selamat datang di perpustakaan sekolah Rivenhill! Temukan berbagai koleksi buku menarik yang dapat kamu pinjam.
         Jelajahi pengetahuan dan inspirasi melalui buku-buku terbaik kami.
       </p>
-
-      <!-- Form Pencarian -->
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <input type="text" id="search-input" placeholder="Cari judul, penulis, atau kategori..." onkeyup="searchBooks()">
-      </div>
     </section>
 
     <!-- Filter Dropdown -->
@@ -85,7 +79,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="filter-container">
         <div class="filter-dropdown">
           <button class="filter-button">
-            <i class="fas fa-filter"></i> Filter
+            <i class="fas fa-filter"></i> Filter 
           </button>
           <div class="dropdown-content">
             <a href="?filter=semua" class="<?= $filter === 'semua' ? 'active' : '' ?>">Semua</a>
@@ -157,23 +151,5 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       Reserved
     </div>
   </footer>
-  <script>
-    function searchBooks() {
-      const input = document.getElementById('search-input').value.toLowerCase();
-      const bookItems = document.querySelectorAll('.book-item');
-
-      bookItems.forEach(item => {
-        const title = item.getAttribute('data-title');
-        const author = item.getAttribute('data-author');
-        const category = item.getAttribute('data-category');
-
-        if (title.includes(input) || author.includes(input) || category.includes(input)) {
-          item.style.display = '';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-  </script>
 </body>
 </html>

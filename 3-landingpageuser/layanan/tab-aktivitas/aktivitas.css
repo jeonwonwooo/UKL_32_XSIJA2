@@ -285,131 +285,56 @@ header {
   font-weight: 500;
 }
 
-/* --- Laporan Kerusakan Section --- */
 .laporan-kerusakan {
   display: flex;
-  align-items: flex-start;
-  gap: 40px; /* jarak antara form dan teks */
-  margin: 50px auto;
+  flex-wrap: wrap;
+  gap: 40px;
   max-width: 1200px;
-  padding: 0 20px;
+  margin: 50px auto;
+  padding: 20px;
+  align-items: flex-start;
 }
 
-/* Form di SEBELAH KIRI */
-.form-laporan {
-  min-width: 400px; /* Diperbesar dari sebelumnya */
-  max-height: 600px; /* tinggi maksimal */
-  overflow-y: auto; /* scroll vertikal jika form panjang */
-  padding-right: 10px;
-  flex: 1 1 auto;
+.left-column {
+  flex: 1 1 55%;
+  min-width: 350px;
 }
 
-.form-laporan h3 {
-  color: #2c3e50;
-  margin-bottom: 20px;
-  font-size: 20px;
-}
-
-.form-laporan label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
-  color: #333;
-}
-
-.form-laporan input,
-.form-laporan textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.form-laporan button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #2c3e50;
-  color: white;
+.left-column iframe {
+  width: 90%;
+  height: 600px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 8px;
 }
 
-.form-laporan button:hover {
-  background-color: #1a252f;
+.right-column {
+  flex: 1 1 40%;
+  min-width: 280px;
 }
 
-/* Teks di SEBELAH KANAN */
-.teks-info {
-  min-width: 300px;
-  text-align: right;
-}
-
-.teks-info h4 {
-  color: #2e2b8d;
+.right-column h3 {
+  font-size: 24px;
+  color: #333;
   margin-bottom: 15px;
-  font-size: 18px;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 10px;
-  display: inline-block;
-  float: right;
 }
 
-.teks-info p {
-  line-height: 1.6;
+.right-column p {
   color: #555;
-  font-size: 14px;
-  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 16px;
 }
 
-.teks-info::after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsif */
-@media (max-width: 768px) {
-  .laporan-kerusakan {
-    flex-direction: column;
-  }
-
-  .form-laporan,
-  .teks-info {
-    width: 100%;
-    max-height: none;
-    text-align: left;
-  }
-
-  .teks-info h4 {
-    float: none;
-    text-align: left;
-    border-bottom: 2px solid #eee;
-  }
-}
-
-/* --- Responsive Adjustments --- */
 /* Responsive */
 @media (max-width: 768px) {
-  .intro-content {
-    min-height: 300px;
-    padding: 30px 15px;
-  }
-  
-  .intro-content h3 {
-    font-size: 2rem;
-  }
-  
-  .intro-content p {
-    font-size: 1.1rem;
-  }
-}
-  
   .laporan-kerusakan {
     flex-direction: column;
   }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+}
 
 .footer {
   background: linear-gradient(to bottom, #6b46c1, #ffffff);

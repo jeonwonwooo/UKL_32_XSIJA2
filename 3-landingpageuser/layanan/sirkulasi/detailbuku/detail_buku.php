@@ -52,6 +52,7 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,14 +61,6 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <script>
-        function tampilkanNotifikasi() {
-            document.getElementById("notif-favorit").style.display = "block";
-            setTimeout(() => {
-                document.getElementById("notif-favorit").style.display = "none";
-            }, 3000);
-        }
-    </script>
 </head>
 
 <body>
@@ -76,31 +69,31 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
             <img src="../../logo.png" alt="Logo Perpus" srcset="" />
         </div>
         <nav class="navbar">
-      <ul>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
-        </li>
-        <li>
-          <a href="#">Katalog</a>
-        </li>
-        <li><a href="#">Aktivitas</a></li>
-        <li>
-          <a href="#">Favorit</a>
-        </li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
-        </li>
-        <li class="profil">
-          <a href="#" class="akun"><i class="fas fa-user"></i></a>
-        </li>
-        <li>
-          <button class="btn-logout">
-            <i class="fas fa-arrow-left"></i>
-            <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
-          </button>
-        </li>
-      </ul>
-    </nav>
+            <ul>
+                <li>
+                    <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
+                </li>
+                <li>
+                    <a href="#">Katalog</a>
+                </li>
+                <li><a href="#">Aktivitas</a></li>
+                <li>
+                    <a href="#">Favorit</a>
+                </li>
+                <li>
+                    <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
+                </li>
+                <li class="profil">
+                    <a href="#" class="akun"><i class="fas fa-user"></i></a>
+                </li>
+                <li>
+                    <button class="btn-logout">
+                        <i class="fas fa-arrow-left"></i>
+                        <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+                    </button>
+                </li>
+            </ul>
+        </nav>
     </header>
     <main>
         <section class="judul">
@@ -121,88 +114,88 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
             </div>
         </section>
         <section class="rating">
-        <section class="rating">
-    <!-- Rating Overview -->
-    <div class="rating-overview">
-        <p><strong>Rating:</strong> 
-            ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
-        </p>
-    </div>
+            <section class="rating">
+                <!-- Rating Overview -->
+                <div class="rating-overview">
+                    <p><strong>Rating:</strong>
+                        ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
+                    </p>
+                </div>
 
-    <!-- Star Distribution -->
-    <div class="star-distribution">
-        <?php if (!empty($distribusi_rating)): ?>
-            <?php foreach ($distribusi_rating as $row): 
-                $percentage = ($jumlah_ulasan > 0) ? ($row['count'] / $jumlah_ulasan) * 100 : 0;
-            ?>
-                <div class="rating-bar">
-                    <span><?= $row['rating'] ?> stars</span>
-                    <div class="bar-container">
-                        <div class="bar" style="width: <?= $percentage ?>%;"></div>
+                <!-- Star Distribution -->
+                <div class="star-distribution">
+                    <?php if (!empty($distribusi_rating)): ?>
+                        <?php foreach ($distribusi_rating as $row):
+                            $percentage = ($jumlah_ulasan > 0) ? ($row['count'] / $jumlah_ulasan) * 100 : 0;
+                        ?>
+                            <div class="rating-bar">
+                                <span><?= $row['rating'] ?> stars</span>
+                                <div class="bar-container">
+                                    <div class="bar" style="width: <?= $percentage ?>%;"></div>
+                                </div>
+                                <span><?= $row['count'] ?></span>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Tidak ada rating untuk buku ini.</p>
+                    <?php endif; ?>
+                </div>
+            </section>
+
+            <!-- User Reviews -->
+            <section class="user-reviews">
+                <h3>Ulasan</h3>
+                <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
+
+                <?php if (!empty($ulasan)): ?>
+                    <?php foreach ($ulasan as $review): ?>
+                        <div class="review">
+                            <div class="review-header">
+                                <span><?= htmlspecialchars($review['username']) ?></span>
+                                <span>
+                                    <?php for ($i = 0; $i < $review['rating']; $i++): ?>
+                                        ★
+                                    <?php endfor; ?>
+                                </span>
+                            </div>
+                            <p class="review-comment"><?= htmlspecialchars($review['komentar']) ?></p>
+                            <small class="show-more">Show more ▼</small>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-reviews-container">
+                        <p>Belum ada ulasan untuk buku ini.</p>
+                        <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="btn-tambah-ulasan">Tambah Ulasan Sekarang</a>
                     </div>
-                    <span><?= $row['count'] ?></span>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Tidak ada rating untuk buku ini.</p>
-        <?php endif; ?>
-    </div>
-</section>
-
-<!-- User Reviews -->
-<section class="user-reviews">
-    <h3>Ulasan</h3>
-    <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
-
-    <?php if (!empty($ulasan)): ?>
-        <?php foreach ($ulasan as $review): ?>
-            <div class="review">
-                <div class="review-header">
-                    <span><?= htmlspecialchars($review['username']) ?></span>
-                    <span>
-                        <?php for ($i = 0; $i < $review['rating']; $i++): ?>
-                            ★
-                        <?php endfor; ?>
-                    </span>
-                </div>
-                <p class="review-comment"><?= htmlspecialchars($review['komentar']) ?></p>
-                <small class="show-more">Show more ▼</small>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <div class="no-reviews-container">
-            <p>Belum ada ulasan untuk buku ini.</p>
-            <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="btn-tambah-ulasan">Tambah Ulasan Sekarang</a>
-        </div>
-    <?php endif; ?>
-</section>
+                <?php endif; ?>
+            </section>
         </section>
         <div class="action-buttons">
-    <?php if ($buku['status'] === 'tersedia'): ?>
-        <?php if ($buku['tipe_buku'] === 'Buku Elektronik' && $buku['file_path']): ?>
-            <!-- Tombol untuk Ebook -->
-            <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($buku['file_path'])) ?>" 
-               target="_blank" 
-               class="btn-pinjam">Lihat Sekarang</a>
-        <?php else: ?>
-            <!-- Tombol untuk Buku Fisik -->
-            <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $buku_id ?>" 
-               class="btn-pinjam">Pinjam Sekarang</a>
-        <?php endif; ?>
-    <?php else: ?>
-        <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
-    <?php endif; ?>
+            <?php if ($buku['status'] === 'tersedia'): ?>
+                <?php if ($buku['tipe_buku'] === 'Buku Elektronik' && $buku['file_path']): ?>
+                    <!-- Tombol untuk Ebook -->
+                    <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($buku['file_path'])) ?>"
+                        target="_blank"
+                        class="btn-pinjam">Lihat Sekarang</a>
+                <?php else: ?>
+                    <!-- Tombol untuk Buku Fisik -->
+                    <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $buku_id ?>"
+                        class="btn-pinjam">Pinjam Sekarang</a>
+                <?php endif; ?>
+            <?php else: ?>
+                <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
+            <?php endif; ?>
 
-    <!-- Tombol Tambah ke Favorit -->
-    <form action="proses_favorit.php" method="POST" onsubmit="tampilkanNotifikasi()" style="display: inline-block;">
-        <input type="hidden" name="buku_id" value="<?php echo $buku_id; ?>">
-        <button type="submit" 
-                class="btn-favorit" 
-                <?php echo $favorit_aktif ? 'disabled' : ''; ?>>
-            <?php echo $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit'; ?>
-        </button>
-    </form>
-</div>
+            <!-- Tombol Tambah ke Favorit -->
+            <form action="proses_favorit.php" method="POST" style="display: inline-block;">
+                <input type="hidden" name="buku_id" value="<?= $buku_id ?>">
+                <button type="submit"
+                    class="btn-favorit"
+                    <?= $favorit_aktif ? 'disabled' : '' ?>>
+                    <?= $favorit_aktif ? 'Sudah di Favorit' : 'Tambah ke Favorit' ?>
+                </button>
+            </form>
+        </div>
         <p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
     </main>
     <footer class="footer">
@@ -236,16 +229,6 @@ if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_p
             Reserved
         </div>
     </footer>
-    <script>
-    function tampilkanNotifikasi() {
-        const notifikasi = document.getElementById("notif-favorit");
-        if (notifikasi) {
-            notifikasi.style.display = "block";
-            setTimeout(() => {
-                notifikasi.style.display = "none";
-            }, 3000);
-        }
-    }
-</script>
 </body>
+
 </html>

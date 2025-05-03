@@ -2,8 +2,8 @@
 require_once 'formkoneksi.php';
 
 try {
-    $current_date = date('Y-m-d');
-    $query_stats = "
+  $current_date = date('Y-m-d');
+  $query_stats = "
         SELECT 'total_buku' as stat_name, COUNT(*) as stat_value FROM buku
         UNION ALL
         SELECT 'peminjaman_aktif', COUNT(*) FROM peminjaman WHERE status = 'dipinjam'
@@ -15,17 +15,17 @@ try {
         SELECT 'ebook_dipinjam', COUNT(*) FROM peminjaman WHERE tipe_buku = 'ebook' AND status = 'dipinjam'
     ";
 
-    $stmt_stats = $conn->prepare($query_stats);
-    $stmt_stats->bindParam(':current_date', $current_date);
-    $stmt_stats->bindParam(':current_date2', $current_date);
-    $stmt_stats->execute();
-    
-    $stats = [];
-    while ($row = $stmt_stats->fetch(PDO::FETCH_ASSOC)) {
-        $stats[$row['stat_name']] = $row['stat_value'];
-    }
+  $stmt_stats = $conn->prepare($query_stats);
+  $stmt_stats->bindParam(':current_date', $current_date);
+  $stmt_stats->bindParam(':current_date2', $current_date);
+  $stmt_stats->execute();
 
-    $query_activities = "
+  $stats = [];
+  while ($row = $stmt_stats->fetch(PDO::FETCH_ASSOC)) {
+    $stats[$row['stat_name']] = $row['stat_value'];
+  }
+
+  $query_activities = "
         SELECT 
             p.id AS peminjaman_id,
             b.judul AS judul_buku,
@@ -39,17 +39,17 @@ try {
         ORDER BY p.id DESC
         LIMIT 5
     ";
-    $stmt_activities = $conn->prepare($query_activities);
-    $stmt_activities->execute();
-    $activities = $stmt_activities->fetchAll(PDO::FETCH_ASSOC);
-
-} catch(PDOException $e) {
-    die("Error: " . $e->getMessage());
+  $stmt_activities = $conn->prepare($query_activities);
+  $stmt_activities->execute();
+  $activities = $stmt_activities->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  die("Error: " . $e->getMessage());
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +57,7 @@ try {
   <link rel="stylesheet" href="aktivitas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
+
 <body>
   <header>
     <div class="logo">
@@ -87,102 +88,103 @@ try {
       </p>
     </div>
     <div class="isi">
-  <!-- Statistik Utama -->
-  <h3>Statistik Utama</h3>
-  <div class="statistik-wrapper">
-    <!-- Teks Penjelasan di KIRI -->
-    <div class="text1">
-      <p>Statistik ini akan diperbarui secara <i>real-time.</i> Berisikan tentang riwayat aktivitas secara keseluruhan di perpustakaan kami. Anda dapat memantau aktivitas Anda melalui ringkasa statistik ini.</p>
+      <!-- Statistik Utama -->
+      <h3>Statistik Utama</h3>
+      <div class="statistik-wrapper">
+        <!-- Teks Penjelasan di KIRI -->
+        <div class="text1">
+          <p>Statistik ini akan diperbarui secara <i>real-time.</i> Berisikan tentang riwayat aktivitas secara keseluruhan di perpustakaan kami. Anda dapat memantau aktivitas Anda melalui ringkasa statistik ini.</p>
+        </div>
+        <!-- Tabel Statistik di KANAN -->
+        <div class="statistik">
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Nama Statistik</th>
+                <th>Nilai</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Total Buku</td>
+                <td><?= htmlspecialchars($stats['total_buku'] ?? 0) ?></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Total Peminjaman Aktif</td>
+                <td><?= htmlspecialchars($stats['peminjaman_aktif'] ?? 0) ?></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Peminjaman Hari Ini</td>
+                <td><?= htmlspecialchars($stats['peminjaman_hari_ini'] ?? 0) ?></td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>Pengembalian Hari Ini</td>
+                <td><?= htmlspecialchars($stats['pengembalian_hari_ini'] ?? 0) ?></td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Total eBook Diakses</td>
+                <td><?= htmlspecialchars($stats['ebook_dipinjam'] ?? 0) ?></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <!-- Tabel Statistik di KANAN -->
-    <div class="statistik">
+    <div class="aktivitas">
+      <h3>Aktivitas Terbaru</h3>
       <table>
         <thead>
           <tr>
             <th>No.</th>
-            <th>Nama Statistik</th>
-            <th>Nilai</th>
+            <th>Judul Buku</th>
+            <th>Tanggal Pinjam</th>
+            <th>Status</th>
+            <th>Tipe Buku</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Total Buku</td>
-            <td><?= htmlspecialchars($stats['total_buku'] ?? 0) ?></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Total Peminjaman Aktif</td>
-            <td><?= htmlspecialchars($stats['peminjaman_aktif'] ?? 0) ?></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Peminjaman Hari Ini</td>
-            <td><?= htmlspecialchars($stats['peminjaman_hari_ini'] ?? 0) ?></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Pengembalian Hari Ini</td>
-            <td><?= htmlspecialchars($stats['pengembalian_hari_ini'] ?? 0) ?></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Total eBook Diakses</td>
-            <td><?= htmlspecialchars($stats['ebook_dipinjam'] ?? 0) ?></td>
-          </tr>
+          <?php if (!empty($activities)): ?>
+            <?php foreach ($activities as $index => $activity): ?>
+              <tr>
+                <td><?= $index + 1 ?></td>
+                <td><?= htmlspecialchars($activity['judul_buku']) ?></td>
+                <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
+                <td><?= htmlspecialchars(ucfirst($activity['status'])) ?></td>
+                <td><?= htmlspecialchars(ucfirst($activity['tipe_buku'])) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="6" style="text-align: center;">Tidak ada aktivitas terbaru.</td>
+            </tr>
+          <?php endif; ?>
         </tbody>
       </table>
     </div>
-  </div>
-</div>
-      <div class="aktivitas">
-      <h3>Aktivitas Terbaru</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Judul Buku</th>
-              <th>Tanggal Pinjam</th>
-              <th>Status</th>
-              <th>Tipe Buku</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (!empty($activities)): ?>
-              <?php foreach ($activities as $index => $activity): ?>
-                <tr>
-                  <td><?= $index + 1 ?></td>
-                  <td><?= htmlspecialchars($activity['judul_buku']) ?></td>
-                  <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
-                  <td><?= htmlspecialchars(ucfirst($activity['status'])) ?></td>
-                  <td><?= htmlspecialchars(ucfirst($activity['tipe_buku'])) ?></td>
-                </tr>
-              <?php endforeach; ?>
-            <?php else: ?>
-              <tr>
-                <td colspan="6" style="text-align: center;">Tidak ada aktivitas terbaru.</td>
-              </tr>
-            <?php endif; ?>
-          </tbody>
-        </table>
-      </div>
 
-      <!-- Laporan Kerusakan -->
-      <div class="laporan-kerusakan">
-      <h3>Laporan Kerusakan</h3>
-        <div class="left-column">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeeHmEzoQgW-ZkDoWk7NKS_2sXPFqMoPTHLIkQ-Dd5-kF7xwQ/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-        </div>
-        <div class="right-column">
-          <h4>Laporkan Kerusakan</h4>
-          <p>
-            Jika Anda menemukan kerusakan pada buku atau fasilitas perpustakaan, silakan laporkan melalui formulir di samping. Kami akan memproses laporan Anda secepat mungkin untuk memastikan kenyamanan pengguna perpustakaan.
-          </p>
-          <p>
-            Pastikan untuk mengisi formulir dengan informasi yang jelas dan akurat agar kami dapat menindaklanjuti laporan Anda dengan efisien.
-          </p>
-        </div>
+    <!-- Laporan Kerusakan -->
+    <div class="laporan-kerusakan">
+      <div class="left-column">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeeHmEzoQgW-ZkDoWk7NKS_2sXPFqMoPTHLIkQ-Dd5-kF7xwQ/viewform?embedded=true"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
       </div>
+      <div class="right-column">
+        <h3>Laporan Kerusakan</h3>
+        <p>
+          Jika Anda menemukan kerusakan pada buku atau fasilitas perpustakaan, silakan laporkan melalui formulir di samping.
+          Kami akan memproses laporan Anda secepat mungkin untuk memastikan kenyamanan pengguna perpustakaan.
+          Pastikan untuk mengisi formulir dengan informasi yang jelas dan akurat agar kami dapat menindaklanjuti laporan Anda dengan efisien.
+        </p>
+      </div>
+    </div>
     </div>
   </main>
   <footer class="footer">
@@ -212,4 +214,5 @@ try {
     </div>
   </footer>
 </body>
+
 </html>
