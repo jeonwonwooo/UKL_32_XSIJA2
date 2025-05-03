@@ -196,7 +196,6 @@ img.img-fluid {
 /* Atur Footer */
 .footer {
   background: linear-gradient(to bottom, #6b46c1, #ffffff);
-  color: white;
   padding: 2rem 1rem;
 }
 
@@ -299,4 +298,4 @@ img.img-fluid {
     padding-left: 5rem;
     max-width: 450px;
   }
-}
+}  

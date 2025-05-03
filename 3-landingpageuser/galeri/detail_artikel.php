@@ -60,36 +60,30 @@ if (!$artikel) {
         </section>
     </main>
 
-    <footer class="footer">
-      <div class="container">
-        <div class="left">
-          <img
-            src="logo.png"
-            alt="Library of Riverhill Senior High School logo" />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-            omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-            adipiscing elit. Repudiandae omnis molestias nobis.
-          </p>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-whatsapp"></i></a>
-            <a href="#"><i class="fab fa-linkedin"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="right">
-          <h2>Tautan Fungsional</h2>
-          <ul>
-            <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-            <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-          </ul>
-        </div>
+    <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <img src="logo.png" alt="Logo Sekolah" class="footer-logo" />
+      <h3>Library of Riverhill<br>Senior High School</h3>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat nesciunt ex ipsa? Repudiandae perspiciatis inventore repellendus quos, corrupti deleniti sed dolore, quaerat fugiat accusantium beatae laudantium, commodi odio provident quibusdam.</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
       </div>
-      <div class="footer-bottom">
-        Copyright © 2024 Library of Riverhill Senior High School. All Rights
-        Reserved
-      </div>
-    </footer>
+    </div>
+    <div class="footer-right">
+      <h4>Tautan Fungsional</h4>
+      <ul>
+        <li><a href="#">Beranda</a></li>
+        <li><a href="#">Layanan</a></li>
+        <li><a href="#">Galeri</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved</p>
+  </div>
+</footer>
 </body>
 </html>
