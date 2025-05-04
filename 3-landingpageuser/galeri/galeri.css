@@ -257,7 +257,7 @@ header {
 /* Perbaiki tampilan card */
 .card {
   width: 100%;
-  max-width: 300px; 
+  max-width: 300px;
   height: auto;
   background-color: white;
   border-radius: 15px;
@@ -338,7 +338,6 @@ header {
     flex: 1 1 100%;
   }
 }
-
 
 .btn-primary {
   background-color: #6f42c1;

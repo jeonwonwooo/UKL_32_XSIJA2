@@ -56,141 +56,141 @@ h6 {
 
 /* Atur Navbar */
 header {
-    background-color: #2e2b8d;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo img {
-    height: 10vh;
-  }
-  
-  .navbar ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-  
-  .navbar ul li {
-    display: inline-block;
-  }
-  
-  .navbar ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-  
-  .navbar ul li a:hover {
-    color: #ffd700;
-  }
-  
-  .btn-logout {
-    background: none;
-    border: 2px solid #fff;
-    padding: 5px 15px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-logout:hover {
-    background: #fff;
-    color: #2e2b8d;
-  }
-  
-  .profil .akun i {
-    font-size: 18px;
-    color: #fff;
-  }
-  
-  .profil .akun i:hover {
-    color: #ffd700;
-  }
+  background-color: #2e2b8d;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 10vh;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline-block;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+
+.profil .akun i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.profil .akun i:hover {
+  color: #ffd700;
+}
 
 /* Atur Konten */
 main {
-    width: 80%;
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  width: 80%;
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 /* Atur  Detail Artikel */
 .detail-artikel {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .judul {
-    font-size: 2rem;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 2rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .tanggal-publikasi {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 15px;
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 15px;
 }
 
 img.img-fluid {
-    max-width: 80%;
-    height: auto;
-    margin: 20px auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: block;
+  max-width: 80%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: block;
 }
 
 .konten {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: justify;
-    width: 90%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: justify;
+  width: 90%;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .btn-secondary {
-    background-color: #2e2b8d;
-    border: none;
-    padding: 12px 20px;
-    color: white;
-    font-weight: bold;
-    font-size: 1rem;
-    border-radius: 5px;
-    transition: 0.3s ease-in-out;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 20px;
+  background-color: #2e2b8d;
+  border: none;
+  padding: 12px 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 20px;
 }
 
-.btn-secondary:hover { 
-    background-color: #ffd700;
-    color: #2e2b8d;
+.btn-secondary:hover {
+  background-color: #ffd700;
+  color: #2e2b8d;
 }
 
 /* Atur Footer */

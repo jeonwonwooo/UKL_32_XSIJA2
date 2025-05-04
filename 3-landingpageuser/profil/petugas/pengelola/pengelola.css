@@ -129,11 +129,12 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; 
+  min-height: 100vh;
   width: 100%;
 }
 
-.tentangku, .portfolio {
+.tentangku,
+.portfolio {
   width: 80%;
   padding: 20px;
   text-align: center;
@@ -191,7 +192,7 @@ p {
   justify-content: center;
   gap: 10px;
   margin: 15px auto 0 auto;
-  text-decoration: none; 
+  text-decoration: none;
   font-weight: bold;
   transition: background 0.3s ease;
   width: fit-content;
@@ -203,8 +204,8 @@ p {
 
 .btn:link,
 .btn:visited {
-  color: white; 
-  text-decoration: none; 
+  color: white;
+  text-decoration: none;
 }
 
 .btn:hover {

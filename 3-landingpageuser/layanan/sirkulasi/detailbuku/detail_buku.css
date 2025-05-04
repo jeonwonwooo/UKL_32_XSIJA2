@@ -276,7 +276,7 @@ section {
 }
 
 /* Menggunakan Google Font Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 /* Action Buttons */
 .action-buttons {
@@ -295,7 +295,7 @@ section {
 .action-buttons button,
 .action-buttons a.btn-pinjam {
   padding: 12px 24px; /* Padding untuk tombol */
-  font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+  font-family: "Poppins", sans-serif; /* Menggunakan font Poppins */
   font-size: 14px; /* Ukuran font yang presisi */
   font-weight: 600; /* Font tebal (semi-bold) */
   color: #fff; /* Warna teks putih */
@@ -330,7 +330,7 @@ section {
   background-color: #ffcc00; /* Warna kuning */
   color: #2e2b8d; /* Warna teks ungu tua */
   padding: 12px 24px; /* Padding untuk tombol */
-  font-family: 'Poppins', sans-serif; /* Menggunakan font Poppins */
+  font-family: "Poppins", sans-serif; /* Menggunakan font Poppins */
   font-size: 14px; /* Ukuran font yang presisi */
   font-weight: 600; /* Font tebal (semi-bold) */
   border: none; /* Tanpa border */

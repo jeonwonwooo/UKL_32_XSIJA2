@@ -67,8 +67,6 @@ try {
     } else {
         die("Aksi tidak valid.");
     }
-
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
-?>

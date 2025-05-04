@@ -17,10 +17,10 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // [4] GET ID (MULTI-SOURCE FALLBACK)
-$peminjaman_id = 
-    $_GET['id'] ?? 
-    $_SESSION['last_pinjam_id'] ?? 
-    $conn->query("SELECT MAX(id) FROM peminjaman WHERE anggota_id = " . $_SESSION['user_id'])->fetchColumn() ?? 
+$peminjaman_id =
+    $_GET['id'] ??
+    $_SESSION['last_pinjam_id'] ??
+    $conn->query("SELECT MAX(id) FROM peminjaman WHERE anggota_id = " . $_SESSION['user_id'])->fetchColumn() ??
     die("🆔 ID PEMINJAMAN TIDAK VALID");
 
 // [5] DATA VALIDATION
@@ -30,14 +30,14 @@ try {
             JOIN buku b ON p.buku_id = b.id
             JOIN anggota a ON p.anggota_id = a.id
             WHERE p.id = ? AND p.anggota_id = ?";
-    
+
     $stmt = $conn->prepare($sql);
     if (!$stmt->execute([$peminjaman_id, $_SESSION['user_id']])) {
         throw new Exception("Gagal eksekusi query");
     }
 
     $peminjaman = $stmt->fetch();
-    
+
     if (!$peminjaman) {
         throw new Exception("Data peminjaman tidak ditemukan");
     }
@@ -51,6 +51,7 @@ unset($_SESSION['last_pinjam_id']);
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +61,7 @@ unset($_SESSION['last_pinjam_id']);
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         .container {
             max-width: 600px;
             margin: auto;
@@ -67,25 +69,31 @@ unset($_SESSION['last_pinjam_id']);
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .content table {
             width: 100%;
             border-collapse: collapse;
         }
-        .content table th, .content table td {
+
+        .content table th,
+        .content table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
+
         .footer {
             margin-top: 20px;
             text-align: center;
             font-size: 12px;
             color: #777;
         }
+
         .error-message {
             color: red;
             text-align: center;
@@ -93,6 +101,7 @@ unset($_SESSION['last_pinjam_id']);
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <?php if (isset($_SESSION['error'])): ?>
@@ -141,4 +150,5 @@ unset($_SESSION['last_pinjam_id']);
         </div>
     </div>
 </body>
+
 </html>

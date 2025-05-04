@@ -202,54 +202,54 @@ if ($status === 'success') {
 
             <!-- Tombol Tambah ke Favorit -->
             <form action="proses_favorit.php" method="POST" style="display: inline-block;">
-    <input type="hidden" name="buku_id" value="<?= $buku_id ?>">
-    <?php if ($favorit_aktif): ?>
-        <!-- Tombol Hapus dari Favorit -->
-        <input type="hidden" name="action" value="hapus">
-        <button type="submit" class="btn-favorit btn-hapus">
-            Hapus dari Favorit
-        </button>
-    <?php else: ?>
-        <!-- Tombol Tambah ke Favorit -->
-        <input type="hidden" name="action" value="tambah">
-        <button type="submit" class="btn-favorit btn-tambah">
-            Tambah ke Favorit
-        </button>
-    <?php endif; ?>
-</form>
+                <input type="hidden" name="buku_id" value="<?= $buku_id ?>">
+                <?php if ($favorit_aktif): ?>
+                    <!-- Tombol Hapus dari Favorit -->
+                    <input type="hidden" name="action" value="hapus">
+                    <button type="submit" class="btn-favorit btn-hapus">
+                        Hapus dari Favorit
+                    </button>
+                <?php else: ?>
+                    <!-- Tombol Tambah ke Favorit -->
+                    <input type="hidden" name="action" value="tambah">
+                    <button type="submit" class="btn-favorit btn-tambah">
+                        Tambah ke Favorit
+                    </button>
+                <?php endif; ?>
+            </form>
         </div>
         <p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
     </main>
     <footer class="footer">
-      <div class="container">
-        <div class="left">
-          <img
-            src="logo.png"
-            alt="Library of Riverhill Senior High School logo" />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-            omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-            adipiscing elit. Repudiandae omnis molestias nobis.
-          </p>
-          <div class="social-icons">
-            <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
-          </div>
+        <div class="container">
+            <div class="left">
+                <img
+                    src="logo.png"
+                    alt="Library of Riverhill Senior High School logo" />
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
+                    omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
+                    adipiscing elit. Repudiandae omnis molestias nobis.
+                </p>
+                <div class="social-icons">
+                    <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="right">
+                <h2>Tautan Fungsional</h2>
+                <ul>
+                    <li><a href="beranda.html">Beranda</a></li>
+                    <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+                    <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="right">
-          <h2>Tautan Fungsional</h2>
-          <ul>
-            <li><a href="beranda.html">Beranda</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
-          </ul>
+        <div class="footer-bottom">
+            Copyright © 2024 Library of Riverhill Senior High School. All Rights
+            Reserved
         </div>
-      </div>
-      <div class="footer-bottom">
-        Copyright © 2024 Library of Riverhill Senior High School. All Rights
-        Reserved
-      </div>
     </footer>
 </body>
 

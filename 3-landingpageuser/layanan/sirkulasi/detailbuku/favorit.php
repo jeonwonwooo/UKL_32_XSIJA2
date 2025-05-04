@@ -3,12 +3,12 @@
 require_once 'formkoneksi.php';
 
 try {
-    // Ambil ID pengguna (user) dari sesi
-    session_start();
-    $user_id = $_SESSION['user_id'] ?? 0; // Pastikan session sudah diatur
+  // Ambil ID pengguna (user) dari sesi
+  session_start();
+  $user_id = $_SESSION['user_id'] ?? 0; // Pastikan session sudah diatur
 
-    // Query untuk mengambil data buku favorit
-    $query_favorit = "
+  // Query untuk mengambil data buku favorit
+  $query_favorit = "
         SELECT 
             b.id AS buku_id,
             b.judul AS judul_buku,
@@ -19,29 +19,29 @@ try {
         JOIN buku b ON f.buku_id = b.id
         WHERE f.user_id = :user_id
     ";
-    $stmt_favorit = $conn->prepare($query_favorit);
-    $stmt_favorit->bindParam(':user_id', $user_id);
-    $stmt_favorit->execute();
-    $favorit = $stmt_favorit->fetchAll(PDO::FETCH_ASSOC);
+  $stmt_favorit = $conn->prepare($query_favorit);
+  $stmt_favorit->bindParam(':user_id', $user_id);
+  $stmt_favorit->execute();
+  $favorit = $stmt_favorit->fetchAll(PDO::FETCH_ASSOC);
 
-    // Handle notifikasi dari proses_favorit.php
-    $status = $_GET['status'] ?? '';
-    $notif = '';
-    if ($status === 'success') {
-        $notif = '<p style="color: green; text-align: center;">Buku berhasil ditambahkan ke favorit!</p>';
-    } elseif ($status === 'exists') {
-        $notif = '<p style="color: red; text-align: center;">Buku sudah ada di daftar favorit!</p>';
-    } elseif ($status === 'removed') {
-        $notif = '<p style="color: blue; text-align: center;">Buku berhasil dihapus dari favorit!</p>';
-    }
-
-} catch(PDOException $e) {
-    die("Error: " . $e->getMessage());
+  // Handle notifikasi dari proses_favorit.php
+  $status = $_GET['status'] ?? '';
+  $notif = '';
+  if ($status === 'success') {
+    $notif = '<p style="color: green; text-align: center;">Buku berhasil ditambahkan ke favorit!</p>';
+  } elseif ($status === 'exists') {
+    $notif = '<p style="color: red; text-align: center;">Buku sudah ada di daftar favorit!</p>';
+  } elseif ($status === 'removed') {
+    $notif = '<p style="color: blue; text-align: center;">Buku berhasil dihapus dari favorit!</p>';
+  }
+} catch (PDOException $e) {
+  die("Error: " . $e->getMessage());
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,6 +49,7 @@ try {
   <link rel="stylesheet" href="favorit.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
+
 <body>
   <header>
     <div class="logo">
@@ -123,35 +124,36 @@ try {
     </div>
   </main>
   <footer class="footer">
-      <div class="container">
-        <div class="left">
-          <img
-            src="logo.png"
-            alt="Library of Riverhill Senior High School logo" />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-            omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-            adipiscing elit. Repudiandae omnis molestias nobis.
-          </p>
-          <div class="social-icons">
-            <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="right">
-          <h2>Tautan Fungsional</h2>
-          <ul>
-            <li><a href="beranda.html">Beranda</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
-          </ul>
+    <div class="container">
+      <div class="left">
+        <img
+          src="logo.png"
+          alt="Library of Riverhill Senior High School logo" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
+          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
+          adipiscing elit. Repudiandae omnis molestias nobis.
+        </p>
+        <div class="social-icons">
+          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      <div class="footer-bottom">
-        Copyright © 2024 Library of Riverhill Senior High School. All Rights
-        Reserved
+      <div class="right">
+        <h2>Tautan Fungsional</h2>
+        <ul>
+          <li><a href="beranda.html">Beranda</a></li>
+          <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+          <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
+        </ul>
       </div>
-    </footer>
+    </div>
+    <div class="footer-bottom">
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights
+      Reserved
+    </div>
+  </footer>
 </body>
+
 </html>

@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, status, tipe_buku) 
                 VALUES (?, ?, ?, 'dipinjam', ?)";
         $tanggal_pinjam = date('Y-m-d');
-        
+
         $stmt = $conn->prepare($sql);
         $stmt->execute([$_SESSION['user_id'], $buku_id, $tanggal_pinjam, $book['tipe_buku']]);
-        
+
         // [B] GET LAST ID (3 LAYER FALLBACK)
         $last_id = $conn->lastInsertId(); // METHOD 1
         if (!$last_id) {
@@ -53,21 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$last_id) {
             throw new Exception("GAGAL DAPATKAN ID");
         }
-        
+
         // [C] UPDATE BOOK STATUS
         if ($book['tipe_buku'] === 'fisik') {
             $conn->exec("UPDATE buku SET status = 'dipinjam' WHERE id = $buku_id");
         } elseif ($book['tipe_buku'] === 'ebook') {
             // Untuk eBook, tidak perlu mengubah status buku
         }
-        
+
         $conn->commit();
-        
+
         // [D] REDIRECT (3 OPTIONS)
         $_SESSION['last_pinjam_id'] = $last_id; // BACKUP 1
         header("Location: peminjaman_struk.php?id=" . $last_id);
         exit;
-        
     } catch (Exception $e) {
         $conn->rollBack();
         die("ERROR SYSTEM: " . $e->getMessage());
@@ -77,12 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Peminjaman</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Form Peminjaman</h1>
@@ -109,4 +110,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </body>
+
 </html>

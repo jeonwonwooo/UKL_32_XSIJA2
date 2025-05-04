@@ -67,12 +67,14 @@ try {
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Peminjaman</title>
     <link rel="stylesheet" href="peminjaman_list.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Daftar Peminjaman</h1>
@@ -126,10 +128,10 @@ try {
                             <td><?= htmlspecialchars(ucfirst($pinjam['status'])) ?></td>
                             <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
                             <td class="actions">
-    <?php if ($pinjam['status'] === 'dipinjam'): ?>
-        <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
-    <?php endif; ?>
-    <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                                <?php if ($pinjam['status'] === 'dipinjam'): ?>
+                                    <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
+                                <?php endif; ?>
+                                <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -138,4 +140,5 @@ try {
         </table>
     </div>
 </body>
+
 </html>

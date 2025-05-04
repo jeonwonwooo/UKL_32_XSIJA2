@@ -38,7 +38,7 @@ if ($tipe_buku === 'fisik') {
         $conn->exec("UPDATE buku SET status = 'tersedia' WHERE id = (SELECT buku_id FROM peminjaman WHERE id = $peminjaman_id)");
 
         $conn->commit();
-        
+
         echo "Peminjaman berhasil dicatat sebagai dikembalikan.";
     } catch (Exception $e) {
         $conn->rollBack();
@@ -66,4 +66,3 @@ header('Content-Disposition: inline; filename="' . htmlspecialchars($file) . '"'
 header('Content-Length: ' . filesize($file_path));
 readfile($file_path);
 exit;
-?>

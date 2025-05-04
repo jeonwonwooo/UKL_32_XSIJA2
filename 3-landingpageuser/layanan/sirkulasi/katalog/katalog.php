@@ -10,9 +10,9 @@ $query = "
 ";
 
 if ($filter === 'fisik') {
-    $query .= " WHERE buku.tipe_buku = 'Buku Fisik'";
+  $query .= " WHERE buku.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
-    $query .= " WHERE buku.tipe_buku = 'Buku Elektronik'";
+  $query .= " WHERE buku.tipe_buku = 'Buku Elektronik'";
 }
 
 $stmt = $conn->prepare($query);
@@ -79,7 +79,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="filter-container">
         <div class="filter-dropdown">
           <button class="filter-button">
-            <i class="fas fa-filter"></i> Filter 
+            <i class="fas fa-filter"></i> Filter
           </button>
           <div class="dropdown-content">
             <a href="?filter=semua" class="<?= $filter === 'semua' ? 'active' : '' ?>">Semua</a>
@@ -96,9 +96,9 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <p>Tidak ada buku yang ditemukan.</p>
       <?php else: ?>
         <?php foreach ($buku as $row): ?>
-          <div class="book-item" data-title="<?= htmlspecialchars(strtolower($row['judul'])) ?>" 
-               data-author="<?= htmlspecialchars(strtolower($row['penulis'])) ?>" 
-               data-category="<?= htmlspecialchars(strtolower($row['nama_kategori'])) ?>">
+          <div class="book-item" data-title="<?= htmlspecialchars(strtolower($row['judul'])) ?>"
+            data-author="<?= htmlspecialchars(strtolower($row['penulis'])) ?>"
+            data-category="<?= htmlspecialchars(strtolower($row['nama_kategori'])) ?>">
             <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($row['gambar']) ?>" alt="<?= htmlspecialchars($row['judul']) ?>" class="book-image">
             <div class="book-info">
               <div class="book-title"><?= htmlspecialchars($row['judul']) ?></div>
@@ -121,35 +121,36 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </section>
   </main>
   <footer class="footer">
-      <div class="container">
-        <div class="left">
-          <img
-            src="../../logo.png"
-            alt="Library of Riverhill Senior High School logo" />
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-            omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-            adipiscing elit. Repudiandae omnis molestias nobis.
-          </p>
-          <div class="social-icons">
-            <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
-          </div>
-        </div>
-        <div class="right">
-          <h2>Tautan Fungsional</h2>
-          <ul>
-            <li><a href="beranda.html">Beranda</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-            <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
-          </ul>
+    <div class="container">
+      <div class="left">
+        <img
+          src="../../logo.png"
+          alt="Library of Riverhill Senior High School logo" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
+          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
+          adipiscing elit. Repudiandae omnis molestias nobis.
+        </p>
+        <div class="social-icons">
+          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      <div class="footer-bottom">
-        Copyright © 2024 Library of Riverhill Senior High School. All Rights
-        Reserved
+      <div class="right">
+        <h2>Tautan Fungsional</h2>
+        <ul>
+          <li><a href="beranda.html">Beranda</a></li>
+          <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+          <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
+        </ul>
       </div>
-    </footer>
+    </div>
+    <div class="footer-bottom">
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights
+      Reserved
+    </div>
+  </footer>
 </body>
+
 </html>
