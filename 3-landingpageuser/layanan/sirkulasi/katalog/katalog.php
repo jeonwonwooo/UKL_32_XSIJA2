@@ -48,7 +48,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </li>
         <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
         <li>
-          <a href="#">Favorit</a>
+          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a>
         </li>
         <li>
           <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
@@ -124,7 +124,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="container">
         <div class="left">
           <img
-            src="logo.png"
+            src="../../logo.png"
             alt="Library of Riverhill Senior High School logo" />
           <p>
             Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
