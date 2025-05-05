@@ -47,6 +47,7 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel Favorit</title>
   <link rel="stylesheet" href="favorit.css">
+  <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 

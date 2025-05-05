@@ -8,12 +8,12 @@ session_start();
 // [2] DATABASE CONNECTION
 include 'formkoneksi.php';
 if (!$conn) {
-    die("🔥 DATABASE DOWN: Cek koneksi database Anda");
+    die("DATABASE DOWN: Cek koneksi database Anda");
 }
 
 // [3] SECURITY VALIDATION
 if (!isset($_SESSION['user_id'])) {
-    die("🔒 HARUS LOGIN DULU!");
+    die("HARUS LOGIN DULU!");
 }
 
 // [4] GET ID (MULTI-SOURCE FALLBACK)
@@ -21,7 +21,7 @@ $peminjaman_id =
     $_GET['id'] ??
     $_SESSION['last_pinjam_id'] ??
     $conn->query("SELECT MAX(id) FROM peminjaman WHERE anggota_id = " . $_SESSION['user_id'])->fetchColumn() ??
-    die("🆔 ID PEMINJAMAN TIDAK VALID");
+    die("ID PEMINJAMAN TIDAK VALID");
 
 // [5] DATA VALIDATION
 try {
@@ -42,10 +42,9 @@ try {
         throw new Exception("Data peminjaman tidak ditemukan");
     }
 } catch (Exception $e) {
-    die("📛 ERROR: " . $e->getMessage());
+    die("ERROR: " . $e->getMessage());
 }
 
-// [6] CLEAN UP SESSION
 unset($_SESSION['last_pinjam_id']);
 ?>
 
@@ -56,6 +55,7 @@ unset($_SESSION['last_pinjam_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Struk Peminjaman</title>
+    <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
     <style>
         body {
             font-family: Arial, sans-serif;

@@ -72,6 +72,7 @@ if ($status === 'success') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Buku - <?php echo htmlspecialchars($buku['judul']); ?></title>
     <link rel="stylesheet" href="detail_buku.css">
+    <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
