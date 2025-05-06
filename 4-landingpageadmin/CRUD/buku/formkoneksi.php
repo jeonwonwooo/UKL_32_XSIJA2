@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db_name = 'perpustakaan';
+$db_name = 'perpus';
 $username = 'root';
 $password = '';
 

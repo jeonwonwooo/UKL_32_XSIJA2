@@ -1,5 +1,4 @@
 <?php
-// Pastikan session_start() dipanggil di awal
 session_start();
 
 include 'formkoneksi.php';

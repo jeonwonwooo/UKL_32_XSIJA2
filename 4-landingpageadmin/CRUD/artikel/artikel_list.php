@@ -43,6 +43,22 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+<aside class="sidebar">
+            <div class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+                    <li><a href="/CODINGAN/z-yakinlogout/formyakin.html">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
     <div class="container mt-5">
         <h1>Daftar Artikel</h1>
         <div class="filter-container">

@@ -1,7 +1,13 @@
 <?php
 session_start();
 
+// Periksa apakah admin sudah login
+if (!isset($_SESSION['admin_username'])) {
+    header("Location: login.php");
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,9 +28,12 @@ session_start();
             <nav>
                 <ul>
                     <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href=".php">List Pengguna</a></li>
-                    <li><a href=".php">List Admin</a></li>
-                    <li><a href=".php">Logout</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+                    <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
                 </ul>
             </nav>
         </aside>
@@ -35,10 +44,9 @@ session_start();
             </header>
             <section class="dashboard-content">
                 <h2>Dashboard</h2>
-                <p>This is your admin dashboard. You can manage users and other resources from here.</p>
+                <p>This is your admin dashboard. You can manage users, articles, books, and loans from here.</p>
             </section>
         </main>
     </div>
 </body>
-
 </html>
