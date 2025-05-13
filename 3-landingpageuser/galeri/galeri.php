@@ -104,12 +104,11 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <?php endif; ?>
     </div>
   </main>
+
   <footer class="footer">
     <div class="container">
       <div class="left">
-        <img
-          src="logo.png"
-          alt="Library of Riverhill Senior High School logo" />
+        <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
           Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
           omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
@@ -117,16 +116,21 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
+              class="fab fa-linkedin"></i></a>
           <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       <div class="right">
         <h2>Tautan Fungsional</h2>
         <ul>
-          <li><a href="beranda.html">Beranda</a></li>
-          <li><a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-          <li><a href="/CODINGAN//3-landingpageuser/galeri/galeri.html">Galeri</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
+          <li>
+            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a>
+          </li>
+          <li>
+            <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
+          </li>
         </ul>
       </div>
     </div>
