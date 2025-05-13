@@ -105,15 +105,6 @@ try {
                   <a href="detail_buku.php?id=<?= $item['buku_id'] ?>" class="btn-detail">
                     <i class="fas fa-info-circle"></i> Detail Buku
                   </a>
-
-                  <!-- Tombol Hapus dari Favorit -->
-                  <form action="proses_favorit.php" method="POST" style="display: inline-block;">
-                    <input type="hidden" name="buku_id" value="<?= $item['buku_id'] ?>">
-                    <input type="hidden" name="action" value="hapus">
-                    <button type="submit" class="btn-hapus">
-                      <i class="fas fa-trash"></i> Hapus dari Favorit
-                    </button>
-                  </form>
                 </div>
               </div>
             <?php endforeach; ?>
