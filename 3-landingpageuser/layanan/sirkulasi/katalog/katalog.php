@@ -3,16 +3,28 @@
 <?php
 $filter = $_GET['filter'] ?? 'semua';
 
+// Simulasi tabel kategori dengan CASE WHEN
 $query = "
-    SELECT buku.id, buku.judul, buku.penulis, buku.tahun_terbit, buku.gambar, buku.status, kategori.nama_kategori, buku.tipe_buku
+    SELECT 
+        buku.id, 
+        buku.judul, 
+        buku.penulis, 
+        buku.tahun_terbit, 
+        buku.gambar, 
+        buku.status, 
+        buku.tipe_buku,
+        CASE 
+            WHEN buku.kategori IN ('Fiksi', 'Non-Fiksi', 'Lainnya') THEN buku.kategori
+            ELSE 'Lainnya'
+        END AS nama_kategori
     FROM buku
-    JOIN kategori ON buku.kategori_id = kategori.id
+    WHERE 1=1
 ";
 
 if ($filter === 'fisik') {
-  $query .= " WHERE buku.tipe_buku = 'Buku Fisik'";
+    $query .= " AND buku.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
-  $query .= " WHERE buku.tipe_buku = 'Buku Elektronik'";
+    $query .= " AND buku.tipe_buku = 'Buku Elektronik'";
 }
 
 $stmt = $conn->prepare($query);
@@ -124,7 +136,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <footer class="footer">
     <div class="container">
       <div class="left">
-        <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
+        <img src="../../logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
           Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
           omnis molestias nobis. Lorem ipsum dolor sit amet consectetur

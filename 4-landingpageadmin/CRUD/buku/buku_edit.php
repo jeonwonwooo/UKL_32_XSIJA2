@@ -16,10 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tahun_terbit = $_POST['tahun_terbit'];
     $jumlah_halaman = $_POST['jumlah_halaman'];
     $deskripsi = trim($_POST['deskripsi']);
-    $kategori_id = $_POST['kategori_id'];
     $stok = $_POST['stok'];
     $tipe_buku = $_POST['tipe_buku'];
     $isbn = trim($_POST['isbn']);
+    $kategori = $_POST['kategori']; // ✅ Digunakan sebagai ENUM
+    $status = $_POST['status'];
     $existing_file_path = $_POST['existing_file_path'];
 
     $upload_dir = "../../uploads/";
@@ -67,14 +68,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($buku) {
             // Update data buku
             $stmt = $conn->prepare("UPDATE buku 
-                                    SET judul = ?, penulis = ?, tahun_terbit = ?, jumlah_halaman = ?, deskripsi = ?, gambar = ?, kategori_id = ?, stok = ?, tipe_buku = ?, isbn = ?, file_path = ? 
+                                    SET judul = ?, penulis = ?, tahun_terbit = ?, jumlah_halaman = ?, deskripsi = ?, gambar = ?, stok = ?, tipe_buku = ?, isbn = ?, file_path = ?, kategori = ?, status = ?
                                     WHERE id = ?");
-            $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $kategori_id, $stok, $tipe_buku, $isbn, $file_path, $id]);
+            $stmt->execute([
+                $judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name,
+                $stok, $tipe_buku, $isbn, $file_path, $kategori, $status, $id
+            ]);
         } else {
             // Insert data buku baru
-            $stmt = $conn->prepare("INSERT INTO buku (judul, penulis, tahun_terbit, jumlah_halaman, deskripsi, gambar, kategori_id, stok, tipe_buku, isbn, file_path)
-                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $kategori_id, $stok, $tipe_buku, $isbn, $file_path]);
+            $stmt = $conn->prepare("INSERT INTO buku (
+                judul, penulis, tahun_terbit, jumlah_halaman, deskripsi, gambar, stok, tipe_buku, isbn, file_path, kategori, status
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([
+                $judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name,
+                $stok, $tipe_buku, $isbn, $file_path, $kategori, $status
+            ]);
         }
 
         header("Location: buku_list.php");
@@ -114,12 +122,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="mb-3">
                 <label for="jumlah_halaman">Jumlah Halaman</label>
-                <input type="number" name="jumlah_halaman" value="<?= $buku ? htmlspecialchars($buku['jumlah_halaman']) : '' ?>" required>
+                <input type="number" name="jumlah_halaman" value="<?= $buku ? htmlspecialchars($buku['jumlah_halaman']) : '' ?>" min="1" required>
             </div>
 
             <div class="mb-3">
                 <label for="deskripsi">Deskripsi</label>
-                <textarea name="deskripsi" rows="5" required><?= $buku ? htmlspecialchars($buku['deskripsi']) : '' ?></textarea>
+                <textarea name="deskripsi" rows="5"><?= $buku ? htmlspecialchars($buku['deskripsi']) : '' ?></textarea>
             </div>
 
             <div class="mb-3">
@@ -131,21 +139,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="mb-3">
-                <label for="kategori_id">Pilih Kategori</label>
-                <select name="kategori_id" required>
+                <label for="kategori">Pilih Kategori</label>
+                <select name="kategori" required>
+                    <option value="" disabled <?= !$buku ? 'selected' : '' ?>>Pilih kategori...</option>
                     <?php
-                    $stmt = $conn->query("SELECT id, nama_kategori FROM kategori");
-                    while ($category = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-                        <option value="<?= htmlspecialchars($category['id']) ?>" <?= ($buku && $category['id'] == $buku['kategori_id']) ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($category['nama_kategori']) ?>
+                    $kategori_options = ['Fiksi', 'Non-Fiksi', 'Lainnya'];
+                    foreach ($kategori_options as $kat): ?>
+                        <option value="<?= htmlspecialchars($kat) ?>" <?= ($buku && $buku['kategori'] == $kat) ? 'selected' : '' ?>>
+                            <?= ucfirst(htmlspecialchars($kat)) ?>
                         </option>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label for="stok">Stok</label>
-                <input type="number" name="stok" value="<?= $buku ? htmlspecialchars($buku['stok']) : '' ?>" required>
+                <input type="number" name="stok" value="<?= $buku ? htmlspecialchars($buku['stok']) : '' ?>" min="0" required>
             </div>
 
             <div class="mb-3">
@@ -172,8 +181,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="mb-3">
+                <label for="status">Status</label>
+                <select name="status" required>
+                    <option value="" disabled <?= !$buku ? 'selected' : '' ?>>Pilih status...</option>
+                    <?php
+                    $status_options = ['tersedia', 'dipinjam', 'habis'];
+                    foreach ($status_options as $sts): ?>
+                        <option value="<?= $sts ?>" <?= ($buku && $buku['status'] == $sts) ? 'selected' : '' ?>>
+                            <?= ucfirst(htmlspecialchars($sts)) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
                 <label for="isbn">ISBN</label>
-                <input type="text" name="isbn" required>
+                <input type="text" name="isbn" value="<?= $buku ? htmlspecialchars($buku['isbn']) : '' ?>" required>
             </div>
 
             <button type="submit" class="btn btn-primary"><?= $buku ? 'Simpan Perubahan' : 'Tambah Buku' ?></button>
@@ -181,16 +204,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
-        document.getElementById('tipe_buku').addEventListener('change', function() {
-            const ebookFileSection = document.querySelector('.ebook-file');
-            ebookFileSection.style.display = (this.value === 'Buku Elektronik') ? 'block' : 'none';
+        document.getElementById('tipe_buku').addEventListener('change', function () {
+            document.querySelector('.ebook-file').style.display = (this.value === 'Buku Elektronik') ? 'block' : 'none';
         });
 
-        // Default behavior based on current book type
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const tipeBuku = document.getElementById('tipe_buku');
-            const ebookFileSection = document.querySelector('.ebook-file');
-            ebookFileSection.style.display = (tipeBuku.value === 'Buku Elektronik') ? 'block' : 'none';
+            document.querySelector('.ebook-file').style.display = (tipeBuku.value === 'Buku Elektronik') ? 'block' : 'none';
         });
     </script>
 </body>

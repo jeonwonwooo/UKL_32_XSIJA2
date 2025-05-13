@@ -1,61 +1,32 @@
 <?php
 session_start();
 
+// Cek login dulu
 if (!isset($_SESSION['user_id'])) {
-    header('HTTP/1.0 403 Forbidden');
     die('<h2 style="color:red">Akses ditolak. Silakan login terlebih dahulu.</h2>');
 }
 
-$peminjaman_id = $_GET['peminjaman_id'] ?? null;
-
-if (!$peminjaman_id) {
-    die("ID PEMINJAMAN TIDAK VALID");
-}
-
-$stmt = $conn->prepare("SELECT buku.tipe_buku FROM peminjaman JOIN buku ON peminjaman.buku_id = buku.id WHERE peminjaman.id = ?");
-$stmt->execute([$peminjaman_id]);
-$result = $stmt->fetch();
-
-if (!$result) {
-    die("PEMINJAMAN TIDAK DITEMUKAN");
-}
-
-$tipe_buku = $result['tipe_buku'];
-
-if ($tipe_buku === 'fisik') {
-    $conn->beginTransaction();
-    try {
-        $update_query = "UPDATE peminjaman SET status = 'dikembalikan', tanggal_kembali = CURDATE() WHERE id = ?";
-        $stmt = $conn->prepare($update_query);
-        $stmt->execute([$peminjaman_id]);
-
-        $conn->exec("UPDATE buku SET status = 'tersedia' WHERE id = (SELECT buku_id FROM peminjaman WHERE id = $peminjaman_id)");
-
-        $conn->commit();
-
-        echo "Peminjaman berhasil dicatat sebagai dikembalikan.";
-    } catch (Exception $e) {
-        $conn->rollBack();
-        die("ERROR SYSTEM: " . $e->getMessage());
-    }
-} else {
-    echo "Buku eBook tidak memerlukan pengembalian.";
-}
-
-$file = $_GET['file'] ?? '';
+// Ambil nama file dari URL
+$file = rawurldecode($_GET['file'] ?? '');
 $file = basename($file);
-$file = preg_replace('/[^\w\s\-\.()]/u', '', $file);
+$file = preg_replace('/[^\w\s\-\.]/u', '', $file); // Hapus karakter ilegal
 $file = trim($file);
 
-$base_dir = __DIR__ . "/uploads/";
+// Path file PDF
+$base_dir = $_SERVER['DOCUMENT_ROOT'] . '/CODINGAN/4-landingpageadmin/uploads/';
 $file_path = $base_dir . $file;
 
+// Debugging (hapus setelah fix)
+echo "Debug: Base Directory: " . htmlspecialchars($base_dir) . "<br>";
+echo "Debug: File Name: " . htmlspecialchars($file) . "<br>";
+echo "Debug: Full Path: " . htmlspecialchars($file_path) . "<br>";
+
+// Cek apakah file ada
 if (!file_exists($file_path)) {
     die('<h2 style="color:red">File tidak ditemukan. Pastikan nama file benar!</h2>');
 }
 
-header('Content-Type: application/pdf');
-header('Content-Disposition: inline; filename="' . htmlspecialchars($file) . '"');
-header('Content-Length: ' . filesize($file_path));
-readfile($file_path);
+// Redirect ke file asli (tanpa PHP intervensi)
+header("Location: /CODINGAN/4-landingpageadmin/uploads/" . rawurlencode($file));
 exit;
+?>

@@ -7,11 +7,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tahun_terbit = $_POST['tahun_terbit'];
     $jumlah_halaman = $_POST['jumlah_halaman'];
     $deskripsi = trim($_POST['deskripsi']);
-    $kategori_id = $_POST['kategori_id'];
+    $gambar_name = null;
+    $file_path = null;
     $stok = $_POST['stok'];
     $tipe_buku = $_POST['tipe_buku'];
     $isbn = trim($_POST['isbn']);
-    $status = 'tersedia';
+    $status = $_POST['status'];
+    $kategori = $_POST['kategori']; // Baru ditambahkan
 
     $upload_dir = "../../uploads/";
     if (!is_dir($upload_dir)) {
@@ -19,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Upload gambar cover
-    $gambar_name = null;
     if (!empty($_FILES['gambar']['name'])) {
         $gambar_ext = strtolower(pathinfo($_FILES['gambar']['name'], PATHINFO_EXTENSION));
         $allowed_image_ext = ['jpg', 'jpeg', 'png', 'gif'];
@@ -35,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Upload file ebook jika tipe buku adalah ebook
-    $file_path = null;
-    if ($tipe_buku === 'ebook' && !empty($_FILES['file_ebook']['name'])) {
+    if ($tipe_buku === 'Buku Elektronik' && !empty($_FILES['file_ebook']['name'])) {
         $file_ext = strtolower(pathinfo($_FILES['file_ebook']['name'], PATHINFO_EXTENSION));
         if ($file_ext !== 'pdf') {
             die("Error: File harus dalam format PDF.");
@@ -51,10 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO buku (judul, penulis, tahun_terbit, jumlah_halaman, deskripsi, gambar, kategori_id, stok, tipe_buku, isbn, status, file_path)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $kategori_id, $stok, $tipe_buku, $isbn, $status, $file_path]);
-        
+        $stmt = $conn->prepare("INSERT INTO buku (
+            judul, penulis, tahun_terbit, jumlah_halaman, deskripsi, gambar, stok, tipe_buku, isbn, status, file_path, kategori
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([
+            $judul, $penulis, $tahun_terbit, $jumlah_halaman, $deskripsi, $gambar_name, $stok, $tipe_buku, $isbn, $status, $file_path, $kategori
+        ]);
+
         header("Location: buku_list.php");
         exit;
     } catch (PDOException $e) {
@@ -92,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="mb-3">
                 <label for="jumlah_halaman">Jumlah Halaman</label>
-                <input type="number" name="jumlah_halaman" required>
+                <input type="number" name="jumlah_halaman" min="1" required>
             </div>
 
             <div class="mb-3">
@@ -106,22 +109,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="mb-3">
-                <label for="kategori_id">Pilih Kategori</label>
-                <select name="kategori_id" required>
+                <label for="kategori">Pilih Kategori</label>
+                <select name="kategori" required>
                     <option value="" disabled selected>Pilih kategori...</option>
                     <?php
-                    $stmt = $conn->query("SELECT id, nama_kategori FROM kategori");
-                    while ($category = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-                        <option value="<?= htmlspecialchars($category['id']) ?>">
-                            <?= htmlspecialchars($category['nama_kategori']) ?>
+                    $kategori_options = ['Fiksi', 'Non-Fiksi', 'Lainnya'];
+                    foreach ($kategori_options as $kategori): ?>
+                        <option value="<?= htmlspecialchars($kategori) ?>">
+                            <?= ucfirst(htmlspecialchars($kategori)) ?>
                         </option>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label for="stok">Stok</label>
-                <input type="number" name="stok" required>
+                <input type="number" name="stok" min="0" required>
             </div>
 
             <div class="mb-3">
@@ -129,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <select name="tipe_buku" id="tipe_buku" required>
                     <option value="" disabled selected>Pilih tipe buku...</option>
                     <?php
-                    // Daftar tipe buku dari ENUM di database
                     $tipe_buku_options = ['Buku Fisik', 'Buku Elektronik'];
                     foreach ($tipe_buku_options as $tipe): ?>
                         <option value="<?= htmlspecialchars($tipe) ?>">
@@ -142,6 +144,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="mb-3 ebook-file" style="display: none;">
                 <label for="file_ebook">File Ebook (PDF)</label>
                 <input type="file" name="file_ebook" accept=".pdf">
+            </div>
+
+            <div class="mb-3">
+                <label for="status">Status</label>
+                <select name="status" required>
+                    <option value="" disabled selected>Pilih status...</option>
+                    <option value="tersedia">Tersedia</option>
+                    <option value="dipinjam">Dipinjam</option>
+                    <option value="habis">Habis</option>
+                </select>
             </div>
 
             <div class="mb-3">

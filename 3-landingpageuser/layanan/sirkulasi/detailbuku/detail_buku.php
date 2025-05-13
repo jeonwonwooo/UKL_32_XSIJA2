@@ -8,6 +8,7 @@ if (!isset($_GET['id'])) {
 
 $buku_id = $_GET['id'];
 
+// Ambil data buku
 $query = "SELECT * FROM buku WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
@@ -18,13 +19,7 @@ if (!$buku) {
     exit;
 }
 
-$query = "SELECT pb.*, pk.nama_kategori FROM buku pb
-          LEFT JOIN kategori pk ON pb.kategori_id = pk.id
-          WHERE pb.id = ?";
-$stmt = $conn->prepare($query);
-$stmt->execute([$buku_id]);
-$buku = $stmt->fetch(PDO::FETCH_ASSOC);
-
+// Ambil rata-rata rating dan jumlah ulasan
 $query = "SELECT COALESCE(AVG(nilai), 0) as rata_rating, COUNT(*) as jumlah_ulasan FROM rating WHERE buku_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
@@ -32,24 +27,21 @@ $rating_result = $stmt->fetch(PDO::FETCH_ASSOC);
 $rata_rating = round($rating_result['rata_rating'], 1);
 $jumlah_ulasan = $rating_result['jumlah_ulasan'];
 
+// Cek apakah buku sudah ditambahkan ke favorit
 $query = "SELECT * FROM favorit WHERE buku_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
 $favorit_aktif = $stmt->rowCount() > 0;
 
-$folder_uploads = '/CODINGAN/4-landingpageadmin/uploads/'; // Path utama penyimpanan gambar
-
+$folder_uploads = '/CODINGAN/4-landingpageadmin/uploads/';
 $gambar_path = $folder_uploads . htmlspecialchars($buku['gambar']);
-
 $default_gambar = $folder_uploads . 'default.jpg';
-
 if (!empty($buku['gambar']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $gambar_path)) {
     $gambar = $gambar_path;
 } else {
     $gambar = $default_gambar;
 }
 
-// Handle notifikasi dari proses_favorit.php
 $status = $_GET['status'] ?? '';
 $notif = '';
 if ($status === 'success') {
@@ -61,7 +53,6 @@ if ($status === 'success') {
 }
 ?>
 
-<!-- Tampilkan notifikasi -->
 <?= $notif ?>
 
 <!DOCTYPE html>
@@ -122,7 +113,7 @@ if ($status === 'success') {
                 <p><strong>ISBN:</strong> <?php echo isset($buku['isbn']) ? htmlspecialchars($buku['isbn']) : '-'; ?></p>
                 <p><strong>Tahun Terbit:</strong> <?php echo htmlspecialchars($buku['tahun_terbit']); ?></p>
                 <p><strong>Jumlah Halaman:</strong> <?php echo htmlspecialchars($buku['jumlah_halaman']); ?></p>
-                <p><strong>Kategori:</strong> <?php echo isset($buku['kategori_id']) ? htmlspecialchars($buku['nama_kategori']) : '-'; ?></p>
+                <p><strong>Kategori:</strong> <?php echo isset($buku['kategori']) ? htmlspecialchars($buku['kategori']) : '-'; ?></p>
                 <p><strong>Tipe Buku:</strong> <?php echo htmlspecialchars($buku['tipe_buku']); ?></p>
                 <p><strong>Status:</strong> <?php echo htmlspecialchars($buku['status']); ?></p>
                 <p><strong>Deskripsi:</strong> <?php echo nl2br(htmlspecialchars($buku['deskripsi'])); ?></p>
