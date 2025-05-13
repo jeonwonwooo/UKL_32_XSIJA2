@@ -1,188 +1,230 @@
-/* General Styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  font-family: "Poppins", Arial, sans-serif;
-  background-color: #f9f9f9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
   color: #333;
   line-height: 1.6;
   padding: 20px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
-/* Judul */
-h1 {
-  font-size: 32px;
-  color: #2e2b8d;
+.sidebar .logo {
   text-align: center;
   margin-bottom: 20px;
-  font-weight: 700;
 }
 
-/* Form Filter dan Pencarian */
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+  background-color: #34495e;
+}
+
+/* Container Utama */
+.container {
+  max-width: calc(100% - 250px); /* Sesuaikan dengan lebar sidebar */
+  margin-left: 270px; /* Geser konten ke kanan agar tidak tertutup sidebar */
+  padding: 30px;
+}
+
+/* Judul Halaman */
+h1 {
+  font-size: 32px;
+  color: #3b4465;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* Form Filter */
 .filter-form {
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .filter-form label {
-  font-size: 16px;
-  color: #555;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .filter-form select,
 .filter-form input[type="text"],
 .filter-form button {
-  padding: 10px;
-  font-size: 16px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.filter-form select:focus,
+.filter-form input[type="text"]:focus,
+.filter-form button:focus {
   outline: none;
-}
-
-.filter-form select {
-  background-color: #fff;
-  cursor: pointer;
-}
-
-.filter-form input[type="text"] {
-  flex: 1;
-  max-width: 300px;
+  border-color: #4c75af;
+  box-shadow: 0 0 5px rgba(76, 117, 175, 0.3);
 }
 
 .filter-form button {
-  background-color: #2e2b8d;
-  color: #fff;
+  background-color: #4c75af;
+  color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .filter-form button:hover {
-  background-color: #1c1a5e;
+  background-color: #3b5e9d;
 }
 
-/* Tabel */
+/* Tombol Umum */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #4c75af;
+  color: white;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Table Styling */
 .peminjaman-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  border: 2px solid #ddd; /* Border diperbesar */
-  border-radius: 15px;
+  border-radius: 10px;
   overflow: hidden;
-  table-layout: fixed; /* Agar lebar kolom sama */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .peminjaman-table th,
 .peminjaman-table td {
   padding: 15px;
-  border: 1px solid #ddd;
+  border: 1px solid #e0e0e0;
   text-align: center;
   vertical-align: middle;
-  word-wrap: break-word; /* Agar teks tidak overflow */
 }
 
 .peminjaman-table thead {
-  background-color: #2e2b8d;
+  background-color: #4c75af;
   color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .peminjaman-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f9fafb;
 }
 
 .peminjaman-table tbody tr:hover {
   background-color: #eef2f7;
-  transition: background-color 0.3s ease;
+  transform: scale(1.01);
 }
 
-/* No Data Message */
-.no-data {
-  text-align: center;
-  font-style: italic;
-  color: #888;
-  padding: 20px;
-}
-
-/* Denda Status */
+/* Span untuk denda */
 .denda {
-  color: red;
+  color: #e74c3c;
   font-weight: bold;
 }
 
-/* Action Buttons */
-.actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
+/* Pesan jika tidak ada data */
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #888;
+  font-style: italic;
 }
 
-.btn {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.btn-danger:hover {
-  background-color: #bd2130;
-}
-
-/* Responsive Styles */
+/* Responsive Design */
 @media (max-width: 768px) {
+  .container {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 20px;
+  }
+
   .filter-form {
     flex-direction: column;
-    gap: 10px;
+    align-items: stretch;
   }
 
-  .filter-form input[type="text"] {
-    max-width: 100%;
-  }
-
-  .peminjaman-table th,
-  .peminjaman-table td {
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .actions {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .btn {
-    padding: 8px 16px;
-    font-size: 14px;
+  .filter-form label {
+    margin-bottom: 5px;
   }
 }

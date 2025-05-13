@@ -6,16 +6,11 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f4f4f9;
   display: flex;
   height: 100vh;
-}
-
-/* Admin Panel Layout */
-.admin-panel {
-  display: flex;
-  width: 100%;
+  color: #333;
 }
 
 /* Sidebar */
@@ -28,6 +23,7 @@ body {
   left: 0;
   top: 0;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .sidebar .logo {
@@ -59,23 +55,29 @@ body {
 
 /* Main Content */
 .content {
-  margin-left: 250px; /* Lebar sidebar */
-  padding: 20px;
+  margin-left: 250px;
+  padding: 30px 40px;
   width: calc(100% - 250px);
 }
 
+/* Remove Box Styles */
 .topbar {
-  background-color: #fff;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
+  padding: 0;
   margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 .dashboard-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.dashboard-content h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .quick-actions {
@@ -88,8 +90,10 @@ body {
   background-color: #28a745;
   color: #fff;
   text-decoration: none;
-  border-radius: 5px;
   margin-right: 10px;
+  border: none;
+  outline: none;
+  font-weight: 500;
 }
 
 .btn:hover {

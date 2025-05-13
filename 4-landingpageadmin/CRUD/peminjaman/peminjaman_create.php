@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
     $username = trim($_POST['username']);
     $tanggal_pinjam = $_POST['tanggal_pinjam'];
-    $batas_pengembalian = $_POST['tanggal_pengembalian'];
+    $batas_pengembalian = $_POST['batas_pengembalian'];
 
     // Validasi data
     if (empty($username) || empty($tanggal_pinjam) || empty($batas_pengembalian)) {
@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Cari anggota_id berdasarkan username
             $anggota_query = "SELECT id FROM anggota WHERE username = ?";
             $stmt_anggota = $conn->prepare($anggota_query);
-            $stmt_anggota->bind_param("s", $username);
+            $stmt_anggota->bindValue(1, $username, PDO::PARAM_STR);
             $stmt_anggota->execute();
-            $anggota_result = $stmt_anggota->get_result();
-            $anggota = $anggota_result->fetch_assoc();
+            $stmt_anggota->execute();
+            $anggota = $stmt_anggota->fetch(PDO::FETCH_ASSOC);
 
             if (!$anggota) {
                 $error = "Username tidak ditemukan.";

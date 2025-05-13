@@ -70,7 +70,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="header">
       <h1>Katalog Buku</h1>
       <p>
-        Selamat datang di perpustakaan sekolah Rivenhill! Temukan berbagai koleksi buku menarik yang dapat kamu pinjam.
+        Selamat datang di perpustakaan SMA Rivenhill! Temukan berbagai koleksi buku menarik yang dapat kamu pinjam.
         Jelajahi pengetahuan dan inspirasi melalui buku-buku terbaik kami.
       </p>
     </section>

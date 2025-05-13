@@ -15,30 +15,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
+    // Jika password diisi, hash. Kalau tidak, gunakan yang lama
     if (!empty($password)) {
         $password = password_hash($password, PASSWORD_DEFAULT);
     } else {
         $password = $admin['password'];
     }
 
-    $foto_profil = $admin['foto_profil'];
+    // Upload foto profil
+    $photo_profil = $admin['photo_profil']; // Default pakai foto lama
+
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
         $file_name = basename($_FILES['foto_profil']['name']);
         $file_tmp = $_FILES['foto_profil']['tmp_name'];
-        $upload_dir = "../uploads/";
+        $upload_dir = "../../uploads/";
 
+        // Validasi ekstensi file
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+        $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (!in_array($file_ext, $allowed_types)) {
+            die("Hanya file gambar (JPG, PNG, GIF) yang diperbolehkan.");
+        }
+
+        // Buat folder jika belum ada
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
 
+        // Pindahkan file ke folder uploads
         move_uploaded_file($file_tmp, $upload_dir . $file_name);
-        $foto_profil = $file_name;
+        $photo_profil = $file_name; // Update nama foto dengan yang baru
     }
 
     try {
-        $stmt = $conn->prepare("UPDATE admin SET nama = ?, username = ?, password = ?, foto_profil = ? WHERE id = ?");
-        $stmt->execute([$nama, $username, $password, $foto_profil, $id]);
+        // Update data admin ke database
+        $stmt = $conn->prepare("UPDATE admin SET nama = ?, username = ?, password = ?, photo_profil = ? WHERE id = ?");
+        $stmt->execute([$nama, $username, $password, $photo_profil, $id]);
 
+        // Redirect ke halaman daftar admin
         header("Location: data-admin_list.php");
         exit;
     } catch (PDOException $e) {
@@ -81,9 +96,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" id="foto_profil" name="foto_profil" accept="image/*" class="form-control">
                     <label for="foto_profil" class="file-custom">Pilih Foto</label>
                 </div>
-                <?php if ($admin['foto_profil']): ?>
+                <?php if ($admin['photo_profil']): ?>
                     <div style="margin-top: 10px;">
-                        <img src="../uploads/<?= htmlspecialchars($admin['foto_profil']) ?>" alt="Foto Profil" width="50">
+                        <img src="../../uploads/<?= htmlspecialchars($admin['photo_profil']) ?>" alt="Foto Profil" width="50">
                         <span style="color: #fff; font-size: 14px;">Foto Saat Ini</span>
                     </div>
                 <?php endif; ?>

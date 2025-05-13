@@ -7,31 +7,31 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Anggota</title>
     <link rel="stylesheet" href="data-anggota_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
-
 <body>
-<aside class="sidebar">
-            <div class="logo">
-                <h2>Admin Panel</h2>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
-                    <li><a href="/CODINGAN/z-yakinlogout/formyakin.html">Logout</a></li>
-                </ul>
-            </nav>
-        </aside>
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>Admin Panel</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active">Dashboard</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+                <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
+                <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
     <div class="container">
         <h1><i class="fas fa-users"></i> Daftar Anggota</h1>
         <a href="data-anggota_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Anggota</a>
@@ -56,7 +56,7 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($anggota['email']) ?></td>
                         <td>
                             <?php if ($anggota['foto_profil']): ?>
-                                <img src="../uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
+                                <img src="../../uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
                             <?php else: ?>
                                 Tidak Ada Foto
                             <?php endif; ?>
@@ -76,5 +76,4 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     </div>
 </body>
-
 </html>

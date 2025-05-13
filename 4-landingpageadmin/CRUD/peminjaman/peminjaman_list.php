@@ -73,6 +73,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Peminjaman</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="peminjaman_list.css">
 </head>
 
@@ -83,13 +84,14 @@ try {
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active">Dashboard</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
-                    <li><a href="/CODINGAN/z-yakinlogout/formyakin.html">Logout</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
+                    <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
                 </ul>
             </nav>
         </aside>
@@ -112,6 +114,9 @@ try {
             <input type="text" name="search" placeholder="Cari judul atau username..." value="<?= htmlspecialchars($search) ?>">
             <button type="submit">Cari</button>
         </form>
+        <a href="peminjaman_create.php" class="btn btn-primary mb-3">
+        <i class="fas fa-plus"></i> Tambah Peminjaman
+    </a>
 
         <!-- Tabel Peminjaman -->
         <table class="peminjaman-table">

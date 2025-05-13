@@ -44,11 +44,6 @@
                 <input type="password" name="password" placeholder="Password" required>
                 <i class='bx bxs-lock-alt'></i>
             </div>
-            <div class="remember-forgot">
-                <label>
-                    <input type="checkbox" name="remember_me"> Remember Me
-                </label>
-            </div>
             <button type="submit" class="button">Login</button>
             <div class="register-link">
                 <p>Don't have an account? <a href="formregister.php">Register</a></p>

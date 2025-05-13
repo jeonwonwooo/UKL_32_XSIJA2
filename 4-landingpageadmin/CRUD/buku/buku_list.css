@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
-
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -7,143 +6,250 @@
 }
 
 body {
-  font-family: "Poppins", Arial, sans-serif;
-  background-color: #f9f9f9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
   color: #333;
   line-height: 1.6;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #2c3e50;
+  color: #fff;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
   padding: 20px;
+  overflow-y: auto;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  font-size: 28px;
-  color: #2e2b8d;
+.sidebar .logo {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+
+.sidebar nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar nav ul li a.active,
+.sidebar nav ul li a:hover {
+  background-color: #34495e;
+}
+
+/* Container */
+.container {
+  max-width: calc(100% - 250px);
+  margin-left: 270px;
+  padding: 30px;
+  position: relative;
+}
+
+/* Title */
+h1 {
+  font-size: 32px;
+  color: #3b4465;
+  text-align: center;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .filter-form {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
-.filter-form select, .filter-form input, .filter-form button {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
+.filter-form select,
+.filter-form input[type="text"],
+.filter-form button {
+  padding: 8px 12px;
+  font-size: 14px;
   border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.filter-form select:focus,
+.filter-form input[type="text"]:focus,
+.filter-form button:focus {
+  outline: none;
+  border-color: #4c75af;
+  box-shadow: 0 0 5px rgba(76, 117, 175, 0.3);
 }
 
 .filter-form button {
-  background-color: #2e2b8d;
-  color: #fff;
+  background-color: #4c75af;
+  color: white;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .filter-form button:hover {
-  background-color: #1c1a5e;
+  background-color: #3b5e9d;
 }
 
+/* Tombol Umum */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Warna Tombol */
+.btn-primary {
+  background-color: #4c75af;
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #3b5e9d;
+}
+
+.btn-success {
+  background-color: #4c75af;
+  color: white;
+}
+.btn-success:hover {
+  background-color: #4c75af;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Tombol Primary Ukuran Besar (untuk Tambah) */
+.btn-primary-large {
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #4c75af;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-primary-large:hover {
+  background-color: #3b5e9d;
+  transform: scale(1.05);
+}
+
+/* Table Styling */
 .custom-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.custom-table th, .custom-table td {
-  padding: 12px;
-  border: 1px solid #ddd;
+.custom-table th,
+.custom-table td {
+  padding: 15px;
+  border: 1px solid #e0e0e0;
   text-align: center;
   vertical-align: middle;
 }
 
 .custom-table thead {
-  background-color: #2e2b8d;
+  background-color: #4c75af;
   color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .custom-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f9fafb;
 }
 
 .custom-table tbody tr:hover {
   background-color: #eef2f7;
-  transition: background-color 0.3s ease;
+  transform: scale(1.01);
 }
 
-.btn {
-  padding: 6px 12px;
-  font-size: 14px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.custom-table img {
+  max-width: 50px;
+  height: auto;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.btn-success {
-  background-color: #28a745;
-  color: #fff;
-}
-
-.btn-success:hover {
-  background-color: #218838;
-}
-
-.btn-danger {
-  background-color: #dc3545;
-  color: #fff;
-}
-
-.btn-danger:hover {
-  background-color: #bd2130;
-}
-
-.add-button {
-  background-color: #17a2b8;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: background-color 0.3s ease;
-  float: right;
-}
-
-.add-button:hover {
-  background-color: #138496;
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
-  .filter-form {
-    flex-direction: column;
-    gap: 10px;
+  .container {
+    margin-left: 0;
+    max-width: 100%;
   }
 
-  .custom-table th, .custom-table td {
-    font-size: 14px;
-    padding: 8px;
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-form {
+    width: 100%;
+    justify-content: flex-start;
   }
 }

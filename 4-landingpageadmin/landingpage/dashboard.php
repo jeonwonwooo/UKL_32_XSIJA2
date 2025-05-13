@@ -20,19 +20,19 @@ if (!isset($_SESSION['admin_username'])) {
 </head>
 
 <body>
-    <div class="admin-panel">
-        <aside class="sidebar">
+<aside class="sidebar">
             <div class="logo">
                 <h2>Admin Panel</h2>
             </div>
             <nav>
                 <ul>
-                    <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php">Dashboard</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
                     <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
                 </ul>
             </nav>
