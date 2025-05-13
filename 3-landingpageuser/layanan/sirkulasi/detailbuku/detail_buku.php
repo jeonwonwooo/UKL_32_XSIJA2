@@ -52,12 +52,9 @@ if ($status === 'success') {
     $notif = '<p style="color: blue; text-align: center;">Buku berhasil dihapus dari favorit!</p>';
 }
 ?>
-
 <?= $notif ?>
-
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,9 +63,8 @@ if ($status === 'success') {
     <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css " />
 </head>
-
 <body>
     <header>
         <div class="logo">
@@ -127,7 +123,6 @@ if ($status === 'success') {
                         ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
                     </p>
                 </div>
-
                 <!-- Star Distribution -->
                 <div class="star-distribution">
                     <?php if (!empty($distribusi_rating)): ?>
@@ -147,12 +142,10 @@ if ($status === 'success') {
                     <?php endif; ?>
                 </div>
             </section>
-
             <!-- User Reviews -->
             <section class="user-reviews">
                 <h3>Ulasan</h3>
                 <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
-
                 <?php if (!empty($ulasan)): ?>
                     <?php foreach ($ulasan as $review): ?>
                         <div class="review">
@@ -191,7 +184,6 @@ if ($status === 'success') {
             <?php else: ?>
                 <span class="btn-pinjam disabled">Buku Tidak Tersedia</span>
             <?php endif; ?>
-
             <!-- Tombol Tambah ke Favorit -->
             <form action="proses_favorit.php" method="POST" style="display: inline-block;">
                 <input type="hidden" name="buku_id" value="<?= $buku_id ?>">
@@ -212,7 +204,6 @@ if ($status === 'success') {
         </div>
         <p id="notif-favorit" style="display: none; color: green;">Buku berhasil ditambahkan ke favorit Anda!</p>
     </main>
-
     <footer class="footer">
     <div class="container">
       <div class="left">
@@ -223,10 +214,10 @@ if ($status === 'success') {
           adipiscing elit. Repudiandae omnis molestias nobis.
         </p>
         <div class="social-icons">
-          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
+          <a href="https://wa.me/6285936164597 " target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/ " target="_blank"><i
               class="fab fa-linkedin"></i></a>
-          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo " target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       <div class="right">
@@ -248,5 +239,4 @@ if ($status === 'success') {
     </div>
   </footer>
 </body>
-
 </html>

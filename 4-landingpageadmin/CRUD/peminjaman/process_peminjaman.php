@@ -24,26 +24,29 @@ try {
             WHERE id = ?
         ";
         $stmt_update = $conn->prepare($update_query);
-        $stmt_update->bind_param("i", $id);
+        $stmt_update->bindValue(1, $id, PDO::PARAM_INT);
         $stmt_update->execute();
 
-        // Update status buku menjadi 'tersedia'
+        // Ambil buku_id dari tabel peminjaman
         $select_query = "SELECT buku_id FROM peminjaman WHERE id = ?";
         $stmt_select = $conn->prepare($select_query);
-        $stmt_select->bind_param("i", $id);
+        $stmt_select->bindValue(1, $id, PDO::PARAM_INT);
         $stmt_select->execute();
-        $result = $stmt_select->get_result();
-        $row = $result->fetch_assoc();
+        $row = $stmt_select->fetch(PDO::FETCH_ASSOC);
 
         $buku_id = $row['buku_id'];
 
+        // Update status buku ke 'tersedia'
         $update_buku_query = "UPDATE buku SET status = 'tersedia' WHERE id = ?";
         $stmt_update_buku = $conn->prepare($update_buku_query);
-        $stmt_update_buku->bind_param("i", $buku_id);
+        $stmt_update_buku->bindValue(1, $buku_id, PDO::PARAM_INT);
         $stmt_update_buku->execute();
 
         echo "Buku berhasil dikembalikan!";
     }
+
+    header("Location: peminjaman_list.php");
+    exit;
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage();
 }

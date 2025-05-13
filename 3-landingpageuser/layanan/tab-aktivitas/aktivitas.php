@@ -146,7 +146,6 @@ try {
             <th>Judul Buku</th>
             <th>Tanggal Pinjam</th>
             <th>Status</th>
-            <th>Tipe Buku</th>
           </tr>
         </thead>
         <tbody>
@@ -157,7 +156,6 @@ try {
                 <td><?= htmlspecialchars($activity['judul_buku']) ?></td>
                 <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
                 <td><?= htmlspecialchars(ucfirst($activity['status'])) ?></td>
-                <td><?= htmlspecialchars(ucfirst($activity['tipe_buku'])) ?></td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>

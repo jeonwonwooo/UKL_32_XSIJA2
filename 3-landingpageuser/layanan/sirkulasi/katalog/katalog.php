@@ -2,39 +2,37 @@
 
 <?php
 $filter = $_GET['filter'] ?? 'semua';
-
 // Simulasi tabel kategori dengan CASE WHEN
 $query = "
     SELECT 
-        buku.id, 
-        buku.judul, 
-        buku.penulis, 
-        buku.tahun_terbit, 
-        buku.gambar, 
-        buku.status, 
-        buku.tipe_buku,
+        p.id as peminjaman_id, 
+        b.id as buku_id, 
+        b.judul, 
+        b.penulis, 
+        b.tahun_terbit, 
+        b.gambar, 
+        b.status, 
+        b.tipe_buku,
         CASE 
-            WHEN buku.kategori IN ('Fiksi', 'Non-Fiksi', 'Lainnya') THEN buku.kategori
+            WHEN b.kategori IN ('Fiksi', 'Non-Fiksi', 'Lainnya') THEN b.kategori
             ELSE 'Lainnya'
-        END AS nama_kategori
-    FROM buku
+        END AS nama_kategori,
+        DATE_ADD(p.tanggal_pinjam, INTERVAL 7 DAY) AS batas_pengembalian
+    FROM buku b
+    LEFT JOIN peminjaman p ON b.id = p.buku_id
     WHERE 1=1
 ";
-
 if ($filter === 'fisik') {
-    $query .= " AND buku.tipe_buku = 'Buku Fisik'";
+    $query .= " AND b.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
-    $query .= " AND buku.tipe_buku = 'Buku Elektronik'";
+    $query .= " AND b.tipe_buku = 'Buku Elektronik'";
 }
-
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,9 +41,8 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
   <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css " />
 </head>
-
 <body>
   <header>
     <div class="logo">
@@ -86,7 +83,6 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Jelajahi pengetahuan dan inspirasi melalui buku-buku terbaik kami.
       </p>
     </section>
-
     <!-- Filter Dropdown -->
     <section class="filter">
       <div class="filter-container">
@@ -102,7 +98,6 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
       </div>
     </section>
-
     <!-- Daftar Buku -->
     <section class="book-list" id="book-list">
       <?php if (empty($buku)): ?>
@@ -118,14 +113,14 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
               <div class="book-actions">
                 <?php if ($row['status'] === 'tersedia'): ?>
                   <?php if ($row['tipe_buku'] === 'fisik'): ?>
-                    <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $row['id'] ?>" class="btn">Pinjam</a>
+                    <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/formku.php?buku_id=<?= $row['buku_id'] ?>" class="btn">Pinjam</a>
                   <?php elseif ($row['tipe_buku'] === 'ebook'): ?>
                     <a href="/CODINGAN/uploads/<?= htmlspecialchars($row['file_path']) ?>" download class="btn">Download</a>
                   <?php endif; ?>
                 <?php else: ?>
                   <span class="btn disabled">Tidak Tersedia</span>
                 <?php endif; ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['id'] ?>" class="btn">Detail</a>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $row['buku_id'] ?>" class="btn">Detail</a>
               </div>
             </div>
           </div>
@@ -143,10 +138,10 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
           adipiscing elit. Repudiandae omnis molestias nobis.
         </p>
         <div class="social-icons">
-          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
+          <a href="https://wa.me/6285936164597 " target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/ " target="_blank"><i
               class="fab fa-linkedin"></i></a>
-          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo " target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       <div class="right">
@@ -168,5 +163,4 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </footer>
 </body>
-
 </html>

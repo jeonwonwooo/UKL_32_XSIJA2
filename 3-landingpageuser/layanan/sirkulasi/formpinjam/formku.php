@@ -7,7 +7,7 @@ session_start();
 include 'formkoneksi.php';
 
 if (!isset($_SESSION['user_id'])) {
-    die("Harus login dulu!");
+    die("HARUS LOGIN DULU!");
 }
 
 $buku_id = filter_input(INPUT_GET, 'buku_id', FILTER_VALIDATE_INT);
@@ -15,6 +15,7 @@ if (!$buku_id) {
     die("ID BUKU TIDAK VALID");
 }
 
+// Ambil data buku
 $stmt = $conn->prepare("SELECT judul, tipe_buku FROM buku WHERE id = ?");
 $stmt->execute([$buku_id]);
 $book = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,29 +27,47 @@ if (!$book) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn->beginTransaction();
     try {
-        // Insert peminjaman
+        // Hitung batas pengembalian
         $tanggal_pinjam = date('Y-m-d');
-        $stmt = $conn->prepare("INSERT INTO peminjaman (anggota_id, buku_id, tanggal_pinjam, status, tipe_buku)
-                              VALUES (?, ?, ?, 'dipinjam', ?)");
-        $stmt->execute([$_SESSION['user_id'], $buku_id, $tanggal_pinjam, $book['tipe_buku']]);
-        
+        $batas_pengembalian = date('Y-m-d', strtotime("+7 days", strtotime($tanggal_pinjam)));
+
+        // Masukkan ke tabel peminjaman
+        $insert = $conn->prepare("INSERT INTO peminjaman (
+                    anggota_id, buku_id, tanggal_pinjam, status, tipe_buku, batas_pengembalian
+                ) VALUES (?, ?, ?, 'dipinjam', ?, ?)");
+        $insert->execute([
+            $_SESSION['user_id'],
+            $buku_id,
+            $tanggal_pinjam,
+            $book['tipe_buku'],
+            $batas_pengembalian
+        ]);
+
         $last_id = $conn->lastInsertId();
 
-        // Update status buku jika buku fisik
+        // Update status buku jika 'Buku Fisik'
         if ($book['tipe_buku'] === 'Buku Fisik') {
-            $conn->exec("UPDATE buku SET status = 'dipinjam' WHERE id = $buku_id");
+            $update = $conn->prepare("UPDATE buku 
+                                       SET status = 'dipinjam' 
+                                       WHERE id = ?");
+            $update->execute([$buku_id]);
+
+            // Validasi apakah update jalan
+            if ($update->rowCount() === 0) {
+                throw new Exception("Gagal mengupdate status buku.");
+            }
         }
 
         $conn->commit();
         header("Location: peminjaman_struk.php?id=$last_id");
         exit;
+
     } catch (Exception $e) {
         $conn->rollBack();
         die("ERROR SYSTEM: " . $e->getMessage());
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -66,11 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div class="mb-3">
             <label for="tipe_buku">Tipe Buku</label>
-            <input type="text" id="tipe_buku" value="<?= htmlspecialchars(ucfirst($book['tipe_buku'])) ?>" readonly>
+            <input type="text" id="tipe_buku" value="<?= isset($book['tipe_buku']) ? htmlspecialchars(ucfirst($book['tipe_buku'])) : '' ?>" readonly>
         </div>
         <div class="mb-3">
             <label for="tanggal_pinjam">Tanggal Pinjam</label>
-            <input type="text" id="tanggal_pinjam" value="<?= date('Y-m-d') ?>" readonly>
+            <input type="text" id="tipe_buku" value="<?= date('Y-m-d') ?>" readonly>
         </div>
         <button type="submit" class="btn btn-primary">Konfirmasi Peminjaman</button>
         <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php" class="btn btn-secondary">Kembali ke Katalog</a>
