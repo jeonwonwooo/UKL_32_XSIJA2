@@ -5,10 +5,15 @@ include 'formkoneksi.php';
 $kategori = $_GET['kategori'] ?? 'all';
 $kata_kunci = $_GET['q'] ?? '';
 
-// Filter kategori
+// Daftar tipe dokumen untuk referensi
+$tipe_referensi = ['artikel_konferensi', 'jurnal', 'modul_pelajaran'];
+
+// Filter kategori (hanya izinkan kategori dari tipe referensi)
 $filter_kategori = "";
-if ($kategori != 'all') {
+if ($kategori != 'all' && in_array($kategori, $tipe_referensi)) {
     $filter_kategori = " AND tipe_dokumen = '$kategori'";
+} else if ($kategori == 'all') {
+    $filter_kategori = " AND tipe_dokumen IN ('" . implode("','", $tipe_referensi) . "')";
 }
 
 // Filter pencarian
@@ -37,6 +42,7 @@ $total_pages = ceil($total_data / $limit);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,76 +51,78 @@ $total_pages = ceil($total_data / $limit);
   <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css " />
 </head>
+
 <body>
 
-<!-- Header -->
-<header>
-  <div class="logo">
-    <img src="logo.png" alt="Logo Perpus" />
-  </div>
-  <nav class="navbar">
-    <ul>
-      <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-      <li><a href="#">Katalog</a></li>
-      <li><a href="#">Aktivitas</a></li>
-      <li><a href="#">Favorit</a></li>
-      <li><a href="#">Kontak</a></li>
-      <li class="profil"><a href="#"><i class="fas fa-user"></i></a></li>
-      <li>
-        <button class="btn-logout">
-          <i class="fas fa-arrow-left"></i>
-          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
-        </button>
-      </li>
-    </ul>
-  </nav>
-</header>
-
-<!-- Hero Section -->
-<section class="hero">
-  <h1>REFERENSI</h1>
-  <p>Temukan artikel, jurnal, dan referensi akademik untuk mendukung pembelajaranmu</p>
-</section>
-
-<!-- Filter Kategori -->
-<div class="filter">
-  <form method="GET" action="">
-    <div class="filter-container">
-      <div class="filter-dropdown">
-        <select name="kategori" class="filter-select">
-          <option value="all" <?= $kategori == 'all' ? 'selected' : '' ?>>Semua</option>
-          <option value="artikel_konferensi" <?= $kategori == 'artikel_konferensi' ? 'selected' : '' ?>>Artikel</option>
-          <option value="jurnal" <?= $kategori == 'jurnal' ? 'selected' : '' ?>>Jurnal</option>
-          <option value="modul" <?= $kategori == 'modul' ? 'selected' : '' ?>>Modul Pelajaran</option>
-          <option value="lainnya" <?= $kategori == 'lainnya' ? 'selected' : '' ?>>Lainnya</option>
-        </select>
-        <input type="text" name="q" value="<?= htmlspecialchars($kata_kunci) ?>" hidden>
-        <button type="submit" class="filter-button">Filter</button>
-      </div>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Logo Perpus" />
     </div>
-  </form>
-</div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
+        <li><a href="#">Katalog</a></li>
+        <li><a href="#">Aktivitas</a></li>
+        <li><a href="#">Favorit</a></li>
+        <li><a href="#">Kontak</a></li>
+        <li class="profil"><a href="#"><i class="fas fa-user"></i></a></li>
+        <li>
+          <button class="btn-logout">
+            <i class="fas fa-arrow-left"></i>
+            <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-<!-- Daftar Dokumen -->
-<section class="documents">
-  <?php if (!empty($result)): ?>
-    <?php foreach ($result as $row): ?>
-      <div class="document-card">
-        <img src="images/document-icon.png" alt="Icon Dokumen">
-        <h3><?= htmlspecialchars($row['judul']) ?></h3>
-        <p><strong>Penulis:</strong> <?= htmlspecialchars($row['penulis']) ?></p>
-        <p><strong>Tahun:</strong> <?= $row['tahun_terbit'] ?></p>
-        <p><small>Jenis: <?= ucfirst(str_replace('_', ' ', $row['tipe_dokumen'])) ?></small></p>
-        <a href="<?= htmlspecialchars($row['file_path']) ?>" target="_blank">📄 Baca Sekarang</a>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>REFERENSI</h1>
+    <p>Temukan artikel, jurnal, dan referensi akademik untuk mendukung pembelajaranmu</p>
+  </section>
+
+  <!-- Filter Kategori -->
+  <div class="filter">
+    <form method="GET" action="">
+      <div class="filter-container">
+        <div class="filter-dropdown">
+          <select name="kategori" class="filter-select">
+            <option value="all" <?= $kategori == 'all' ? 'selected' : '' ?>>Semua</option>
+            <option value="artikel_konferensi" <?= $kategori == 'artikel_konferensi' ? 'selected' : '' ?>>Artikel</option>
+            <option value="jurnal" <?= $kategori == 'jurnal' ? 'selected' : '' ?>>Jurnal</option>
+            <option value="modul" <?= $kategori == 'modul' ? 'selected' : '' ?>>Modul Pelajaran</option>
+          </select>
+          <input type="text" name="q" value="<?= htmlspecialchars($kata_kunci) ?>" hidden>
+          <button type="submit" class="filter-button">Filter</button>
+        </div>
       </div>
-    <?php endforeach; ?>
-  <?php else: ?>
-    <p style="text-align:center;">Tidak ada dokumen ditemukan.</p>
-  <?php endif; ?>
-</section>
+    </form>
+  </div>
 
-<!-- Footer -->
-<footer class="footer">
+  <!-- Daftar Dokumen -->
+  <section class="documents">
+    <?php if (!empty($result)): ?>
+      <?php foreach ($result as $row): ?>
+        <div class="document-card">
+          <div class="document-icon">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+          <h3><?= htmlspecialchars($row['judul']) ?></h3>
+          <p><strong>Penulis:</strong> <?= htmlspecialchars($row['penulis']) ?></p>
+          <p><strong>Tahun:</strong> <?= $row['tahun_terbit'] ?></p>
+          <p><strong>Jenis:</strong> <?= ucfirst(str_replace('_', ' ', $row['tipe_dokumen'])) ?></p>
+          <a class="read-btn" href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($row['file_path'])) ?>" target="_blank">📄 Baca Sekarang</a>
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p style="text-align:center;">Tidak ada dokumen ditemukan.</p>
+    <?php endif; ?>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
     <div class="container">
       <div class="left">
         <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
@@ -150,4 +158,5 @@ $total_pages = ceil($total_data / $limit);
   </footer>
 
 </body>
+
 </html>

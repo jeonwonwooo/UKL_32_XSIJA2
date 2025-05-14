@@ -5,38 +5,54 @@ include 'formkoneksi.php';
 $filter = $_GET['filter'] ?? 'semua';
 $search = $_GET['search'] ?? '';
 
-// Query dasar
+// Query dasar - join ke tabel kategori
 $query = "
-    SELECT dokumen.id, dokumen.judul, dokumen.penulis, dokumen.tahun_terbit, dokumen.tipe_dokumen, dokumen.deskripsi, 
-           dokumen.file_path, dokumen.status, kategori.nama_kategori AS kategori_nama
+    SELECT 
+        dokumen.id, 
+        dokumen.judul, 
+        dokumen.penulis, 
+        dokumen.tahun_terbit, 
+        dokumen.tipe_dokumen, 
+        dokumen.deskripsi, 
+        dokumen.file_path, 
+        dokumen.status
     FROM dokumen
-    JOIN kategori ON dokumen.kategori_id = kategori.id
+    WHERE 1=1
 ";
 
 $conditions = [];
 $params = [];
 
-// Tambahkan kondisi filter
-if ($filter === 'tersedia' || $filter === 'tidak tersedia') {
+// Filter status
+if ($filter === 'tersedia') {
     $conditions[] = "dokumen.status = ?";
-    $params[] = $filter;
+    $params[] = 'tersedia';
+} elseif ($filter === 'tidak tersedia') {
+    $conditions[] = "dokumen.status = ?";
+    $params[] = 'tidak tersedia';
 }
 
-// Tambahkan pencarian
+// Pencarian
 if (!empty($search)) {
-    $conditions[] = "(dokumen.judul LIKE ? OR dokumen.penulis LIKE ? OR kategori.nama_kategori LIKE ?)";
+    $conditions[] = "(dokumen.judul LIKE ? OR dokumen.penulis LIKE ? OR dokumen.tipe_dokumen LIKE ?)";
     $params[] = "%$search%";
     $params[] = "%$search%";
     $params[] = "%$search%";
 }
 
+// Gabungkan kondisi
 if (!empty($conditions)) {
-    $query .= " WHERE " . implode(" AND ", $conditions);
+    $query .= " AND " . implode(" AND ", $conditions);
 }
 
-$stmt = $conn->prepare($query);
-$stmt->execute($params);
-$dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Eksekusi query
+try {
+    $stmt = $conn->prepare($query);
+    $stmt->execute($params);
+    $dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,6 +64,7 @@ $dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="dokumen_list.css">
 </head>
 <body>
+
 <aside class="sidebar">
     <div class="logo">
         <h2>Admin Panel</h2>
@@ -65,6 +82,7 @@ $dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </ul>
     </nav>
 </aside>
+
 <div class="container">
     <h1>Daftar Dokumen</h1>
 
@@ -77,7 +95,7 @@ $dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <option value="tersedia" <?= ($filter === 'tersedia') ? 'selected' : '' ?>>Tersedia</option>
                 <option value="tidak tersedia" <?= ($filter === 'tidak tersedia') ? 'selected' : '' ?>>Tidak Tersedia</option>
             </select>
-            <input type="text" name="search" placeholder="Cari judul, penulis, atau kategori..." value="<?= htmlspecialchars($search) ?>">
+            <input type="text" name="search" placeholder="Cari judul, penulis, atau tipe dokumen..." value="<?= htmlspecialchars($search) ?>">
             <button type="submit" class="btn btn-primary">Cari</button>
         </form>
     </div>
@@ -90,40 +108,43 @@ $dokumen = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <th>Judul</th>
                 <th>Penulis</th>
                 <th>Tahun Terbit</th>
-                <th>Tipe Dokumen</th>
-                <th>Kategori</th>
                 <th>Status</th>
-                <th>Deskripsi</th>
+                <th>Tipe Dokumen</th>
                 <th>File Dokumen</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($dokumen as $row): ?>
+            <?php if (empty($dokumen)): ?>
                 <tr>
-                    <td><?= htmlspecialchars($row['id']) ?></td>
-                    <td><?= htmlspecialchars($row['judul']) ?></td>
-                    <td><?= htmlspecialchars($row['penulis']) ?></td>
-                    <td><?= htmlspecialchars($row['tahun_terbit']) ?></td>
-                    <td><?= htmlspecialchars(str_replace('_', ' ', $row['tipe_dokumen'])) ?></td>
-                    <td><?= htmlspecialchars($row['kategori_nama']) ?></td>
-                    <td><?= htmlspecialchars($row['status']) ?></td>
-                    <td><?= htmlspecialchars($row['deskripsi']) ?></td>
-                    <td>
-                        <?php if (!empty($row['file_path']) && file_exists("../../" . $row['file_path'])): ?>
-                            <a href="../../<?= htmlspecialchars($row['file_path']) ?>" target="_blank" class="btn btn-primary btn-sm">Download</a>
-                        <?php else: ?>
-                            File tidak tersedia
-                        <?php endif; ?>
-                    </td>
-                    <td>
-                        <a href="dokumen_edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="process_dokumen.php?action=delete&id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
-                    </td>
+                    <td colspan="9" style="text-align:center;">Tidak ada data ditemukan</td>
                 </tr>
-            <?php endforeach; ?>
+            <?php else: ?>
+                <?php foreach ($dokumen as $row): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($row['id']) ?></td>
+                        <td><?= htmlspecialchars($row['judul']) ?></td>
+                        <td><?= htmlspecialchars($row['penulis']) ?></td>
+                        <td><?= htmlspecialchars($row['tahun_terbit']) ?></td>
+                        <td><?= htmlspecialchars($row['tipe_dokumen'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($row['status']) ?></td>
+                        <td>
+                            <?php if (!empty($row['file_path']) && file_exists("../../" . $row['file_path'])): ?>
+                                <a href="../../<?= htmlspecialchars($row['file_path']) ?>" target="_blank" class="btn btn-primary btn-sm">Download</a>
+                            <?php else: ?>
+                                File tidak tersedia
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <a href="dokumen_edit.php?id=<?= $row['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="process_dokumen.php?action=delete&id=<?= $row['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
+
 </body>
 </html>

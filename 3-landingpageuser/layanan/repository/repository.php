@@ -5,10 +5,15 @@ include 'formkoneksi.php';
 $kategori = $_GET['kategori'] ?? 'all';
 $kata_kunci = $_GET['q'] ?? '';
 
-// Filter kategori
+// Daftar tipe dokumen untuk repository
+$tipe_repository = ['karya_siswa', 'tugas_akhir', 'makalah', 'laporan_praktikum'];
+
+// Filter kategori (hanya jenis repository)
 $filter_kategori = "";
-if ($kategori != 'all') {
+if ($kategori != 'all' && in_array($kategori, $tipe_repository)) {
     $filter_kategori = " AND tipe_dokumen = '$kategori'";
+} else if ($kategori == 'all') {
+    $filter_kategori = " AND tipe_dokumen IN ('" . implode("','", $tipe_repository) . "')";
 }
 
 // Filter pencarian
@@ -29,7 +34,7 @@ $start = ($page - 1) * $limit;
 $stmt = $conn->query($query . " LIMIT $start, $limit");
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Hitung total data untuk pagination
+// Hitung total data
 $total_stmt = $conn->query("SELECT COUNT(*) as total FROM dokumen WHERE status = 'tersedia' $filter_kategori $filter_pencarian");
 $total_data = $total_stmt->fetch(PDO::FETCH_ASSOC)['total'];
 $total_pages = ceil($total_data / $limit);
@@ -87,7 +92,6 @@ $total_pages = ceil($total_data / $limit);
           <option value="tugas_akhir" <?= $kategori == 'tugas_akhir' ? 'selected' : '' ?>>Tugas Akhir</option>
           <option value="makalah" <?= $kategori == 'makalah' ? 'selected' : '' ?>>Makalah</option>
           <option value="laporan" <?= $kategori == 'laporan' ? 'selected' : '' ?>>Laporan</option>
-          <option value="lainnya" <?= $kategori == 'lainnya' ? 'selected' : '' ?>>Lainnya</option>
         </select>
         <input type="text" name="q" value="<?= htmlspecialchars($kata_kunci) ?>" hidden>
         <button type="submit" class="filter-button">Filter</button>
