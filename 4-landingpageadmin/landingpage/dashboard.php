@@ -3,7 +3,7 @@ session_start();
 
 // Periksa apakah admin sudah login
 if (!isset($_SESSION['admin_username'])) {
-    header("Location: login.php");
+    header("Location: /CODINGAN/2-loginregis/formloginadm.php");
     exit();
 }
 ?>

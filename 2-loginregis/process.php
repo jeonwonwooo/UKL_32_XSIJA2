@@ -1,15 +1,15 @@
 <?php
 session_start();
-
 include 'formkoneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'] ?? '';
 
-    // Login Admin
+    // LOGIN ADMIN
     if ($type === 'admin_login') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
+        $remember_me = isset($_POST['remember_me']);
 
         if (empty($username) || empty($password)) {
             $_SESSION['error'] = "Semua field harus diisi.";
@@ -18,34 +18,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         try {
-            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? AND password = ?");
-            $stmt->execute([$username, $password]);
+            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
+            $stmt->execute([$username]);
             $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($admin) {
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
-                $_SESSION['role'] = 'admin';
-
-                // Redirect ke dashboard admin
-                header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
-                exit;
-            } else {
+            // Jika admin tidak ditemukan atau password salah
+            if (!$admin || $admin['password'] !== $password) {
                 $_SESSION['error'] = "Username atau password salah.";
                 header("Location: /CODINGAN/2-loginregis/formloginadm.php");
                 exit;
             }
+
+            // [PENTING] SET SESSION DENGAN BENAR
+            $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['admin_username'] = $admin['username'];
+
+            // Arahkan ke dashboard admin
+            header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
+            exit;
+
         } catch (PDOException $e) {
             $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
             header("Location: /CODINGAN/2-loginregis/formloginadm.php");
             exit;
         }
-    }
+}
 
-    // Login User
-    elseif ($type === 'user_login') {
+// LOGIN USER
+elseif ($type === 'user_login') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
+        $remember_me = isset($_POST['remember_me']);
 
         if (empty($username) || empty($password)) {
             $_SESSION['error'] = "Semua field harus diisi.";
@@ -60,11 +63,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($user) {
                 $_SESSION['user_id'] = $user['id'];
-                $_SESSION['user_username'] = $user['username'];
+                $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = 'user';
 
-                // Redirect ke halaman beranda user
-                header("Location: /CODINGAN/3-landingpageuser/beranda/beranda.html");
+                if ($remember_me) {
+                    setcookie('remember_me', true, time() + (86400 * 7));
+                }
+
+                header("Location: /CODINGAN/3-landingpageuser/beranda/beranda.html"); // Harus .php
                 exit;
             } else {
                 $_SESSION['error'] = "Username atau password salah.";
@@ -78,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Register User
+    // REGISTER USER
     elseif ($type === 'register') {
         $username = trim($_POST['username'] ?? '');
         $name = trim($_POST['name'] ?? '');
@@ -105,14 +111,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($existing_user) {
                 if ($existing_user['username'] === $username) {
                     $_SESSION['error'] = "Username sudah digunakan.";
-                    header("Location: /CODINGAN/2-loginregis/formregister.php");
-                    exit;
-                }
-                if ($existing_user['email'] === $email) {
+                } else if ($existing_user['email'] === $email) {
                     $_SESSION['error'] = "Email sudah terdaftar.";
-                    header("Location: /CODINGAN/2-loginregis/formregister.php");
-                    exit;
                 }
+                header("Location: /CODINGAN/2-loginregis/formregister.php");
+                exit;
             }
 
             $stmt = $conn->prepare("INSERT INTO anggota (username, password, nama, email) VALUES (?, ?, ?, ?)");
@@ -121,14 +124,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['success'] = "Registrasi berhasil. Silakan login.";
             header("Location: /CODINGAN/2-loginregis/formloginusr.php");
             exit;
+
         } catch (PDOException $e) {
-            $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
+            $_SESSION['error'] = "Terjadi kesalahan saat mendaftarkan akun.";
             header("Location: /CODINGAN/2-loginregis/formregister.php");
             exit;
         }
     }
 
-    // Default redirect jika type tidak dikenali
+    // Default fallback
     else {
         header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.html");
         exit;
@@ -137,3 +141,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.html");
     exit;
 }
+?>

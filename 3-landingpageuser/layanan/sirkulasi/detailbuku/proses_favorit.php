@@ -1,4 +1,5 @@
 <?php
+
 // Koneksi database
 require_once 'formkoneksi.php';
 
@@ -6,15 +7,15 @@ try {
     session_start();
     $user_id = $_SESSION['user_id'] ?? 0;
 
-    if ($user_id === 0) {
-        die("Anda harus login terlebih dahulu.");
+    if (!$user_id) {
+        throw new Exception("Anda harus login terlebih dahulu.");
     }
 
     $buku_id = $_POST['buku_id'] ?? 0;
     $action = $_POST['action'] ?? '';
 
-    if ($buku_id === 0) {
-        die("ID buku tidak valid.");
+    if (!$buku_id) {
+        throw new Exception("ID buku tidak valid.");
     }
 
     $check_user_query = "SELECT * FROM anggota WHERE id = :user_id";
@@ -22,8 +23,8 @@ try {
     $check_user_stmt->bindParam(':user_id', $user_id);
     $check_user_stmt->execute();
 
-    if ($check_user_stmt->rowCount() === 0) {
-        die("Error: User ID tidak ditemukan di tabel anggota.");
+    if (!$check_user_stmt->rowCount()) {
+        throw new Exception("Error: User ID tidak ditemukan di tabel anggota.");
     }
 
     $check_buku_query = "SELECT * FROM buku WHERE id = :buku_id";
@@ -31,8 +32,8 @@ try {
     $check_buku_stmt->bindParam(':buku_id', $buku_id);
     $check_buku_stmt->execute();
 
-    if ($check_buku_stmt->rowCount() === 0) {
-        die("Error: Buku ID tidak ditemukan di tabel buku.");
+    if (!$check_buku_stmt->rowCount()) {
+        throw new Exception("Error: Buku ID tidak ditemukan di tabel buku.");
     }
 
     if ($action === 'tambah') {
@@ -42,7 +43,7 @@ try {
         $check_stmt->bindParam(':buku_id', $buku_id);
         $check_stmt->execute();
 
-        if ($check_stmt->rowCount() === 0) {
+        if (!$check_stmt->rowCount()) {
             $insert_query = "INSERT INTO favorit (user_id, buku_id) VALUES (:user_id, :buku_id)";
             $insert_stmt = $conn->prepare($insert_query);
             $insert_stmt->bindParam(':user_id', $user_id);
@@ -65,8 +66,10 @@ try {
         header("Location: favorit.php?status=removed");
         exit();
     } else {
-        die("Aksi tidak valid.");
+        throw new Exception("Aksi tidak valid.");
     }
+} catch (Exception $e) {
+    die("Error: " . $e->getMessage());
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
