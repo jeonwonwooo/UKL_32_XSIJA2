@@ -72,13 +72,15 @@ try {
     <nav>
         <ul>
             <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active">Dashboard</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
-            <li><a href="dokumen_list.php">Daftar Dokumen</a></li>
-            <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php">Favorit Pengguna</a></li>
+                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/rating-ulasan/rating-ulasan_list.php">Penilaian Pengguna</a></li>
+                    <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
         </ul>
     </nav>
 </aside>
@@ -108,6 +110,7 @@ try {
                 <th>Judul</th>
                 <th>Penulis</th>
                 <th>Tahun Terbit</th>
+                <th>Deskripsi</th>
                 <th>Status</th>
                 <th>Tipe Dokumen</th>
                 <th>File Dokumen</th>
@@ -126,6 +129,7 @@ try {
                         <td><?= htmlspecialchars($row['judul']) ?></td>
                         <td><?= htmlspecialchars($row['penulis']) ?></td>
                         <td><?= htmlspecialchars($row['tahun_terbit']) ?></td>
+                        <td><?= htmlspecialchars($row['deskripsi'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($row['tipe_dokumen'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($row['status']) ?></td>
                         <td>
