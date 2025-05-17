@@ -2,14 +2,15 @@
 session_start();
 require_once 'formkoneksi.php';
 
-// [1] Cek apakah user sudah login
-if (!isset($_SESSION['user_id'])) {
-    die("Harus login dulu!");
+// [1] Cek apakah user sudah login dan session valid
+if (!isset($_SESSION['user_id']) || !is_numeric($_SESSION['user_id'])) {
+    header("Location: /CODINGAN/2-loginregis/formloginusr.php");
+    exit();
 }
 
 try {
     // [2] Ambil ID user dari session
-    $user_id = $_SESSION['user_id'];
+    $user_id = (int) $_SESSION['user_id'];
 
     // [3] Query ambil buku favorit berdasarkan user
     $query_favorit = "
@@ -104,9 +105,6 @@ try {
                                 <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/detail_buku.php?id=<?= $item['buku_id'] ?>" class="btn-detail">
                                     <i class="fas fa-info-circle"></i> Detail Buku
                                 </a>
-                                <form action="proses_hapus_favorit.php" method="POST" style="display:inline;">
-                                    <input type="hidden" name="buku_id" value="<?= $item['buku_id'] ?>">
-                                </form>
                             </div>
                         </div>
                     <?php endforeach; ?>

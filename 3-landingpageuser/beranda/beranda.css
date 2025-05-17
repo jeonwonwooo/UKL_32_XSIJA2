@@ -322,6 +322,13 @@ header {
   transform: translateY(-10px);
 }
 
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
 .card-icon i {
   font-size: 3.5rem;
   color: #4a52c3;
