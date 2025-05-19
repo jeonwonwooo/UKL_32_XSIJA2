@@ -41,7 +41,7 @@ if (!isset($_SESSION['user_id'])) {
         </nav>
     </header>
     <?php if (isset($_GET['status'])) { ?>
-        <?php if ($_GET['status'] === 'balik_admin') { ?>
+        <?php if ($_GET['status'] === 'success_admin') { ?>
             <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
         <?php } elseif ($_GET['status'] === 'balik_anggota') { ?>
             <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>
