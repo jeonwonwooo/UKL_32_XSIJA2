@@ -23,9 +23,9 @@ $query = "
     WHERE 1=1
 ";
 if ($filter === 'fisik') {
-    $query .= " AND b.tipe_buku = 'Buku Fisik'";
+  $query .= " AND b.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
-    $query .= " AND b.tipe_buku = 'Buku Elektronik'";
+  $query .= " AND b.tipe_buku = 'Buku Elektronik'";
 }
 $stmt = $conn->prepare($query);
 $stmt->execute();
@@ -33,6 +33,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,6 +44,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css " />
 </head>
+
 <body>
   <header>
     <div class="logo">
@@ -51,7 +53,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar">
       <ul>
         <li>
-          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a>
+          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a>
         </li>
         <li>
           <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a>
@@ -163,4 +165,5 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
   </footer>
 </body>
+
 </html>

@@ -61,11 +61,19 @@ try {
     </div>
     <nav class="navbar">
         <ul>
-            <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-            <li><a href="#">Katalog</a></li>
-            <li><a href="#">Aktivitas</a></li>
-            <li><a href="/CODINGAN/3-landingpageuser/favorit/favorit.php">Favorit</a></li>
-            <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+            <li>
+          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a>
+        </li>
+        <li>
+          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a>
+        </li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
+        <li>
+          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a>
+        </li>
+        <li>
+          <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
+        </li>
             <li class="profil"><a href="#" class="akun"><i class="fas fa-user"></i></a></li>
             <li>
                 <button class="btn-logout">
