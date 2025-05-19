@@ -36,7 +36,7 @@
     <?php endif; ?>
 
     <div class="wrapper">
-        <form action="process.php" method="POST">
+        <form action="process_login.php" method="POST">
             <input type="hidden" name="type" value="register">
             <h1>Register</h1>
             <div class="input-box">

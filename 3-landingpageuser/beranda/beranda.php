@@ -1,48 +1,55 @@
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: /CODINGAN/2-loginregis/formloginusr.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Library of RIvenhill</title>
-  <link rel="stylesheet" href="beranda.css" />
-  <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library of Riverhill Senior High School</title>
+    <link rel="stylesheet" href="beranda.css">
+    <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css ">
 </head>
-
 <body>
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Logo Perpus" srcset="" />
-    </div>
-    <nav class="navbar">
-      <ul>
-        <li><a href="beranda.html">Beranda</a></li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a>
-        </li>
-        <li>
-          <a href="/CODINGAN//3-landingpageuser/layanan/layanan.html">Layanan</a>
-        </li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-        </li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
-        </li>
-        <li class="profil">
-          <a href="#" class="akun"><i class="fas fa-user"></i></a>
-        </li>
-        <li>
-          <button class="btn-logout">
-            <i class="fas fa-sign-out-alt"></i>
-            <a href="/CODINGAN/z-yakinlogout/formyakin.html">Logout</a>
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="Logo Perpus" srcset="" />
+        </div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="beranda.html">Beranda</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+                <li class="profil"><a href="#" class="akun"><i class="fas fa-user"></i></a></li>
+                <li>
+                    <button class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <?php if (isset($_GET['status'])) { ?>
+        <?php if ($_GET['status'] === 'balik_admin') { ?>
+            <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
+        <?php } elseif ($_GET['status'] === 'balik_anggota') { ?>
+            <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>
+        <?php } elseif ($_GET['status'] === 'ga_kenal') { ?>
+            <p style="color: red; text-align: center;">Akun tidak dikenali!</p>
+        <?php } ?>
+    <?php } ?>
+    <!-- Rest of the page content -->
   <main>
     <section class="hero">
       <div class="hero-content">

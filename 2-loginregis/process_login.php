@@ -18,34 +18,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         try {
-            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ?");
-            $stmt->execute([$username]);
+            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? AND password = ?");
+            $stmt->execute([$username, $password]);
             $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Jika admin tidak ditemukan atau password salah
-            if (!$admin || $admin['password'] !== $password) {
+            if ($admin) {
+                $_SESSION['admin_id'] = $admin['id'];
+                $_SESSION['admin_username'] = $admin['username'];
+                $_SESSION['role'] = 'admin';
+
+                if ($remember_me) {
+                    setcookie('remember_me', true, time() + (86400 * 7));
+                }
+
+                header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
+                exit;
+            } else {
                 $_SESSION['error'] = "Username atau password salah.";
                 header("Location: /CODINGAN/2-loginregis/formloginadm.php");
                 exit;
             }
-
-            // [PENTING] SET SESSION DENGAN BENAR
-            $_SESSION['admin_id'] = $admin['id'];
-            $_SESSION['admin_username'] = $admin['username'];
-
-            // Arahkan ke dashboard admin
-            header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
-            exit;
-
         } catch (PDOException $e) {
             $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
             header("Location: /CODINGAN/2-loginregis/formloginadm.php");
             exit;
         }
-}
+    }
 
-// LOGIN USER
-elseif ($type === 'user_login') {
+    // LOGIN USER
+    elseif ($type === 'user_login') {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
         $remember_me = isset($_POST['remember_me']);
@@ -70,7 +71,7 @@ elseif ($type === 'user_login') {
                     setcookie('remember_me', true, time() + (86400 * 7));
                 }
 
-                header("Location: /CODINGAN/3-landingpageuser/beranda/beranda.html"); // Harus .php
+                header("Location: /CODINGAN/3-landingpageuser/beranda/beranda.php");
                 exit;
             } else {
                 $_SESSION['error'] = "Username atau password salah.";
@@ -134,11 +135,11 @@ elseif ($type === 'user_login') {
 
     // Default fallback
     else {
-        header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.html");
+        header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php");
         exit;
     }
 } else {
-    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.html");
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php");
     exit;
 }
 ?>

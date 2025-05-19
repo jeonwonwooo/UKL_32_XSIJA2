@@ -34,7 +34,7 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php">Favorit Pengguna</a></li>
                     <li><a href="/CODINGAN/4-landingpageadmin/CRUD/rating-ulasan/rating-ulasan_list.php">Penilaian Pengguna</a></li>
-                    <li><a href="/CODINGAN/z-yakinlogout/formyakinadm.html">Logout</a></li>
+                    <li><a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a></li>
             </ul>
         </nav>
     </aside>

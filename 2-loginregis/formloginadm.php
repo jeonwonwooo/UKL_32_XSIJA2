@@ -24,7 +24,7 @@
         </div>
     <?php endif; ?>
     <div class="wrapper">
-        <form action="process.php" method="POST">
+        <form action="process_login.php" method="POST">
             <input type="hidden" name="type" value="admin_login">
             <h1>Login Admin</h1>
             <div class="input-box">

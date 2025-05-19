@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Opening</title>
-    <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
+    <title>Login Page</title>
     <link rel="stylesheet" href="1-brflogin.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css " rel="stylesheet">
 </head>
-
 <body>
+    <?php
+    // Check for status messages
+    $status = $_GET['status'] ?? '';
+    if ($status === 'logout_sukses') {
+        echo '<div class="notification success">Anda berhasil logout.</div>';
+    } elseif ($status === 'error_logout') {
+        echo '<div class="notification error">Terjadi kesalahan saat logout. Silakan coba lagi.</div>';
+    } elseif ($status === 'error_role') {
+        echo '<div class="notification error">Role tidak dikenali. Silakan login kembali.</div>';
+    }
+    ?>
+    <!-- Login form -->
     <div class="container">
         <div class="overlay"></div>
         <div class="content">
@@ -23,5 +32,4 @@
         </div>
     </div>
 </body>
-
 </html>
