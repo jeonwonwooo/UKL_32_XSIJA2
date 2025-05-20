@@ -39,7 +39,7 @@ if (!isset($_SESSION['admin_id'])) {
     </aside>
     <main class="content">
         <?php if (isset($_GET['status'])) { ?>
-            <?php if ($_GET['status'] === 'success_admin') { ?>
+            <?php if ($_GET['status'] === 'balik_admin') { ?>
                 <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
             <?php } elseif ($_GET['status'] === 'balik_anggota') { ?>
                 <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>

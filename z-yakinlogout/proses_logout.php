@@ -11,7 +11,7 @@ $role = $_SESSION['role'] ?? null;
 $username = $_SESSION['username'] ?? null;
 
 // Debugging (opsional)
-error_log("User $username dengan role $role melakukan logout");
+error_log("User  $username dengan role $role melakukan logout");
 
 // Hapus semua data session
 $_SESSION = [];

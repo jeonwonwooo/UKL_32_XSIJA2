@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Form Peminjaman</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="formku.css">
 </head>
 <body>
 <div class="container">

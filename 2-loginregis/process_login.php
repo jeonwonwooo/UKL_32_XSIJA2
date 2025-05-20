@@ -5,41 +5,42 @@ include 'formkoneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type = $_POST['type'] ?? '';
 
-// LOGIN ADMIN
-if ($type === 'admin_login') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
-    $remember_me = isset($_POST['remember_me']);
+    // LOGIN ADMIN
+    if ($type === 'admin_login') {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
+        $remember_me = isset($_POST['remember_me']);
 
-    if (empty($username) || empty($password)) {
-        $_SESSION['error'] = "Semua field harus diisi.";
-        header("Location: /CODINGAN/2-loginregis/formloginadm.php");
-        exit;
-    }
-
-    try {
-        $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? AND password = ?");
-        $stmt->execute([$username, $password]);
-        $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($admin) {
-            // 🔥 KONSISTENKAN PENAMAAN SESSION
-            $_SESSION['username'] = $admin['username'];  // Diganti dari 'admin_username'
-            $_SESSION['role'] = 'admin';
-
-            header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
-            exit;
-        } else {
-            $_SESSION['error'] = "Username atau password salah.";
+        if (empty($username) || empty($password)) {
+            $_SESSION['error'] = "Semua field harus diisi.";
             header("Location: /CODINGAN/2-loginregis/formloginadm.php");
             exit;
         }
-    } catch (PDOException $e) {
-        $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
-        header("Location: /CODINGAN/2-loginregis/formloginadm.php");
-        exit;
+
+        try {
+            $stmt = $conn->prepare("SELECT * FROM admin WHERE username = ? AND password = ?");
+            $stmt->execute([$username, $password]);
+            $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($admin) {
+    $_SESSION['admin_id'] = $admin['id'];
+    $_SESSION['admin_username'] = $admin['username'];
+    $_SESSION['username'] = $admin['username']; // <--- TAMBAHKAN INI
+    $_SESSION['role'] = 'admin';
+
+    if ($remember_me) {
+        setcookie('remember_me', true, time() + (86400 * 7));
     }
+
+    header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
+    exit;
 }
+        } catch (PDOException $e) {
+            $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
+            header("Location: /CODINGAN/2-loginregis/formloginadm.php");
+            exit;
+        }
+    }
 
     // LOGIN USER
     elseif ($type === 'user_login') {

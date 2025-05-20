@@ -48,44 +48,7 @@ unset($_SESSION['last_pinjam_id']);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Struk Peminjaman</title>
     <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            border: 1px solid #ccc;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .content table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .content table th,
-        .content table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .footer {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 12px;
-            color: #777;
-        }
-        .error-message {
-            color: red;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="peminjaman_struk.css">
 </head>
 <body>
     <div class="container">
@@ -95,7 +58,7 @@ unset($_SESSION['last_pinjam_id']);
         <?php endif; ?>
         <div class="header">
             <h1>Perpustakaan SMA Rivenhill</h1>
-            <p>Jl. Contoh No. 123, Kota Bandung</p>
+            <p>Harap <em>screenshot</em> struk ini untuk keperluan administrasi.</p>
         </div>
         <div class="content">
             <h2>Struk Peminjaman</h2>
@@ -107,6 +70,9 @@ unset($_SESSION['last_pinjam_id']);
             <tr><th>Tanggal Pinjam</th><td><?= htmlspecialchars($peminjaman['tanggal_pinjam']) ?></td></tr>
             <tr><th>Batas Pengembalian</th><td><?= htmlspecialchars($peminjaman['batas_pengembalian']) ?></td></tr>
             </table>
+        </div>
+        <div style="margin-top: 20px; text-align: right;">
+            <a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php" class="aktivitas-btn">Lihat Aktivitas</a>
         </div>
         <div class="footer">
             <p>Terima kasih telah menggunakan layanan kami.</p>
