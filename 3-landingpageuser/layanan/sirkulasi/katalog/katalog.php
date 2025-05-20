@@ -2,34 +2,40 @@
 
 <?php
 $filter = $_GET['filter'] ?? 'semua';
-// Simulasi tabel kategori dengan CASE WHEN
+
 $query = "
     SELECT 
-        p.id as peminjaman_id, 
-        b.id as buku_id, 
-        b.judul, 
-        b.penulis, 
-        b.tahun_terbit, 
-        b.gambar, 
-        b.status, 
+        b.id AS buku_id,
+        b.judul,
+        b.penulis,
+        b.tahun_terbit,
+        b.gambar,
         b.tipe_buku,
         CASE 
             WHEN b.kategori IN ('Fiksi', 'Non-Fiksi', 'Lainnya') THEN b.kategori
             ELSE 'Lainnya'
         END AS nama_kategori,
-        DATE_ADD(p.tanggal_pinjam, INTERVAL 7 DAY) AS batas_pengembalian
+        COALESCE(p.status, 'tersedia') AS status
     FROM buku b
-    LEFT JOIN peminjaman p ON b.id = p.buku_id
+    LEFT JOIN (
+        SELECT buku_id, status
+        FROM peminjaman
+        WHERE status = 'dipinjam'
+        GROUP BY buku_id
+    ) p ON b.id = p.buku_id
     WHERE 1=1
 ";
+
 if ($filter === 'fisik') {
-  $query .= " AND b.tipe_buku = 'Buku Fisik'";
+    $query .= " AND b.tipe_buku = 'Buku Fisik'";
 } elseif ($filter === 'ebook') {
-  $query .= " AND b.tipe_buku = 'Buku Elektronik'";
+    $query .= " AND b.tipe_buku = 'Buku Elektronik'";
 }
+
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

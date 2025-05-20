@@ -1,6 +1,7 @@
 <?php
 include 'formkoneksi.php';
-
+session_start();
+$user_id = $_SESSION['user_id'] ?? null;
 if (!isset($_GET['id'])) {
     echo "ID buku tidak ditemukan!";
     exit;
@@ -19,18 +20,45 @@ if (!$buku) {
     exit;
 }
 
-// Ambil rata-rata rating dan jumlah ulasan
+// Ambil data rating
 $query = "SELECT COALESCE(AVG(nilai), 0) as rata_rating, COUNT(*) as jumlah_ulasan FROM rating WHERE buku_id = ?";
 $stmt = $conn->prepare($query);
 $stmt->execute([$buku_id]);
 $rating_result = $stmt->fetch(PDO::FETCH_ASSOC);
+
 $rata_rating = round($rating_result['rata_rating'], 1);
 $jumlah_ulasan = $rating_result['jumlah_ulasan'];
 
+// Ambil distribusi rating
+$distribusi_query = "SELECT nilai AS rating, COUNT(*) AS count FROM rating WHERE buku_id = ? GROUP BY nilai";
+$distribusi_stmt = $conn->prepare($distribusi_query);
+$distribusi_stmt->execute([$buku_id]);
+$distribusi_rating = $distribusi_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Ambil daftar ulasan
+$ulasan_query = "SELECT r.id, r.anggota_id, r.buku_id, r.nilai, r.ulasan, u.username 
+                 FROM rating r 
+                 JOIN anggota u ON r.anggota_id = u.id 
+                 WHERE r.buku_id = ?";
+$ulasan_stmt = $conn->prepare($ulasan_query);
+$ulasan_stmt->execute([$buku_id]);
+$ulasan_list = $ulasan_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Cek apakah user sudah memberikan rating
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+$existing_rating = null;
+if ($user_id) {
+    $check_rating_query = "SELECT * FROM rating WHERE buku_id = ? AND anggota_id = ?";
+    $check_rating_stmt = $conn->prepare($check_rating_query);
+    $check_rating_stmt->execute([$buku_id, $user_id]);
+    $existing_rating = $check_rating_stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 // Cek apakah buku sudah ditambahkan ke favorit
-$query = "SELECT * FROM favorit WHERE buku_id = ?";
+$query = "SELECT * FROM favorit WHERE buku_id = ? AND user_id = ?";
 $stmt = $conn->prepare($query);
-$stmt->execute([$buku_id]);
+$stmt->execute([$buku_id, $user_id]);
 $favorit_aktif = $stmt->rowCount() > 0;
 
 $folder_uploads = '/CODINGAN/4-landingpageadmin/uploads/';
@@ -115,60 +143,88 @@ if ($status === 'success') {
                 <p><strong>Deskripsi:</strong> <?php echo nl2br(htmlspecialchars($buku['deskripsi'])); ?></p>
             </div>
         </section>
-        <section class="rating">
-            <section class="rating">
-                <!-- Rating Overview -->
-                <div class="rating-overview">
-                    <p><strong>Rating:</strong>
-                        ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
-                    </p>
-                </div>
-                <!-- Star Distribution -->
-                <div class="star-distribution">
-                    <?php if (!empty($distribusi_rating)): ?>
-                        <?php foreach ($distribusi_rating as $row):
-                            $percentage = ($jumlah_ulasan > 0) ? ($row['count'] / $jumlah_ulasan) * 100 : 0;
-                        ?>
-                            <div class="rating-bar">
-                                <span><?= $row['rating'] ?> stars</span>
-                                <div class="bar-container">
-                                    <div class="bar" style="width: <?= $percentage ?>%;"></div>
-                                </div>
-                                <span><?= $row['count'] ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Tidak ada rating untuk buku ini.</p>
-                    <?php endif; ?>
-                </div>
-            </section>
-            <!-- User Reviews -->
-            <section class="user-reviews">
-                <h3>Ulasan</h3>
-                <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
-                <?php if (!empty($ulasan)): ?>
-                    <?php foreach ($ulasan as $review): ?>
-                        <div class="review">
-                            <div class="review-header">
-                                <span><?= htmlspecialchars($review['username']) ?></span>
-                                <span>
-                                    <?php for ($i = 0; $i < $review['rating']; $i++): ?>
-                                        ★
-                                    <?php endfor; ?>
-                                </span>
-                            </div>
-                            <p class="review-comment"><?= htmlspecialchars($review['komentar']) ?></p>
-                            <small class="show-more">Show more ▼</small>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="no-reviews-container">
-                        <p>Belum ada ulasan untuk buku ini.</p>
-                        <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="btn-tambah-ulasan">Tambah Ulasan Sekarang</a>
-                    </div>
-                <?php endif; ?>
-            </section>
-        </section>
+        
+<!-- Rating Overview -->
+<section class="rating">
+    <div class="rating-container">
+        <!-- Rating Overview -->
+        <div class="rating-overview">
+            <p><strong>Rating:</strong>
+                ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
+            </p>
+        </div>
+
+<!-- Star Distribution -->
+<div class="star-distribution">
+    <?php for ($rating = 5; $rating >= 1; $rating--): ?>
+        <?php
+        // Cari jumlah ulasan untuk rating tertentu
+        $count = 0;
+        foreach ($distribusi_rating as $row) {
+            if ($row['rating'] == $rating) {
+                $count = $row['count'];
+                break;
+            }
+        }
+
+        // Hitung persentase untuk setiap rating
+        $percentage = ($jumlah_ulasan > 0) ? ($count / $jumlah_ulasan) * 100 : 0;
+        ?>
+        <div class="rating-bar">
+            <span><?= $rating ?> stars</span>
+            <div class="bar-container">
+                <div class="bar" style="width: <?= $percentage ?>%; background-color: #ffcc00;"></div>
+            </div>
+            <span><?= $count ?></span>
+        </div>
+    <?php endfor; ?>
+</div>
+    </div>
+
+    <!-- User Reviews -->
+<section class="user-reviews">
+    <h3>Ulasan</h3>
+    <p>Menampilkan <?= count($ulasan_list) > 0 ? '1 dari ' . $jumlah_ulasan : '0' ?> ulasan</p>
+
+    <?php if (!empty($ulasan_list)): ?>
+        <!-- Tampilkan hanya ulasan pertama -->
+        <?php $first_review = $ulasan_list[0]; ?>
+        <div class="review">
+            <div class="review-header">
+                <span><?= htmlspecialchars($first_review['username']) ?></span>
+                <span>
+                    <?php for ($i = 0; $i < $first_review['nilai']; $i++): ?>
+                        ★
+                    <?php endfor; ?>
+                </span>
+            </div>
+            <p class="review-comment"><?= htmlspecialchars($first_review['ulasan']) ?></p>
+        </div>
+
+        <!-- Tombol Show More -->
+        <?php if (count($ulasan_list) > 1): ?>
+            <a href="lihat_semua_ulasan.php?id=<?= $buku_id ?>" class="show-more">Lihat Semua Ulasan ▼</a>
+        <?php endif; ?>
+
+    <?php else: ?>
+        <div class="no-reviews-container">
+            <p>Belum ada ulasan untuk buku ini.</p>
+        <?php endif; ?>
+    </div>
+
+        <?php if ($user_id && !$existing_rating): ?>
+            <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="tambah-ulasan">Tambah Ulasan</a>
+        <?php elseif ($user_id && $existing_rating): ?>
+            <a href="edit_ulasan.php?id=<?= $buku_id ?>" class="tambah-ulasan">Edit Ulasan</a>
+        <?php else: ?>
+            <p class="tambah-ulasan">Login untuk memberikan ulasan</p>
+        <?php endif; ?>
+</section>
+
+        <!-- Tombol Tambah Ulasan atau Lihat Lebih Jauh -->
+        
+    </section>
+</section>
         <div class="action-buttons">
             <?php if ($buku['status'] === 'tersedia'): ?>
                 <?php if ($buku['tipe_buku'] === 'Buku Elektronik' && $buku['file_path']): ?>
