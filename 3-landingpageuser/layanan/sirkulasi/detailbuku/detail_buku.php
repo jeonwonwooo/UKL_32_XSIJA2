@@ -215,7 +215,7 @@ if ($status === 'success') {
         <?php if ($user_id && !$existing_rating): ?>
             <a href="tambah_ulasan.php?id=<?= $buku_id ?>" class="tambah-ulasan">Tambah Ulasan</a>
         <?php elseif ($user_id && $existing_rating): ?>
-            <a href="edit_ulasan.php?id=<?= $buku_id ?>" class="tambah-ulasan">Edit Ulasan</a>
+            <a href="edit_ulasan.php?id=<?= $existing_rating['id']?>" class="tambah-ulasan">Edit Ulasan</a>
         <?php else: ?>
             <p class="tambah-ulasan">Login untuk memberikan ulasan</p>
         <?php endif; ?>
