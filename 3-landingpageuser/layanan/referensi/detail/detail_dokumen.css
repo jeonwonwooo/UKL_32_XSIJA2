@@ -1,0 +1,362 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+/* Atur Navbar */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1e1e8f;
+}
+.logo img {
+  height: 50px;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.navbar ul li {
+  margin: 0 15px;
+}
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+.profil a {
+  font-size: 20px;
+}
+.profil a:hover {
+  color: #ffd700;
+}
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 8px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+/* Main Content */
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.judul h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.judul h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-decoration: underline;
+}
+
+.detail-dokumen {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.document-icon {
+    font-size: 80px;
+    color: #007bff; /* Warna biru */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.document-icon i {
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+.informasi-dokumen {
+    flex-grow: 1;
+}
+
+.informasi-dokumen p {
+    margin-bottom: 10px;
+}
+
+.rating {
+    margin-top: 20px;
+}
+
+.rating-overview p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.star-distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.bar-container {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background-color: #ffcc00;
+}
+
+.user-reviews {
+    margin-top: 20px;
+}
+
+.review {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-comment {
+    margin-bottom: 10px;
+}
+
+.show-more {
+    cursor: pointer;
+    color: #333;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.btn-pinjam,
+.btn-favorit {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-pinjam {
+    background-color: #1e1e8f;
+    color: white;
+}
+
+.btn-pinjam:hover {
+    background-color: #141240;
+}
+
+.btn-pinjam.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-favorit {
+    background-color: #ffcc00;
+    color: #333;
+}
+
+.btn-favorit:hover {
+    background-color: #e6b34e;
+}
+
+/* Atur Footer */
+.footer {
+  background: linear-gradient(to bottom, #6b46c1, #ffffff);
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+
+.left img {
+  width: 190px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.left p {
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+}
+
+.social-icons a {
+  color: white;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #d1d5db;
+}
+
+.right {
+  flex: 1;
+  margin: 0.5rem;
+  padding-left: 2rem;
+  text-align: right;
+  max-width: 400px;
+}
+
+.right h2 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.right ul li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.right ul li a:hover {
+  color: #d1d5db;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .right {
+    text-align: right;
+    margin-left: auto;
+    padding-left: 5rem;
+    max-width: 450px;
+  }
+}

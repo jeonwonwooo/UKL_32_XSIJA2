@@ -2,7 +2,7 @@
 require_once 'formkoneksi.php';
 session_start();
 
-// Cek apakah user sudah login
+// Cek login
 if (!isset($_SESSION['user_id'])) {
     die("Harus login dulu!");
 }
@@ -11,7 +11,7 @@ $anggota_id = $_SESSION['user_id'];
 $current_date = date('Y-m-d');
 
 try {
-    // Statistik berdasarkan user
+    // Query statisik utama - DIPERBAIKI
     $query_stats = "
         SELECT 'total_buku' as stat_name, COUNT(DISTINCT buku_id) as stat_value FROM peminjaman WHERE anggota_id = ?
         UNION ALL
@@ -38,7 +38,7 @@ try {
         $stats[$row['stat_name']] = $row['stat_value'];
     }
 
-    // Aktivitas Terbaru berdasarkan user login
+    // Aktivitas Terbaru
     $query_activities = "
         SELECT 
             p.id AS peminjaman_id,
@@ -51,7 +51,6 @@ try {
         ORDER BY p.id DESC
         LIMIT 5
     ";
-
     $stmt_activities = $conn->prepare($query_activities);
     $stmt_activities->execute([$anggota_id]);
     $activities = $stmt_activities->fetchAll(PDO::FETCH_ASSOC);
