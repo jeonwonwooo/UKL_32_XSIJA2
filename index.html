@@ -30,16 +30,6 @@
             </ul>
         </nav>
     </header>
-    <?php if (isset($_GET['status'])) { ?>
-        <?php if ($_GET['status'] === 'success_admin') { ?>
-            <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
-        <?php } elseif ($_GET['status'] === 'balik_anggota') { ?>
-            <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>
-        <?php } elseif ($_GET['status'] === 'ga_kenal') { ?>
-            <p style="color: red; text-align: center;">Akun tidak dikenali!</p>
-        <?php } ?>
-    <?php } ?>
-    <!-- Rest of the page content -->
   <main>
     <section class="hero">
       <div class="hero-content">
