@@ -1,0 +1,505 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+/* Atur Navbar */
+header {
+  background-color: #2e2b8d;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 10vh;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline-block;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+
+.logout {
+  color: #fff;
+  text-decoration: none;
+}
+
+.logout:hover {
+  color: #2e2b8d;
+  text-decoration: none;
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+
+/* Atur Hero */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("CODINGAN/assets/gambar1.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 60%;
+  text-align: left;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: url("gambar1.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 60%;
+  text-align: left;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  margin-right: 30%;
+  padding-right: 7%;
+}
+
+.hero-content h1 {
+  font-size: 5rem;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.hero-content h5 {
+  font-size: 2rem;
+  font-style: italic;
+  font-weight: 500;
+  color: #fff;
+  margin: 20px 0;
+  line-height: 1.3;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Atur Intro */
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+  gap: 20px;
+  max-width: 90%;
+  margin: auto;
+}
+
+.gambar2 img {
+  width: 400px;
+  height: auto;
+}
+
+.intro-content {
+  max-width: 400px;
+  text-align: right;
+  flex: 1;
+}
+
+.intro-content h3 {
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.intro-content h6 {
+  font-size: 27px;
+  font-weight: normal;
+  margin-bottom: 10px;
+}
+
+.intro-content p {
+  font-size: 18px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+/* Atur Video */
+.video {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+}
+
+.video-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 80px;
+}
+
+.video-content h3 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.video-content p {
+  font-size: 18px;
+  margin-bottom: 35px;
+}
+
+.video-content video {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border: 4px solid #90adfb;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: transparent;
+}
+
+/* Atur Layanan */
+.layanan {
+  text-align: center;
+  background: linear-gradient(to top, #2e2b8d, rgba(255, 255, 255, 0)),
+    url("gambar3.jpg") no-repeat center center/cover;
+  padding: 50px 20px;
+  color: white;
+}
+
+.layanan h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.layanan h6 {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.8;
+  color: white;
+}
+
+.layanan-item {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 320px;
+  height: auto;
+  transition: transform 0.3s;
+  color: #333;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+
+.card-icon i {
+  font-size: 3.5rem;
+  color: #4a52c3;
+  margin-bottom: 15px;
+}
+
+.card h4 {
+  font-size: 1.6rem;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Atur Struktur & Petugas */
+.struktur {
+  margin-top: 70px;
+  color: white;
+}
+
+.struktur h3 {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.struktur p {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.see {
+  background: white;
+  color: black;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.see a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.see:hover {
+  background: #ffd700;
+  transform: scale(1.05);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.see a:hover {
+  text-decoration: none;
+}
+
+/* Atur Footer */
+.footer {
+  background: linear-gradient(to bottom, #6b46c1, #ffffff);
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+
+.left img {
+  width: 190px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.left p {
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+}
+
+.social-icons a {
+  color: white;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #d1d5db;
+}
+
+.right {
+  flex: 1;
+  margin: 0.5rem;
+  padding-left: 2rem;
+  text-align: right;
+  max-width: 400px;
+}
+
+.right h2 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.right ul li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.right ul li a:hover {
+  color: #d1d5db;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .right {
+    text-align: right;
+    margin-left: auto;
+    padding-left: 5rem;
+    max-width: 450px;
+  }
+}

@@ -1,4 +1,12 @@
-<?php include 'formkoneksi.php'; ?>
+<?php
+include 'formkoneksi.php'; 
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
+    exit();
+}
+?>
 
 <?php
 $filter = $_GET['filter'] ?? 'semua';

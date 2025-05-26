@@ -16,14 +16,14 @@
         <nav class="navbar">
             <ul>
                 <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Profil</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
                 <li class="profil"><a href="#" class="akun"><i class="fas fa-user"></i></a></li>
                 <li>
                     <button class="btn-logout">
-                        <i class="fas fa-sign-out-alt"></i>
+                        <i class="fa-solid fa-left-to-bracket"></i>
                         <a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a>
                     </button>
                 </li>
@@ -168,9 +168,9 @@
       <div class="right">
         <h2>Tautan Fungsional</h2>
         <ul>
-          <li><a href="beranda.html">Beranda</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
           <li>
-            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a>
+            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a>
           </li>
           <li>
             <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>

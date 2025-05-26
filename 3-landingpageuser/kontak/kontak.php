@@ -1,3 +1,13 @@
+<?php
+include 'CODINGAN/assets/formkoneksi.php';
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
   <head>
@@ -18,10 +28,10 @@
     <nav class="navbar">
       <ul>
         <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Profil</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
         <li class="profil">
           <a href="#" class="akun"><i class="fas fa-user"></i></a>
         </li>

@@ -1,4 +1,13 @@
 <?php
+include 'CODINGAN/assets/formkoneksi.php';
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
+    exit();
+}
+?>
+
 include 'formkoneksi.php';
 
 $filter = $_GET['filter'] ?? 'terbaru';

@@ -1,5 +1,11 @@
 <?php
-include 'formkoneksi.php';
+include 'formkoneksi.php'; 
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
+    exit();
+}
 
 $kategori = $_GET['kategori'] ?? 'all';
 $kata_kunci = $_GET['q'] ?? '';

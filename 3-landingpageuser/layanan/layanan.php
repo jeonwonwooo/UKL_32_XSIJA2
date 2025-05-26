@@ -1,14 +1,24 @@
+<?php
+include 'CODINGAN/assets/formkoneksi.php';
+
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Profile</title>
-    <link rel="stylesheet" href="petugas.css" />
+    <title>layanan</title>
+    <link rel="stylesheet" href="layanan.css" />
     <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   </head>
   <body>
     <header>
@@ -28,7 +38,7 @@
           <li>
             <button class="btn-logout">
               <i class="fas fa-arrow-left"></i>
-              <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html"
+              <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html"
                 >Kembali</a
               >
             </button>
@@ -36,58 +46,54 @@
         </ul>
       </nav>
     </header>
-
     <main>
-      <section class="pustakawan">
-        <h2>PUSTAKAWAN</h2>
-        <div class="pustakawan-container">
-          <a
-            href="/CODINGAN/3-landingpageuser/profil/petugas/pustakawan/pustakawan.html#wonwoo"
-            class="card">
-            <img src="wonwoo.jpeg" alt="Foto Wonwoo" />
-            <div class="card-text">
-              <h4>Wonwoo Jeon</h4>
-              <h6>Layanan Pemustaka</h6>
-            </div>
-          </a>
-          <a
-            href="/CODINGAN/3-landingpageuser/profil/petugas/pustakawan/pustakawan.html#joshua"
-            class="card">
-            <img src="joshua.jpeg" alt="Foto Joshua" />
-            <div class="card-text">
-              <h4>Joshua Hong</h4>
-              <h6>Kepala Perpustakaan</h6>
-            </div>
-          </a>
-          <a
-            href="/CODINGAN/3-landingpageuser/profil/petugas/pustakawan/pustakawan.html#mingyu"
-            class="card">
-            <img src="mingyu.jpeg" alt="Foto Mingyu" />
-            <div class="card-text">
-              <h4>Mingyu Kim</h4>
-              <h6>Layanan Teknis</h6>
-            </div>
-          </a>
-        </div>
-      </section>
-      <section class="pengelola-situs">
-        <h2>PENGELOLA SITUS</h2>
-        <div class="pengelola-container">
-          <div class="kartu">
-            <img src="aku.jpg" alt="Fotoku" />
-            <div class="text-kartu">
-              <h4>Syarivatun Nisa’I Nur Aulia</h4>
-              <p>Siswi SMK Telkom Sidoarjo</p>
-              <p>Jurusan Sistem Informasi, Jaringan, dan Aplikasi</p>
+      <div class="container">
+        <div class="layout">
+          <div class="text-section">
+            <h1>
+              APA SAJA LAYANAN YANG ADA DI <br />
+              LIBRARY OF RIVENHILL SENIOR HIGH SCHOOL?
+            </h1>
+            <p>
+              Kami menyediakan 3 layanan utama yang dapat diakses secara
+              <em>offline</em> maupun <em>online</em>.
+            </p>
+          </div>
+          <div class="services">
+            <div class="service-card">
+              <div class="icon"><i class="fas fa-book"></i></div>
+              <h2>Sirkulasi</h2>
+              <p>
+                Layanan peminjaman dan pengembalian buku, baik dalam bentuk
+                fisik maupun eBook, dengan sistem yang terintegrasi.
+              </p>
               <a
-                href="/CODINGAN/3-landingpageuser/profil/petugas/pengelola/pengelola.html"
-                class="exploreme"
-                >Explore more</a
+                href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php"
+                class="btn-primary"
+                >Lihat Selengkapnya</a
               >
+            </div>
+            <div class="service-card">
+              <div class="icon"><i class="fas fa-book-open"></i></div>
+              <h2>Referensi</h2>
+              <p>
+                Koleksi bahan referensi seperti ensiklopedia, jurnal, dan buku
+                teks yang dapat digunakan di dalam perpustakaan.
+              </p>
+              <a href="/CODINGAN/3-landingpageuser/layanan/referensi/referensi.php" class="btn-primary">Lihat Selengkapnya</a>
+            </div>
+            <div class="service-card">
+              <div class="icon"><i class="fas fa-archive"></i></div>
+              <h2>Repository</h2>
+              <p>
+                Penyimpanan dan akses dokumen digital seperti skripsi, laporan
+                penelitian, serta arsip akademik sekolah.
+              </p>
+              <a href="/CODINGAN/3-landingpageuser/layanan/repository/repository.php" class="btn-primary">Lihat Selengkapnya</a>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </main>
 
     <footer class="footer">
@@ -111,7 +117,7 @@
         <ul>
           <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
           <li>
-            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a>
+            <a href="layanan.html">Layanan</a>
           </li>
           <li>
             <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
