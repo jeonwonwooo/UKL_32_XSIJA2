@@ -30,21 +30,19 @@ if (!$artikel) {
         <img src="logo.png" alt="Logo Perpus" srcset="" />
     </div>
     <nav class="navbar">
-        <ul>
-            <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
-            <li class="profil">
-                <a href="#" class="akun"><i class="fas fa-user"></i></a>
-            </li>
-            <li>
-                <button class="btn-logout">
-                    <i class="fas fa-sign-out-alt"></i> <a href="/z-yakinlogout/formyakin.html">Logout</a>
-                </button>
-            </li>
-        </ul>
+      <ul>
+        <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Tentang</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
+        <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
+        <li>
+          <button class="btn-logout">
+            <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Kembali</a>
+          </button>
+        </li>
+      </ul>
     </nav>
 </header>
 

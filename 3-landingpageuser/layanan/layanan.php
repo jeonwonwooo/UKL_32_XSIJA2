@@ -1,5 +1,5 @@
 <?php
-include 'CODINGAN/assets/formkoneksi.php';
+include 'formkoneksi.php';
 
 session_start();
 if (!isset($_SESSION['username'])) {
@@ -26,25 +26,20 @@ if (!isset($_SESSION['username'])) {
         <img src="logo.png" alt="Logo Perpus" srcset="" />
       </div>
       <nav class="navbar">
-        <ul>
-          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
-          <li class="profil">
-            <a href="#" class="akun"><i class="fas fa-user"></i></a>
-          </li>
-          <li>
-            <button class="btn-logout">
-              <i class="fas fa-arrow-left"></i>
-              <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html"
-                >Kembali</a
-              >
-            </button>
-          </li>
-        </ul>
-      </nav>
+      <ul>
+        <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Tentang</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
+        <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
+        <li>
+          <button class="btn-logout">
+            <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
     </header>
     <main>
       <div class="container">
@@ -114,14 +109,10 @@ if (!isset($_SESSION['username'])) {
       </div>
       <div class="right">
         <h2>Tautan Fungsional</h2>
-        <ul>
-          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-          <li>
-            <a href="layanan.html">Layanan</a>
-          </li>
-          <li>
-            <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-          </li>
+<ul>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
         </ul>
       </div>
     </div>

@@ -1,45 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library of Riverhill Senior High School</title>
-    <link rel="stylesheet" href="beranda.css">
-    <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css ">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library of Riverhill Senior High School</title>
+  <link rel="stylesheet" href="beranda.css">
+  <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src="logo.png" alt="Logo Perpus" srcset="" />
-        </div>
-        <nav class="navbar">
-            <ul>
-                <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
-                <li class="profil"><a href="#" class="akun"><i class="fas fa-user"></i></a></li>
-                <li>
-                    <button class="btn-logout">
-                        <i class="fa-solid fa-left-to-bracket"></i>
-                        <a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a>
-                    </button>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <?php if (isset($_GET['status'])) { ?>
-        <?php if ($_GET['status'] === 'success_admin') { ?>
-            <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
-        <?php } elseif ($_GET['status'] === 'balik_anggota') { ?>
-            <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>
-        <?php } elseif ($_GET['status'] === 'ga_kenal') { ?>
-            <p style="color: red; text-align: center;">Akun tidak dikenali!</p>
-        <?php } ?>
-    <?php } ?>
-    <!-- Rest of the page content -->
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Logo Perpus" />
+    </div>
+    <nav class="navbar">
+      <ul>
+        <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Tentang</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
+        <li class="profil">
+          <a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun">
+            <i class="fas fa-user"></i>
+          </a>
+        </li>
+        <li>
+          <button class="btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <?php if (isset($_GET['status'])): ?>
+    <?php if ($_GET['status'] === 'success_admin'): ?>
+      <p style="color: blue; text-align: center;">Terima kasih telah kembali, Admin.</p>
+    <?php elseif ($_GET['status'] === 'balik_anggota'): ?>
+      <p style="color: blue; text-align: center;">Terima kasih telah kembali.</p>
+    <?php elseif ($_GET['status'] === 'ga_kenal'): ?>
+      <p style="color: red; text-align: center;">Akun tidak dikenali!</p>
+    <?php endif; ?>
+  <?php endif; ?>
+
   <main>
     <section class="hero">
       <div class="hero-content">
@@ -56,9 +61,10 @@
         </p>
       </div>
     </section>
+
     <section class="intro">
       <div class="gambar2">
-        <img src="gambar2.jpg" alt="Gambar Perpus" srcset="" />
+        <img src="gambar2.jpg" alt="Gambar Perpus" />
       </div>
       <div class="intro-content">
         <h3>Kami Adalah</h3>
@@ -71,6 +77,7 @@
         </p>
       </div>
     </section>
+
     <section class="video">
       <div class="video-content">
         <h3>Video Profil</h3>
@@ -81,69 +88,67 @@
         </video>
       </div>
     </section>
+
     <section class="layanan">
       <div class="layanan-content">
         <h3>Layanan Perpustakaan</h3>
         <h6>Melayani dengan Senyuman, Mengutamakan Kepuasan</h6>
         <div class="layanan-item">
-  <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php" class="card-link">
-    <div class="card">
-      <div class="card-icon">
-        <i class="fas fa-book"></i>
-      </div>
-      <div class="card-content">
-        <h4>Sirkulasi</h4>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Reiciendis, esse adipisci expedita distinctio et dolorum
-          laborum ut ullam voluptates ratione assumenda delectus
-          eveniet. In enim sed, incidunt inventore qui facilis.
-        </p>
-      </div>
-    </div>
-  </a>
-
-  <a href="/CODINGAN/3-landingpageuser/layanan/referensi/referensi.php" class="card-link">
-    <div class="card">
-      <div class="card-icon">
-        <i class="fas fa-book-open"></i>
-      </div>
-      <div class="card-content">
-        <h4>Referensi</h4>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Reiciendis, esse adipisci expedita distinctio et dolorum
-          laborum ut ullam voluptates ratione assumenda delectus
-          eveniet. In enim sed, incidunt inventore qui facilis.
-        </p>
-      </div>
-    </div>
-  </a>
-
-  <a href="/CODINGAN/3-landingpageuser/layanan/repository/repository.php" class="card-link">
-    <div class="card">
-      <div class="card-icon">
-        <i class="fas fa-book-reader"></i>
-      </div>
-      <div class="card-content">
-        <h4>Repository</h4>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Reiciendis, esse adipisci expedita distinctio et dolorum
-          laborum ut ullam voluptates ratione assumenda delectus
-          eveniet. In enim sed, incidunt inventore qui facilis.
-        </p>
-      </div>
-    </div>
-  </a>
-</div>
-
+          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php" class="card-link">
+            <div class="card">
+              <div class="card-icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <div class="card-content">
+                <h4>Sirkulasi</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Reiciendis, esse adipisci expedita distinctio et dolorum
+                  laborum ut ullam voluptates ratione assumenda delectus
+                  eveniet. In enim sed, incidunt inventore qui facilis.
+                </p>
+              </div>
+            </div>
+          </a>
+          <a href="/CODINGAN/3-landingpageuser/layanan/referensi/referensi.php" class="card-link">
+            <div class="card">
+              <div class="card-icon">
+                <i class="fas fa-book-open"></i>
+              </div>
+              <div class="card-content">
+                <h4>Referensi</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Reiciendis, esse adipisci expedita distinctio et dolorum
+                  laborum ut ullam voluptates ratione assumenda delectus
+                  eveniet. In enim sed, incidunt inventore qui facilis.
+                </p>
+              </div>
+            </div>
+          </a>
+          <a href="/CODINGAN/3-landingpageuser/layanan/repository/repository.php" class="card-link">
+            <div class="card">
+              <div class="card-icon">
+                <i class="fas fa-book-reader"></i>
+              </div>
+              <div class="card-content">
+                <h4>Repository</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Reiciendis, esse adipisci expedita distinctio et dolorum
+                  laborum ut ullam voluptates ratione assumenda delectus
+                  eveniet. In enim sed, incidunt inventore qui facilis.
+                </p>
+              </div>
+            </div>
+          </a>
+        </div>
       </div>
       <div class="struktur">
         <h3>Struktur Organisasi dan Petugas</h3>
         <p>Perpustakaan SMA Rivenhill</p>
         <button class="see">
-          <a href="/CODINGAN//3-landingpageuser/profil/petugas/petugas.html">Lihat di Sini</a>
+          <a href="/CODINGAN//3-landingpageuser/profil/petugas/petugas.php">Lihat di Sini</a>
         </button>
       </div>
     </section>
@@ -160,8 +165,7 @@
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
-              class="fab fa-linkedin"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
           <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
@@ -169,18 +173,13 @@
         <h2>Tautan Fungsional</h2>
         <ul>
           <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-          <li>
-            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a>
-          </li>
-          <li>
-            <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-          </li>
+          <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      Copyright © 2024 Library of Riverhill Senior High School. All Rights
-      Reserved
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
     </div>
   </footer>
 </body>

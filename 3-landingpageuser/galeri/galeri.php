@@ -1,14 +1,11 @@
 <?php
-include 'CODINGAN/assets/formkoneksi.php';
+include 'formkoneksi.php';
 
 session_start();
 if (!isset($_SESSION['username'])) {
     header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
     exit();
 }
-?>
-
-include 'formkoneksi.php';
 
 $filter = $_GET['filter'] ?? 'terbaru';
 
@@ -58,16 +55,14 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav class="navbar">
       <ul>
         <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.html">Profil</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
-        <li class="profil">
-          <a href="#" class="akun"><i class="fas fa-user"></i></a>
-        </li>
+        <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Tentang</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
+        <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
         <li>
           <button class="btn-logout">
-            <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+            <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali</a>
           </button>
         </li>
       </ul>

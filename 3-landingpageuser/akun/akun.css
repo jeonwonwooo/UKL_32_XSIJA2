@@ -1,0 +1,410 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Alexandria", sans-serif;
+  font-weight: 700;
+  color: #333;
+}
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #333;
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+/* Atur Navbar */
+header {
+  background-color: #2e2b8d;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  height: 10vh;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline-block;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar ul li a:hover {
+  color: #ffd700;
+}
+
+.btn-logout {
+  background: none;
+  border: 2px solid #fff;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: #fff;
+  color: #2e2b8d;
+}
+
+.profil .akun i {
+  font-size: 18px;
+  color: #fff;
+}
+
+.profil .akun i:hover {
+  color: #ffd700;
+}
+
+.account-details {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.sidebar {
+    width: 25%;
+    float: left;
+}
+
+.main-content {
+    width: 75%;
+    float: right;
+}
+
+.profile-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-section li {
+    margin-bottom: 10px;
+}
+
+.profile-section a {
+    text-decoration: none;
+    color: #2e2b8d;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.profile-section a:hover {
+    color: #1c1a5e;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="email"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-edit, .btn-logout {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2e2b8d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.btn-edit:hover, .btn-logout:hover {
+    background-color: #1c1a5e;
+}
+
+.logout-section button {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.logout-section button:hover {
+    background-color: #e74c3c;
+}
+
+.account-details {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    overflow: hidden; /* Clear float */
+}
+
+.sidebar {
+    width: 25%;
+    float: left;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    width: 75%;
+    float: right;
+    box-sizing: border-box;
+}
+
+/* Profil Section */
+.profile-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #2e2b8d;
+}
+
+.profile-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.profile-section li {
+    margin-bottom: 15px;
+}
+
+.profile-section a {
+    text-decoration: none;
+    color: #2e2b8d;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: color 0.3s ease;
+}
+
+.profile-section a:hover {
+    color: #1c1a5e;
+}
+
+.profile-section i {
+    font-size: 18px;
+    color: #2e2b8d;
+}
+
+/* Profile Picture */
+.profile-section img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.btn-edit, .btn-logout {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2e2b8d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-edit:hover, .btn-logout:hover {
+    background-color: #1c1a5e;
+}
+
+.logout-section button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-section button:hover {
+    background-color: #e74c3c;
+}
+
+
+/* Atur Footer */
+.footer {
+  background: linear-gradient(to bottom, #6b46c1, #ffffff);
+  color: white;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0.5rem;
+}
+
+.left img {
+  width: 190px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.left p {
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
+  margin-bottom: 0.5rem;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+}
+
+.social-icons a {
+  color: white;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #d1d5db;
+}
+
+.right {
+  flex: 1;
+  margin: 0.5rem;
+  padding-left: 2rem;
+  text-align: right;
+  max-width: 400px;
+}
+
+.right h2 {
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.right ul li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.right ul li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.right ul li a:hover {
+  color: #d1d5db;
+}
+
+.footer-bottom {
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.875rem;
+  margin-top: 2rem;
+}

@@ -65,31 +65,21 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <img src="../../logo.png" alt="Logo Perpus" srcset="" />
     </div>
     <nav class="navbar">
-      <ul>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a>
-        </li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a>
-        </li>
-        <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a>
-        </li>
-        <li>
-          <a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a>
-        </li>
-        <li class="profil">
-          <a href="#" class="akun"><i class="fas fa-user"></i></a>
-        </li>
-        <li>
-          <button class="btn-logout">
-            <i class="fas fa-arrow-left"></i>
-            <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
-          </button>
-        </li>
-      </ul>
-    </nav>
+            <ul>
+                <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+                <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
+                <li>
+                    <button class="btn-logout">
+                        <i class="fas fa-arrow-left"></i>
+                        <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+                    </button>
+                </li>
+            </ul>
+        </nav>
   </header>
   <main>
     <section class="header">
@@ -99,7 +89,6 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
         Jelajahi pengetahuan dan inspirasi melalui buku-buku terbaik kami.
       </p>
     </section>
-    <!-- Filter Dropdown -->
     <section class="filter">
       <div class="filter-container">
         <div class="filter-dropdown">
@@ -163,13 +152,9 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="right">
         <h2>Tautan Fungsional</h2>
         <ul>
-          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-          <li>
-            <a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a>
-          </li>
-          <li>
-            <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-          </li>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+                    <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+                    <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
         </ul>
       </div>
     </div>
