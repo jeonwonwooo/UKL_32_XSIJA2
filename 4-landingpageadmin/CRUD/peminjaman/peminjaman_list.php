@@ -13,6 +13,7 @@ $search = $_GET['search'] ?? '';
 // Query dasar
 $query = "
     SELECT p.id, a.username, b.judul, b.tipe_buku, p.tanggal_pinjam, p.batas_pengembalian, p.status, 
+           p.status_pengajuan,
            CASE 
                WHEN p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian THEN 'Kena Denda'
                ELSE ''
@@ -35,6 +36,8 @@ if ($filter === 'fisik') {
     $query .= " WHERE p.status = 'dikembalikan'";
 } elseif ($filter === 'denda') {
     $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian";
+} elseif ($filter === 'pengajuan') {
+    $query .= " WHERE p.status_pengajuan = 'menunggu'";
 }
 
 // Tambahkan pencarian
@@ -81,15 +84,15 @@ try {
     <nav>
         <ul>
             <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active">Dashboard</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php">Favorit Pengguna</a></li>
-                    <li><a href="/CODINGAN/4-landingpageadmin/CRUD/rating-ulasan/rating-ulasan_list.php">Penilaian Pengguna</a></li>
-                    <li><a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php">Daftar Pengguna</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php">Daftar Admin</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php">Daftar Artikel</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php">Daftar Buku</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php">Daftar Peminjaman</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php">Daftar Dokumen</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php">Favorit Pengguna</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/rating-ulasan/rating-ulasan_list.php">Penilaian Pengguna</a></li>
+            <li><a href="/CODINGAN/z-yakinlogout/formyakin.php">Logout</a></li>
         </ul>
     </nav>
 </aside>
@@ -106,6 +109,7 @@ try {
             <option value="dipinjam" <?= $filter === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
             <option value="dikembalikan" <?= $filter === 'dikembalikan' ? 'selected' : '' ?>>Dikembalikan</option>
             <option value="denda" <?= $filter === 'denda' ? 'selected' : '' ?>>Kena Denda</option>
+            <option value="pengajuan" <?= $filter === 'pengajuan' ? 'selected' : '' ?>>Pengajuan Pengembalian</option>
         </select>
         <input type="text" name="search" placeholder="Cari judul atau username..." value="<?= htmlspecialchars($search) ?>">
         <button type="submit">Cari</button>
@@ -125,13 +129,14 @@ try {
                 <th>Batas Pengembalian</th>
                 <th>Status</th>
                 <th>Denda</th>
+                <th>Status Pengajuan</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             <?php if (empty($peminjaman)): ?>
                 <tr>
-                    <td colspan="9" class="no-data">Tidak ada data peminjaman.</td>
+                    <td colspan="10" class="no-data">Tidak ada data peminjaman.</td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($peminjaman as $pinjam): ?>
@@ -144,9 +149,14 @@ try {
                         <td><?= htmlspecialchars($pinjam['batas_pengembalian']) ?></td>
                         <td><?= htmlspecialchars(ucfirst($pinjam['status'])) ?></td>
                         <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
+                        <td><?= htmlspecialchars(ucfirst($pinjam['status_pengajuan'] ?? '-')) ?></td>
                         <td class="actions">
                             <?php if ($pinjam['status'] === 'dipinjam'): ?>
                                 <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
+                            <?php endif; ?>
+                            <?php if ($pinjam['status_pengajuan'] === 'menunggu'): ?>
+                                <a href="terima_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-primary">Terima Pengajuan</a>
+                                <a href="tolak_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger">Tolak Pengajuan</a>
                             <?php endif; ?>
                             <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
                         </td>

@@ -11,7 +11,7 @@ $anggota_id = $_SESSION['user_id'];
 $current_date = date('Y-m-d');
 
 try {
-    // Query statisik utama - DIPERBAIKI
+    // Query statistik utama
     $query_stats = "
         SELECT 'total_buku' as stat_name, COUNT(DISTINCT buku_id) as stat_value FROM peminjaman WHERE anggota_id = ?
         UNION ALL
@@ -23,7 +23,6 @@ try {
         UNION ALL
         SELECT 'ebook_dipinjam', COUNT(*) FROM peminjaman WHERE tipe_buku = 'Buku Elektronik' AND status = 'dipinjam' AND anggota_id = ?
     ";
-
     $stmt_stats = $conn->prepare($query_stats);
     $stmt_stats->execute([
         $anggota_id,
@@ -44,7 +43,8 @@ try {
             p.id AS peminjaman_id,
             b.judul AS judul_buku,
             p.tanggal_pinjam,
-            p.status
+            p.status,
+            p.status_pengajuan
         FROM peminjaman p
         JOIN buku b ON p.buku_id = b.id
         WHERE p.anggota_id = ?
@@ -59,7 +59,6 @@ try {
     die("Error: " . $e->getMessage());
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,6 +135,8 @@ try {
             <th>Judul Buku</th>
             <th>Tanggal Pinjam</th>
             <th>Status</th>
+            <th>Status Pengajuan</th>
+            <th>Aksi</th>
           </tr>
         </thead>
         <tbody>
@@ -146,6 +147,14 @@ try {
                 <td><?= htmlspecialchars($activity['judul_buku']) ?></td>
                 <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
                 <td><?= ucfirst(htmlspecialchars($activity['status'])) ?></td>
+                <td><?= htmlspecialchars(ucfirst($activity['status_pengajuan'] ?? '-')) ?></td>
+                <td class="actions">
+                  <?php if ($activity['status'] === 'dipinjam' && empty($activity['status_pengajuan'])): ?>
+                    <a href="ajukan-kembali.php?id=<?= $activity['peminjaman_id'] ?>" class="btn-action">Ajukan Pengembalian</a>
+                  <?php elseif ($activity['status_pengajuan'] === 'menunggu'): ?>
+                    <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
+                  <?php endif; ?>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php else: ?>

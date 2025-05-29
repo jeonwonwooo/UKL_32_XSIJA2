@@ -203,6 +203,27 @@ h1 {
   font-weight: bold;
 }
 
+.denda {
+    color: red;
+    font-weight: bold;
+}
+
+.actions a {
+    margin-right: 5px;
+}
+
+.status-pengajuan-menunggu {
+    color: orange;
+}
+
+.status-pengajuan-diterima {
+    color: green;
+}
+
+.status-pengajuan-ditolak {
+    color: red;
+}
+
 /* Pesan jika tidak ada data */
 .no-data {
   text-align: center;
