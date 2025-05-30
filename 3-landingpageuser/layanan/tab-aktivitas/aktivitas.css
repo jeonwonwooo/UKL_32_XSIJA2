@@ -31,7 +31,6 @@ p {
   color: #333;
 }
 
-/* Heading Sizes */
 h1 {
   font-size: 36px;
 }
@@ -180,8 +179,8 @@ header {
 
 .isi {
   padding: 20px;
-  max-width: 1200px; /* Batasi lebar maksimum untuk responsifitas */
-  margin: 0 auto; /* Sentralisasi konten secara keseluruhan */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .isi h3 {
@@ -192,46 +191,45 @@ header {
 .statistik-wrapper {
   display: flex;
   align-items: flex-start;
-  gap: 60px; /* Tingkatkan jarak antara teks dan tabel */
-  padding: 0 40px; /* Jarak dari tepi container */
+  gap: 60px;
+  padding: 0 40px;
 }
 
 .text1 {
   flex: 1;
   font-size: 16px;
   line-height: 1.5;
-  min-width: 0; /* Agar tidak overflow */
-  text-align: justify; /* Justifikasi teks */
-  hyphens: auto; /* Memungkinkan pemotongan kata untuk layout yang lebih baik */
+  min-width: 0;
+  text-align: justify;
+  hyphens: auto;
 }
 
 .statistik table {
-  width: auto; /* Tabel menyesuaikan dengan konten */
+  width: auto;
   border-collapse: collapse;
-  table-layout: auto; /* Biar kolom sesuai panjang teks */
+  table-layout: auto;
   max-width: 100%;
 }
 
 .statistik th,
 .statistik td {
-  padding: 16px; /* Tingkatkan padding untuk lebih lega */
+  padding: 16px;
   text-align: left;
   border: 1px solid #ddd;
-  white-space: nowrap; /* Agar teks tidak wrap */
-  font-size: 18px; /* Perbesar ukuran teks */
+  white-space: nowrap;
+  font-size: 18px;
 }
 
 .statistik th {
   text-align: center;
-  background-color: #333; /* Warna header tabel (opsional) */
-  color: #fff; /* Warna teks header tabel */
+  background-color: #333;
+  color: #fff;
 }
 
-/* Responsif */
 @media (max-width: 768px) {
   .statistik-wrapper {
     flex-direction: column;
-    padding: 0; /* Hilangkan padding saat responsif */
+    padding: 0;
   }
 
   .statistik table {
@@ -247,14 +245,14 @@ header {
   max-width: 800px;
   margin: 40px auto;
   text-align: center;
-  padding: 0 20px; /* Biar ga mepet */
+  padding: 0 20px;
 }
 
 .aktivitas h3 {
   font-size: 24px;
   color: #2c3e50;
   margin-bottom: 20px;
-  text-align: center; /* Ini penting banget */
+  text-align: center;
 }
 
 .aktivitas table {
@@ -267,6 +265,58 @@ header {
   overflow: hidden;
 }
 
+.success-notification {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.warning-notification {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.error-notification {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.info-notification {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.status-pengajuan-menunggu {
+    color: #004085;
+    background-color: #cce5ff;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.status-pengajuan-ditolak {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.status-pengajuan-diterima {
+    color: #155724;
+    background-color: #d4edda;
+    padding: 5px;
+    border-radius: 4px;
+}
 .aktivitas th {
   background-color: #2c3e50;
   color: white;
@@ -294,7 +344,6 @@ header {
   border-bottom: none;
 }
 
-/* Gaya alternatif untuk teks status */
 .aktivitas td:nth-child(4),
 .aktivitas td:nth-child(5) {
   text-transform: capitalize;
@@ -340,7 +389,6 @@ header {
   font-size: 16px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .laporan-kerusakan {
     flex-direction: column;
@@ -437,7 +485,6 @@ header {
   margin-top: 2rem;
 }
 
-/* --- Responsif --- */
 @media (max-width: 768px) {
   .statistik-container,
   .aktivitas-container,

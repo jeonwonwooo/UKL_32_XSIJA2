@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'formkoneksi.php';
 
 // Ambil ID peminjaman dari GET
@@ -12,7 +11,7 @@ try {
     // Mulai transaksi
     $conn->beginTransaction();
 
-    // Ambil data peminjaman termasuk jumlah_pengajuan dan anggota_id
+    // Ambil data peminjaman termasuk anggota_id
     $query = "SELECT jumlah_pengajuan, anggota_id FROM peminjaman WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$peminjaman_id]);
@@ -22,19 +21,20 @@ try {
         throw new Exception("Data peminjaman tidak ditemukan.");
     }
 
-    $jumlah_pengajuan = $peminjaman['jumlah_pengajuan'];
+    $sisa_kesempatan = $peminjaman['jumlah_pengajuan'] - 1;
     $anggota_id = $peminjaman['anggota_id'];
 
-    // Update status pengajuan menjadi 'ditolak'
-    $update = $conn->prepare("
-        UPDATE peminjaman 
-        SET status_pengajuan = 'ditolak' 
-        WHERE id = ?
-    ");
-    $update->execute([$peminjaman_id]);
+    if ($sisa_kesempatan < 0) {
+        // Jika kesempatan sudah habis (0 atau kurang), kenakan denda
+        
+        // Update status peminjaman
+        $update = $conn->prepare("
+            UPDATE peminjaman 
+            SET status_pengajuan = 'ditolak', jumlah_pengajuan = 0 
+            WHERE id = ?
+        ");
+        $update->execute([$peminjaman_id]);
 
-    // Jika jumlah pengajuan <= 0 (sudah melebihi batas), kenakan denda
-    if ($jumlah_pengajuan <= 0) {
         // Cek apakah denda sudah pernah dicatat
         $cek_denda = $conn->prepare("SELECT id FROM denda WHERE peminjaman_id = ?");
         $cek_denda->execute([$peminjaman_id]);
@@ -43,26 +43,26 @@ try {
             // Tambahkan data denda baru
             $insert_denda = $conn->prepare("
                 INSERT INTO denda (anggota_id, peminjaman_id, nominal, status, keterangan, created_at)
-                VALUES (?, ?, 50000, 'belum_dibayar', 'Terindikasi penipuan karena melebihi batas pengajuan pengembalian buku namun buku tidak ada di koleksi perpustakaan.', NOW())
+                VALUES (?, ?, 50000, 'belum_dibayar', 'Melebihi batas pengajuan', NOW())
             ");
             $insert_denda->execute([$anggota_id, $peminjaman_id]);
-            
-            // Update status denda di tabel peminjaman
-            $update_denda = $conn->prepare("
-                UPDATE peminjaman 
-                SET denda_status = 'belum_dibayar' 
-                WHERE id = ?
-            ");
-            $update_denda->execute([$peminjaman_id]);
         }
+
+        echo "Pengajuan ditolak karena melebihi batas maksimal. Denda Rp50.000 telah dikenakan.";
+    } else {
+        // Update status pengajuan menjadi 'menunggu' dan kurangi sisa kesempatan
+        $update = $conn->prepare("
+            UPDATE peminjaman 
+            SET status_pengajuan = 'menunggu', jumlah_pengajuan = ?, pengajuan_pengembalian = NOW() 
+            WHERE id = ?
+        ");
+        $update->execute([$sisa_kesempatan, $peminjaman_id]);
+
+        echo "Pengajuan berhasil diajukan. Sisa kesempatan: " . $sisa_kesempatan . " kali lagi.";
     }
 
     // Commit transaksi
     $conn->commit();
-
-    // Redirect admin kembali ke halaman daftar peminjaman
-    header("Location: peminjaman_list.php?status=pengajuan_ditolak");
-    exit;
 } catch (Exception $e) {
     // Rollback jika terjadi error
     $conn->rollBack();

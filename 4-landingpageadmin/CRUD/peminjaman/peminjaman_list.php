@@ -151,15 +151,16 @@ try {
                         <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
                         <td><?= htmlspecialchars(ucfirst($pinjam['status_pengajuan'] ?? '-')) ?></td>
                         <td class="actions">
-                            <?php if ($pinjam['status'] === 'dipinjam'): ?>
-                                <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>&action=kembalikan" class="btn btn-success">Kembalikan</a>
-                            <?php endif; ?>
-                            <?php if ($pinjam['status_pengajuan'] === 'menunggu'): ?>
-                                <a href="terima_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-primary">Terima Pengajuan</a>
-                                <a href="tolak_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger">Tolak Pengajuan</a>
-                            <?php endif; ?>
-                            <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
-                        </td>
+    <?php if ($pinjam['status_pengajuan'] === 'menunggu' && $pinjam['status'] === 'dipinjam'): ?>
+        <!-- Tombol Terima Pengajuan -->
+        <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>" class="btn btn-primary">Terima Pengajuan</a>
+        <!-- Tombol Tolak Pengajuan -->
+        <a href="tolak_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger">Tolak Pengajuan</a>
+    <?php elseif ($pinjam['status_pengajuan'] === 'diterima' && $pinjam['status'] === 'dikembalikan'): ?>
+        <span class="status-success">Buku telah dikembalikan</span>
+    <?php endif; ?>
+    <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+</td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
