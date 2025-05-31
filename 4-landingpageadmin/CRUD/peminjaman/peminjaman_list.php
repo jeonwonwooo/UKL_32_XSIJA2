@@ -12,15 +12,25 @@ $search = $_GET['search'] ?? '';
 
 // Query dasar
 $query = "
-    SELECT p.id, a.username, b.judul, b.tipe_buku, p.tanggal_pinjam, p.batas_pengembalian, p.status, 
-           p.status_pengajuan,
-           CASE 
-               WHEN p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian THEN 'Kena Denda'
-               ELSE ''
-           END AS denda_status
-    FROM peminjaman p
-    JOIN anggota a ON p.anggota_id = a.id
-    JOIN buku b ON p.buku_id = b.id
+    SELECT 
+        p.id, 
+        a.username, 
+        b.judul, 
+        b.tipe_buku, 
+        p.tanggal_pinjam, 
+        p.batas_pengembalian, 
+        p.status, 
+        p.status_pengajuan,
+        d.nominal AS denda_nominal,
+        d.status AS denda_status
+    FROM 
+        peminjaman p
+    JOIN 
+        anggota a ON p.anggota_id = a.id
+    JOIN 
+        buku b ON p.buku_id = b.id
+    LEFT JOIN 
+        denda d ON p.anggota_id = d.anggota_id AND d.status = 'belum_dibayar'
 ";
 
 // Tambahkan kondisi filter

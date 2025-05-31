@@ -21,51 +21,29 @@ try {
         throw new Exception("Data peminjaman tidak ditemukan.");
     }
 
-    $sisa_kesempatan = $peminjaman['jumlah_pengajuan'] - 1;
+    $jumlah_pengajuan = max(0, ($peminjaman['jumlah_pengajuan'] ?? 3));
     $anggota_id = $peminjaman['anggota_id'];
 
-    if ($sisa_kesempatan < 0) {
-        // Jika kesempatan sudah habis (0 atau kurang), kenakan denda
-        
-        // Update status peminjaman
-        $update = $conn->prepare("
-            UPDATE peminjaman 
-            SET status_pengajuan = 'ditolak', jumlah_pengajuan = 0 
-            WHERE id = ?
-        ");
-        $update->execute([$peminjaman_id]);
+    // Kurangi jumlah_pengajuan
+    $sisa_pengajuan = $jumlah_pengajuan - 1;
 
-        // Cek apakah denda sudah pernah dicatat
-        $cek_denda = $conn->prepare("SELECT id FROM denda WHERE peminjaman_id = ?");
-        $cek_denda->execute([$peminjaman_id]);
-        
-        if (!$cek_denda->fetch()) {
-            // Tambahkan data denda baru
-            $insert_denda = $conn->prepare("
-                INSERT INTO denda (anggota_id, peminjaman_id, nominal, status, keterangan, created_at)
-                VALUES (?, ?, 50000, 'belum_dibayar', 'Melebihi batas pengajuan', NOW())
-            ");
-            $insert_denda->execute([$anggota_id, $peminjaman_id]);
-        }
+    // Update status_pengajuan dan jumlah_pengajuan
+    $update_pengajuan = $conn->prepare("UPDATE peminjaman SET status_pengajuan = 'menunggu', jumlah_pengajuan = ? WHERE id = ?");
+    $update_pengajuan->execute([$sisa_pengajuan, $peminjaman_id]);
 
-        echo "Pengajuan ditolak karena melebihi batas maksimal. Denda Rp50.000 telah dikenakan.";
-    } else {
-        // Update status pengajuan menjadi 'menunggu' dan kurangi sisa kesempatan
-        $update = $conn->prepare("
-            UPDATE peminjaman 
-            SET status_pengajuan = 'menunggu', jumlah_pengajuan = ?, pengajuan_pengembalian = NOW() 
-            WHERE id = ?
-        ");
-        $update->execute([$sisa_kesempatan, $peminjaman_id]);
-
-        echo "Pengajuan berhasil diajukan. Sisa kesempatan: " . $sisa_kesempatan . " kali lagi.";
-    }
-
-    // Commit transaksi
     $conn->commit();
+    header("Location: /CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php?status=pengajuan_berhasil");
+    exit();
+
+} catch (PDOException $e) {
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
+    }
+    die("Database Error: " . htmlspecialchars($e->getMessage()));
 } catch (Exception $e) {
-    // Rollback jika terjadi error
-    $conn->rollBack();
-    die("ERROR: " . $e->getMessage());
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
+    }
+    die("Error: " . htmlspecialchars($e->getMessage()));
 }
 ?>

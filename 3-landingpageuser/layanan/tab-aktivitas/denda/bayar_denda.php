@@ -4,7 +4,8 @@ session_start();
 
 // Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
-    die("HARUS LOGIN DULU!");
+    header("Location: login.php");
+    exit;
 }
 
 // Ambil ID denda dari GET
@@ -35,29 +36,45 @@ try {
             throw new Exception("Metode pembayaran harus dipilih.");
         }
 
-        if (empty($_FILES['bukti_pembayaran']['name'])) {
+        // Periksa apakah file diupload dengan benar
+        if (!isset($_FILES['bukti_pembayaran']) || $_FILES['bukti_pembayaran']['error'] !== UPLOAD_ERR_OK) {
             throw new Exception("Bukti pembayaran harus diunggah.");
         }
 
-        // Validasi file
-        $allowed_types = ['image/jpeg', 'image/png', 'application/pdf'];
+        // Validasi tipe file
+        $allowed_types = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'application/pdf' => 'pdf'];
         $file_type = $_FILES['bukti_pembayaran']['type'];
-        if (!in_array($file_type, $allowed_types)) {
+        $file_extension = strtolower(pathinfo($_FILES['bukti_pembayaran']['name'], PATHINFO_EXTENSION));
+        
+        // Cek tipe MIME dan ekstensi file
+        if (!array_key_exists($file_type, $allowed_types)) {
             throw new Exception("Hanya menerima file JPG, PNG, atau PDF.");
         }
-
-        // Simpan file bukti pembayaran
-        $target_dir = "CODINGAN/4-landingpageadmin/uploads";
-        if (!is_dir($target_dir)) {
-            mkdir($target_dir, 0777, true);
+        if ($allowed_types[$file_type] !== $file_extension) {
+            throw new Exception("Ekstensi file tidak sesuai dengan tipe file.");
         }
-        
-        $file_extension = pathinfo($_FILES["bukti_pembayaran"]["name"], PATHINFO_EXTENSION);
-        $new_filename = "denda_" . $denda_id . "_" . time() . "." . $file_extension;
+
+        // Validasi ukuran file (maksimal 2MB)
+        $max_size = 2 * 1024 * 1024; // 2MB
+        if ($_FILES['bukti_pembayaran']['size'] > $max_size) {
+            throw new Exception("Ukuran file terlalu besar. Maksimal 2MB.");
+        }
+
+        // Buat direktori upload jika belum ada
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/CODINGAN/4-landingpageadmin/uploads/";
+        if (!is_dir($target_dir)) {
+            if (!mkdir($target_dir, 0755, true)) {
+                throw new Exception("Gagal membuat direktori upload.");
+            }
+        }
+
+        // Generate nama file unik
+        $new_filename = "denda_" . $denda_id . "_" . uniqid() . "." . $file_extension;
         $target_file = $target_dir . $new_filename;
 
-        if (!move_uploaded_file($_FILES["bukti_pembayaran"]["tmp_name"], $target_file)) {
-            throw new Exception("Gagal mengunggah file.");
+        // Pindahkan file ke direktori target
+        if (!move_uploaded_file($_FILES['bukti_pembayaran']['tmp_name'], $target_file)) {
+            throw new Exception("Gagal menyimpan file. Error: " . $_FILES['bukti_pembayaran']['error']);
         }
 
         // Update data denda
@@ -65,12 +82,12 @@ try {
             UPDATE denda 
             SET bukti_pembayaran = ?, 
                 metode_pembayaran = ?, 
-                status = 'pending', 
+                status = 'proses', 
                 tanggal_pembayaran = NOW()
             WHERE id = ?
         ");
         $update->execute([
-            $target_file,
+            $new_filename, // Simpan hanya nama file, bukan path lengkap
             $_POST['metode_pembayaran'],
             $denda_id
         ]);
@@ -300,8 +317,8 @@ try {
             </div>
 
             <div class="form-group">
-                <label for="bukti_pembayaran">Bukti Pembayaran (JPG/PNG/PDF):</label>
-                <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" required>
+                <label for="file">Pilih File (JPG, JPEG, PNG, atau PDF)</label>
+            <input type="file" id="bukti_pembayaran" name="bukti_pembayaran" required accept=".jpg,.jpeg,.png,.pdf">
             </div>
             <div class="form-group">
                 <p>Pastikan Anda telah melakukan pembayaran sesuai dengan nominal denda yang tertera di atas.</p>
