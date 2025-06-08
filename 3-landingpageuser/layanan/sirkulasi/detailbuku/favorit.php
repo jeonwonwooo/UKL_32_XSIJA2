@@ -52,9 +52,9 @@ try {
                 d.penulis AS penulis_dokumen,
                 d.tahun_terbit,
                 d.tipe_dokumen
-            FROM favorit_dokumen fd
-            JOIN dokumen d ON fd.dokumen_id = d.id
-            WHERE fd.user_id = ?
+            FROM favorit f
+            JOIN dokumen d ON f.dokumen_id = d.id
+            WHERE f.user_id = ?
         ");
         $stmt_dokumen->execute([$user_id]);
         $daftar_dokumen = $stmt_dokumen->fetchAll(PDO::FETCH_ASSOC);

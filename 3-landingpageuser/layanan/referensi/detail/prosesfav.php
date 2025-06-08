@@ -1,6 +1,5 @@
 <?php
 
-// Koneksi database
 require_once '../formkoneksi.php';
 
 try {
@@ -12,71 +11,58 @@ try {
     }
 
     $dokumen_id = $_POST['dokumen_id'] ?? 0;
+    $action = $_POST['action'] ?? '';
 
     if (!$dokumen_id) {
         throw new Exception("ID dokumen tidak valid.");
     }
 
-    // Cek apakah user ada di tabel anggota
-    $check_user_query = "SELECT * FROM anggota WHERE id = :user_id";
-    $check_user_stmt = $conn->prepare($check_user_query);
-    $check_user_stmt->bindParam(':user_id', $user_id);
-    $check_user_stmt->execute();
-
-    if (!$check_user_stmt->rowCount()) {
-        throw new Exception("Error: User ID tidak ditemukan di tabel anggota.");
+    // Cek user valid
+    $check_user = $conn->prepare("SELECT id FROM anggota WHERE id = :user_id");
+    $check_user->bindParam(':user_id', $user_id);
+    $check_user->execute();
+    if (!$check_user->rowCount()) {
+        throw new Exception("User tidak ditemukan.");
     }
 
-    // Cek apakah dokumen ada di tabel dokumen
-    $check_dokumen_query = "SELECT * FROM dokumen WHERE id = :dokumen_id";
-    $check_dokumen_stmt = $conn->prepare($check_dokumen_query);
-    $check_dokumen_stmt->bindParam(':dokumen_id', $dokumen_id);
-    $check_dokumen_stmt->execute();
-
-    if (!$check_dokumen_stmt->rowCount()) {
-        throw new Exception("Error: Dokumen ID tidak ditemukan di tabel dokumen.");
+    // Cek dokumen valid
+    $check_dokumen = $conn->prepare("SELECT id FROM dokumen WHERE id = :dokumen_id");
+    $check_dokumen->bindParam(':dokumen_id', $dokumen_id);
+    $check_dokumen->execute();
+    if (!$check_dokumen->rowCount()) {
+        throw new Exception("Dokumen tidak ditemukan.");
     }
-
-    $action = $_POST['action'] ?? '';
 
     if ($action === 'tambah') {
-        // Cek apakah sudah ada di favorit
-        $check_query = "SELECT * FROM favorit_dokumen WHERE dokumen_id = :dokumen_id AND user_id = :user_id";
-        $check_stmt = $conn->prepare($check_query);
-        $check_stmt->bindParam(':dokumen_id', $dokumen_id);
-        $check_stmt->bindParam(':user_id', $user_id);
-        $check_stmt->execute();
+        $cek = $conn->prepare("SELECT id FROM favorit WHERE user_id = :user_id AND dokumen_id = :dokumen_id");
+        $cek->bindParam(':user_id', $user_id);
+        $cek->bindParam(':dokumen_id', $dokumen_id);
+        $cek->execute();
 
-        if (!$check_stmt->rowCount()) {
-            // Tambahkan ke favorit dokumen
-            $insert_query = "INSERT INTO favorit_dokumen (user_id, dokumen_id) VALUES (:user_id, :dokumen_id)";
-            $insert_stmt = $conn->prepare($insert_query);
-            $insert_stmt->bindParam(':user_id', $user_id);
-            $insert_stmt->bindParam(':dokumen_id', $dokumen_id);
-            $insert_stmt->execute();
-
+        if (!$cek->rowCount()) {
+            $insert = $conn->prepare("INSERT INTO favorit (user_id, dokumen_id) VALUES (:user_id, :dokumen_id)");
+            $insert->bindParam(':user_id', $user_id);
+            $insert->bindParam(':dokumen_id', $dokumen_id);
+            $insert->execute();
             header("Location: /CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php?status=success");
             exit();
         } else {
             header("Location: /CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php?status=exists");
             exit();
         }
-    } elseif ($action === 'hapus') {
-        // Hapus dari favorit
-        $delete_query = "DELETE FROM favorit_dokumen WHERE dokumen_id = :dokumen_id AND user_id = :user_id";
-        $delete_stmt = $conn->prepare($delete_query);
-        $delete_stmt->bindParam(':dokumen_id', $dokumen_id);
-        $delete_stmt->bindParam(':user_id', $user_id);
-        $delete_stmt->execute();
 
+    } elseif ($action === 'hapus') {
+        $delete = $conn->prepare("DELETE FROM favorit WHERE user_id = :user_id AND dokumen_id = :dokumen_id");
+        $delete->bindParam(':user_id', $user_id);
+        $delete->bindParam(':dokumen_id', $dokumen_id);
+        $delete->execute();
         header("Location: /CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php?status=removed");
         exit();
     } else {
         throw new Exception("Aksi tidak valid.");
     }
-
 } catch (Exception $e) {
     die("Error: " . $e->getMessage());
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    die("Error DB: " . $e->getMessage());
 }

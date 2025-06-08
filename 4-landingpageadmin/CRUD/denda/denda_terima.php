@@ -49,10 +49,26 @@ try {
     ");
     $updatePengajuan->execute([$peminjaman_id]);
 
+    // Ambil buku_id dari tabel peminjaman
+    $stmt_buku = $conn->prepare("SELECT buku_id FROM peminjaman WHERE id = ?");
+    $stmt_buku->execute([$peminjaman_id]);
+    $buku_data = $stmt_buku->fetch(PDO::FETCH_ASSOC);
+
+    if (!$buku_data) {
+        throw new Exception("Data buku tidak ditemukan.");
+    }
+
+    $buku_id = $buku_data['buku_id'];
+
+    $update_buku_query = "UPDATE buku SET status = 'tersedia' WHERE id = ?";
+    $stmt_update_buku = $conn->prepare($update_buku_query);
+    $stmt_update_buku->bindValue(1, $buku_id, PDO::PARAM_INT);
+    $stmt_update_buku->execute();
+
     $conn->commit();
 
     // Redirect ke halaman aktivitas dengan notifikasi sukses
-    header("Location: /CODINGAN/4-landingpageadmin/denda/denda_list.php?status=denda_diterima&id={$denda_id}");
+    header("Location: /CODINGAN/4-landingpageadmin/CRUD/denda/denda_list.php?status=denda_diterima&id={$denda_id}");
     exit();
 
 } catch (PDOException $e) {
@@ -66,4 +82,3 @@ try {
     }
     die("Error: " . htmlspecialchars($e->getMessage()));
 }
-?>

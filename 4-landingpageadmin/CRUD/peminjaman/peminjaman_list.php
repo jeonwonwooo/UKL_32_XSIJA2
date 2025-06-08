@@ -36,16 +36,12 @@ $query = "
 // Tambahkan kondisi filter
 if ($filter === 'fisik') {
     $query .= " WHERE b.tipe_buku = 'fisik'";
-} elseif ($filter === 'ebook') {
-    $query .= " WHERE b.tipe_buku = 'ebook'";
-} elseif ($filter === 'jurnal') {
-    $query .= " WHERE b.tipe_buku = 'jurnal'";
 } elseif ($filter === 'dipinjam') {
     $query .= " WHERE p.status = 'dipinjam'";
 } elseif ($filter === 'dikembalikan') {
     $query .= " WHERE p.status = 'dikembalikan'";
 } elseif ($filter === 'denda') {
-    $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian";
+    $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian AND d.id IS NULL";
 } elseif ($filter === 'pengajuan') {
     $query .= " WHERE p.status_pengajuan = 'menunggu'";
 }
@@ -169,6 +165,7 @@ try {
     <?php elseif ($pinjam['status_pengajuan'] === 'diterima' && $pinjam['status'] === 'dikembalikan'): ?>
         <span class="status-success">Buku telah dikembalikan</span>
     <?php endif; ?>
+    <a href="peminjaman_edit.php?id=<?= $pinjam['id'] ?>" class="btn btn-warning">Edit</a>
     <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
 </td>
                     </tr>

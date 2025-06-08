@@ -33,13 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Masukkan ke tabel peminjaman
         $insert = $conn->prepare("INSERT INTO peminjaman (
-                    anggota_id, buku_id, tanggal_pinjam, status, tipe_buku, batas_pengembalian
-                ) VALUES (?, ?, ?, 'dipinjam', ?, ?)");
+                    anggota_id, buku_id, tanggal_pinjam, status, batas_pengembalian
+                ) VALUES (?, ?, ?, 'dipinjam', ?)");
         $insert->execute([
             $_SESSION['user_id'],
             $buku_id,
             $tanggal_pinjam,
-            $book['tipe_buku'],
             $batas_pengembalian
         ]);
 

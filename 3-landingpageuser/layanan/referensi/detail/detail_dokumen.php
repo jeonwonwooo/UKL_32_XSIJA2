@@ -27,7 +27,7 @@ $rata_rating = round($rating_result['rata_rating'], 1);
 $jumlah_ulasan = $rating_result['jumlah_ulasan'];
 
 // Cek apakah dokumen sudah ditambahkan ke favorit
-$stmt = $conn->prepare("SELECT * FROM favorit_dokumen WHERE dokumen_id = ? AND user_id = ?");
+$stmt = $conn->prepare("SELECT * FROM favorit WHERE dokumen_id = ? AND user_id = ?");
 $stmt->execute([$dokumen_id, $_SESSION['user_id']]);
 $favorit_aktif = $stmt->rowCount() > 0;
 
