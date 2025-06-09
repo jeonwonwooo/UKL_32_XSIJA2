@@ -42,7 +42,7 @@ $ratings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </aside>
     <div class="container">
         <h1><i class="fas fa-star"></i> Daftar Rating</h1>
-        <a href="rating_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Rating</a>
+        <a href="rating-ulasan_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Rating</a>
         <table class="custom-table">
             <thead>
                 <tr>

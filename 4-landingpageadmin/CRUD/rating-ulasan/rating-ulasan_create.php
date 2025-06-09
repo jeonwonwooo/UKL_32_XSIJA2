@@ -5,6 +5,7 @@ include 'formkoneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $anggota_id = $_POST['anggota_id'] ?? '';
     $buku_id = $_POST['buku_id'] ?? '';
+    $dokumen_id = $_POST['dokumen_id'] ?? '';
     $nilai = $_POST['nilai'] ?? '';
     $ulasan = $_POST['ulasan'] ?? '';
     $foto = $_POST['foto'] ?? '';
@@ -69,10 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="ulasan">Ulasan</label>
                 <textarea name="ulasan" id="ulasan" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="foto">Foto</label>
-                <input type="text" name="foto" id="foto">
             </div>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>

@@ -7,6 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     die("Harus login dulu!");
 }
 
+$user_id = $_SESSION['user_id'];
+
 // Ambil ID dokumen dari URL
 $dokumen_id = $_GET['id'] ?? null;
 
@@ -19,16 +21,46 @@ if (!$dokumen) {
     die("Dokumen tidak ditemukan!");
 }
 
-// Ambil rata-rata rating dan jumlah ulasan
+// Ambil rating & ulasan dokumen
+$dokumen_id = $_GET['id'] ?? null;
+if (!$dokumen_id) die("ID dokumen tidak ditemukan!");
+
+// Ambil rata-rata rating dan jumlah ulasan (khusus dokumen)
 $stmt = $conn->prepare("SELECT COALESCE(AVG(nilai), 0) as rata_rating, COUNT(*) as jumlah_ulasan FROM rating WHERE dokumen_id = ?");
 $stmt->execute([$dokumen_id]);
 $rating_result = $stmt->fetch(PDO::FETCH_ASSOC);
 $rata_rating = round($rating_result['rata_rating'], 1);
 $jumlah_ulasan = $rating_result['jumlah_ulasan'];
 
+// Ambil distribusi rating
+$distribusi_query = "SELECT nilai AS rating, COUNT(*) AS count FROM rating WHERE dokumen_id = ? GROUP BY nilai";
+$distribusi_stmt = $conn->prepare($distribusi_query);
+$distribusi_stmt->execute([$dokumen_id]);
+$distribusi_rating = $distribusi_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Ambil daftar ulasan
+$ulasan_query = "SELECT r.id, r.anggota_id, r.dokumen_id, r.nilai, r.ulasan, u.username 
+                 FROM rating r 
+                 JOIN anggota u ON r.anggota_id = u.id 
+                 WHERE r.dokumen_id = ? ORDER BY r.created_at DESC";
+$ulasan_stmt = $conn->prepare($ulasan_query);
+$ulasan_stmt->execute([$dokumen_id]);
+$ulasan_list = $ulasan_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Cek apakah user sudah memberikan rating
+$existing_rating = null;
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $check_rating_query = "SELECT * FROM rating WHERE dokumen_id = ? AND anggota_id = ?";
+    $check_rating_stmt = $conn->prepare($check_rating_query);
+    $check_rating_stmt->execute([$dokumen_id, $user_id]);
+    $existing_rating = $check_rating_stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 // Cek apakah dokumen sudah ditambahkan ke favorit
-$stmt = $conn->prepare("SELECT * FROM favorit WHERE dokumen_id = ? AND user_id = ?");
-$stmt->execute([$dokumen_id, $_SESSION['user_id']]);
+$query = "SELECT * FROM favorit WHERE dokumen_id = ? AND user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->execute([$dokumen_id, $user_id]);
 $favorit_aktif = $stmt->rowCount() > 0;
 
 function getIconClass($tipe_dokumen) {
@@ -66,7 +98,7 @@ if ($status === 'success') {
     <title>Detail Dokumen - <?= htmlspecialchars($dokumen['judul']) ?></title>
     <link rel="stylesheet" href="detail_dokumen.css">
     <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css ">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -96,93 +128,98 @@ if ($status === 'success') {
             <h2><?= htmlspecialchars($dokumen['judul']) ?></h2>
         </section>
         <section class="detail-dokumen">
-            <div class="document-icon">
-    <i class="fas <?= getIconClass($dokumen['tipe_dokumen']) ?>"></i>
-</div>
-            <div class="informasi-dokumen">
-                <p><strong>Penulis:</strong> <?= htmlspecialchars($dokumen['penulis']) ?></p>
-                <p><strong>Tahun Terbit:</strong> <?= htmlspecialchars($dokumen['tahun_terbit']) ?></p>
-                <p><strong>Jenis:</strong> <?= htmlspecialchars($dokumen['tipe_dokumen']) ?></p>
-                <p><strong>Status:</strong> <?= htmlspecialchars($dokumen['status']) ?></p>
-                <p><strong>Deskripsi:</strong> <?= nl2br(htmlspecialchars($dokumen['deskripsi'])) ?></p>
+            <div class="detail-dokumen-box">
+                <div class="document-icon">
+                    <i class="fas <?= getIconClass($dokumen['tipe_dokumen']) ?>"></i>
+                </div>
+                <div class="informasi-dokumen">
+                    <p><strong>Penulis:</strong> <?= htmlspecialchars($dokumen['penulis']) ?></p>
+                    <p><strong>Tahun Terbit:</strong> <?= htmlspecialchars($dokumen['tahun_terbit']) ?></p>
+                    <p><strong>Jenis:</strong> <?= htmlspecialchars($dokumen['tipe_dokumen']) ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($dokumen['status']) ?></p>
+                    <p><strong>Deskripsi:</strong> <?= nl2br(htmlspecialchars($dokumen['deskripsi'])) ?></p>
+                </div>
             </div>
         </section>
+        <!-- Rating Overview -->
         <section class="rating">
-            <!-- Rating Overview -->
-            <div class="rating-overview">
-                <p><strong>Rating:</strong>
-                    ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
-                </p>
-            </div>
-            <!-- Star Distribution -->
-            <div class="star-distribution">
-                <?php if (!empty($distribusi_rating)): ?>
-                    <?php foreach ($distribusi_rating as $row):
-                        $percentage = ($jumlah_ulasan > 0) ? ($row['count'] / $jumlah_ulasan) * 100 : 0;
-                    ?>
+            <div class="rating-container">
+                <div class="rating-overview">
+                    <p>
+                        <strong>Rating:</strong>
+                        ★ (<?= number_format($rata_rating, 1) ?>/5) <?= $jumlah_ulasan ?> ratings - <?= $jumlah_ulasan ?> reviews
+                    </p>
+                </div>
+                <div class="star-distribution">
+                    <?php for ($rating = 5; $rating >= 1; $rating--): ?>
+                        <?php
+                        $count = 0;
+                        foreach ($distribusi_rating as $row) {
+                            if ($row['rating'] == $rating) {
+                                $count = $row['count'];
+                                break;
+                            }
+                        }
+                        $percentage = ($jumlah_ulasan > 0) ? ($count / $jumlah_ulasan) * 100 : 0;
+                        ?>
                         <div class="rating-bar">
-                            <span><?= $row['rating'] ?> stars</span>
+                            <span><?= $rating ?> stars</span>
                             <div class="bar-container">
-                                <div class="bar" style="width: <?= $percentage ?>%;"></div>
+                                <div class="bar" style="width: <?= $percentage ?>%; background-color: #ffcc00;"></div>
                             </div>
-                            <span><?= $row['count'] ?></span>
+                            <span><?= $count ?></span>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p>Tidak ada rating untuk dokumen ini.</p>
-                <?php endif; ?>
+                    <?php endfor; ?>
+                </div>
             </div>
-            <!-- User Reviews -->
+
             <section class="user-reviews">
                 <h3>Ulasan</h3>
-                <p>Displaying 1 of <?= $jumlah_ulasan ?> reviews</p>
-                <?php if (!empty($ulasan)): ?>
-                    <?php foreach ($ulasan as $review): ?>
-                        <div class="review">
-                            <div class="review-header">
-                                <span><?= htmlspecialchars($review['username']) ?></span>
-                                <span>
-                                    <?php for ($i = 0; $i < $review['rating']; $i++): ?>
-                                        ★
-                                    <?php endfor; ?>
-                                </span>
-                            </div>
-                            <p class="review-comment"><?= htmlspecialchars($review['komentar']) ?></p>
-                            <small class="show-more">Show more ▼</small>
+                <p>Menampilkan <?= count($ulasan_list) > 0 ? '1 dari ' . $jumlah_ulasan : '0' ?> ulasan</p>
+                <?php if (!empty($ulasan_list)): ?>
+                    <?php $first_review = $ulasan_list[0]; ?>
+                    <div class="review">
+                        <div class="review-header">
+                            <span><?= htmlspecialchars($first_review['username']) ?></span>
+                            <span>
+                                <?php for ($i = 0; $i < $first_review['nilai']; $i++): ?>★<?php endfor; ?>
+                            </span>
                         </div>
-                    <?php endforeach; ?>
+                        <p class="review-comment"><?= htmlspecialchars($first_review['ulasan']) ?></p>
+                    </div>
+                    <?php if (count($ulasan_list) > 1): ?>
+                        <a href="/CODINGAN/3-landingpageuser/layanan/referensi/detail/lihatulrate.php?id=<?= $dokumen_id ?>" class="show-more">Lihat Semua Ulasan ▼</a>
+                    <?php endif; ?>
                 <?php else: ?>
                     <div class="no-reviews-container">
-                        <p>Belum ada ulasan untuk dokumen ini.</p>
-                        <a href="888.php?id=<?= $dokumen_id ?>" class="btn-tambah-ulasan">Tambah Ulasan</a>
+                        <p>Belum ada ulasan untuk buku ini.</p>
                     </div>
+                <?php endif; ?>
+
+                <?php if ($user_id && !$existing_rating): ?>
+                    <a href="/CODINGAN/3-landingpageuser/layanan/referensi/detail/tambahulrate.php?id=<?= $dokumen_id ?>" class="tambah-ulasan">Tambah Ulasan</a>
+                <?php elseif ($user_id && $existing_rating): ?>
+                    <a href="/CODINGAN/3-landingpageuser/layanan/referensi/detail/editulrate.php?id=<?= $existing_rating['id'] ?>" class="tambah-ulasan">Edit Ulasan</a>
+                <?php else: ?>
+                    <p class="tambah-ulasan">Login untuk memberikan ulasan</p>
                 <?php endif; ?>
             </section>
         </section>
+        
         <div class="action-buttons">
-    <?php if ($dokumen['status'] === 'tersedia' && !empty($dokumen['file_path'])): ?>
-        <!-- Tombol untuk melihat dokumen -->
-        <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($dokumen['file_path'])) ?>"
-           target="_blank"
-           class="btn-pinjam">Lihat Sekarang</a>
-    <?php else: ?>
-        <span class="btn-pinjam disabled">Dokumen Tidak Tersedia</span>
-    <?php endif; ?>
-            <!-- Tombol Tambah ke Favorit -->
+            <?php if ($dokumen['status'] === 'tersedia' && !empty($dokumen['file_path'])): ?>
+                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/formpinjam/view_pdf.php?file=<?= urlencode(basename($dokumen['file_path'])) ?>" target="_blank" class="btn-pinjam">Lihat Sekarang</a>
+            <?php else: ?>
+                <span class="btn-pinjam disabled">Dokumen Tidak Tersedia</span>
+            <?php endif; ?>
             <form action="prosesfav.php" method="POST" style="display: inline-block;">
                 <input type="hidden" name="dokumen_id" value="<?= $dokumen_id ?>">
                 <?php if ($favorit_aktif): ?>
-                    <!-- Tombol Hapus dari Favorit -->
                     <input type="hidden" name="action" value="hapus">
-                    <button type="submit" class="btn-favorit btn-hapus">
-                        Hapus dari Favorit
-                    </button>
+                    <button type="submit" class="btn-favorit btn-hapus">Hapus dari Favorit</button>
                 <?php else: ?>
-                    <!-- Tombol Tambah ke Favorit -->
                     <input type="hidden" name="action" value="tambah">
-                    <button type="submit" class="btn-favorit btn-tambah">
-                        Tambah ke Favorit
-                    </button>
+                    <button type="submit" class="btn-favorit btn-tambah">Tambah ke Favorit</button>
                 <?php endif; ?>
             </form>
         </div>
@@ -198,28 +235,22 @@ if ($status === 'success') {
                     adipiscing elit. Repudiandae omnis molestias nobis.
                 </p>
                 <div class="social-icons">
-                    <a href="https://wa.me/6285936164597 " target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/ " target="_blank"><i
-                            class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/jeonwpnwoo " target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
             <div class="right">
                 <h2>Tautan Fungsional</h2>
                 <ul>
                     <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-                    <li>
-                        <a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a>
-                    </li>
-                    <li>
-                        <a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a>
-                    </li>
+                    <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
+                    <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            Copyright © 2024 Library of Riverhill Senior High School. All Rights
-            Reserved
+            Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
         </div>
     </footer>
 </body>
