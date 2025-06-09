@@ -10,7 +10,7 @@ $user_id = $_SESSION['user_id'];
 
 // Validasi input
 if (empty($nilai) || empty($ulasan)) {
-    header("Location: index.php?id=$buku_id&error=Please fill all fields");
+    header("Location: tambah_ulasan.php?id=$buku_id&error=Please fill all fields");
     exit;
 }
 

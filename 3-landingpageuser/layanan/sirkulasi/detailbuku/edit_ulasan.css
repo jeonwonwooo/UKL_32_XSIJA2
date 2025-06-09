@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background */
+body {
+    font-family: "Poppins", sans-serif;
+    background: url("/CODINGAN/assets/fotoku.png") no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+    color: #ffffff;
+    padding: 2rem;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Judul */
+body > h2 {
+    font-family: "Alexandria", sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Container */
+form {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Label */
+label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+    resize: vertical;
+    min-height: 120px;
+    transition: border 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #fff;
+    outline: none;
+}
+
+#rating-stars {
+    display: flex;
+    flex-direction: row-reverse; /* Biar urutan 5 → 1 di DOM tampil 1 → 5 secara visual */
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.star {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+/* Highlight checked star dan semua di 'kanan' (karena row-reverse) */
+input[type="radio"]:checked ~ label.star {
+    color: gold;
+}
+
+.star:hover,
+.star:hover ~ .star {
+    color: gold;
+}
+label.star {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    background-color: #2e2b8d;
+    color: #fff;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    letter-spacing: 0.5px;
+}
+
+button[type="submit"]:hover {
+    background-color: #1c1a5e;
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Responsif */
+@media (max-width: 600px) {
+    form {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    body > h2 {
+        font-size: 1.6rem;
+    }
+
+    textarea {
+        padding: 0.8rem;
+    }
+
+    .star {
+        font-size: 1.7rem;
+    }
+}

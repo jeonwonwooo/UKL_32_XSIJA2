@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Ulasan</title>
+    <link rel="stylesheet" href="edit_ulasan.css">
 </head>
 <body>
     <h2>Edit Ulasan untuk Buku</h2>
@@ -68,7 +69,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="hidden" name="action" value="update">
 
         <label for="rating">Rating (1-5):</label>
-        <input type="number" id="rating" name="nilai" value="<?= $current_rating ?>" min="1" max="5" required>
+<div id="rating-stars">
+    <input type="radio" name="nilai" value="5" id="star5">
+    <label for="star5" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="4" id="star4">
+    <label for="star4" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="3" id="star3">
+    <label for="star3" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="2" id="star2">
+    <label for="star2" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="1" id="star1">
+    <label for="star1" class="star">&#9733;</label>
+</div>
+
 
         <label for="comment">Komentar:</label>
         <textarea id="comment" name="ulasan" rows="5" required><?= htmlspecialchars($current_comment) ?></textarea>

@@ -25,7 +25,7 @@ try {
     ";
     $stmt_stats = $conn->prepare($query_stats);
     $stmt_stats->execute([$current_date, $current_date, $anggota_id, $anggota_id]);
-    $stats = $stmt_stats->fetch(PDO::FETCH_ASSOC);
+    $stats = $stmt_stats->fetch();
 
     // Fungsi hitung denda harian
     function hitungDendaHarian($batas_pengembalian_str) {

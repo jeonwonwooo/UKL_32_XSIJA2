@@ -11,113 +11,307 @@ if (!$buku_id) {
     exit;
 }
 
-// Ambil daftar ulasan
-$ulasan_query = "SELECT r.id, r.anggota_id, r.buku_id, r.nilai, r.ulasan, u.username 
+// Fungsi untuk mendapatkan foto profil
+function getFotoProfile($foto_profil) {
+    $default_photo = '/CODINGAN/assets/default_profile.jpg';
+    
+    if (empty($foto_profil)) {
+        return $default_photo;
+    }
+    
+    // Cek apakah file foto profil ada
+    $photo_path = $_SERVER['DOCUMENT_ROOT'] . $foto_profil;
+    if (!file_exists($photo_path)) {
+        return $default_photo;
+    }
+    
+    return $foto_profil;
+}
+
+// Ambil daftar ulasan dengan foto profil
+$ulasan_query = "SELECT r.id, r.anggota_id, r.buku_id, r.nilai, r.ulasan, r.created_at, 
+                        u.username, u.nama, u.foto_profil 
                  FROM rating r 
                  JOIN anggota u ON r.anggota_id = u.id 
-                 WHERE r.buku_id = ?";
+                 WHERE r.buku_id = ?
+                 ORDER BY r.created_at DESC";
 $ulasan_stmt = $conn->prepare($ulasan_query);
 $ulasan_stmt->execute([$buku_id]);
 $ulasan_list = $ulasan_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Ambil nama buku untuk ditampilkan di halaman
-$buku_query = "SELECT judul FROM buku WHERE id = ?";
+// Ambil nama buku dan info tambahan untuk ditampilkan di halaman
+$buku_query = "SELECT judul, penulis FROM buku WHERE id = ?";
 $buku_stmt = $conn->prepare($buku_query);
 $buku_stmt->execute([$buku_id]);
-$buku_data = $buku_stmt->fetch(PDO::FETCH_ASSOC);
-$buku_judul = $buku_data['judul'] ?? 'Buku Tidak Ditemukan';
+$buku_data = $buku_stmt->fetch();
+
+if (!$buku_data) {
+    header("Location: daftar_buku.php");
+    exit;
+}
+
+$buku_judul = $buku_data['judul'];
+$buku_penulis = $buku_data['penulis'];
+
+// Hitung rata-rata rating
+$rata_rata = 0;
+$total_ulasan = count($ulasan_list);
+if ($total_ulasan > 0) {
+    $total_nilai = array_sum(array_column($ulasan_list, 'nilai'));
+    $rata_rata = round($total_nilai / $total_ulasan, 1);
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Semua Ulasan - <?= htmlspecialchars($buku_judul) ?></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
+    <link rel="stylesheet" href="lihat_semua_ulasan.css">
     <style>
-        /* CSS Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background-color: #fff;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
+
+        .book-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            text-align: center;
         }
-        .review {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #f8f8f8;
-        }
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .book-title {
+            font-size: 28px;
+            font-weight: bold;
             margin-bottom: 8px;
         }
-        .review-header span:first-child {
-            font-weight: 600;
+
+        .book-author {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .avg-rating {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+
+        .rating-stars i {
+            color: #ffd700;
+            font-size: 18px;
+        }
+
+        .total-reviews {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .reviews-container {
+            margin-bottom: 30px;
+        }
+
+        .review {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .review:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e0e0e0;
+            background-color: #f5f5f5;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .username {
+            font-weight: bold;
+            color: #333;
+            display: block;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .date {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .review-rating {
+            margin-bottom: 12px;
+        }
+
+        .review-rating i {
+            color: #ffd700;
+            font-size: 16px;
+            margin-right: 2px;
+        }
+
+        .review-rating i.empty {
+            color: #ddd;
+        }
+
+        .review-comment {
+            color: #444;
+            line-height: 1.6;
+            margin: 0;
             font-size: 15px;
         }
-        .review-header span:last-child {
-            color: #f5c518; /* Warna bintang emas */
-            font-size: 16px;
+
+        .no-reviews {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-style: italic;
         }
-        .review-comment {
-            font-size: 14px;
-            line-height: 1.5;
-            color: #333;
+
+        .no-reviews i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ddd;
         }
+
         .back-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #007BFF;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #667eea;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
             transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
+
         .back-button:hover {
-            background-color: #0056b3;
+            background: #5a6fd8;
+            text-decoration: none;
+            color: white;
+        }
+
+        .back-button i {
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Semua Ulasan untuk Buku: <?= htmlspecialchars($buku_judul) ?></h1>
 
+<div class="container">
+    <!-- Header Buku -->
+    <div class="book-header">
+        <div class="book-title"><?= htmlspecialchars($buku_judul) ?></div>
+        <div class="book-author">oleh <?= htmlspecialchars($buku_penulis) ?></div>
+        
+        <?php if ($total_ulasan > 0): ?>
+        <div class="rating-summary">
+            <span class="avg-rating"><?= $rata_rata ?></span>
+            <div class="rating-stars">
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                    <?php if ($i <= floor($rata_rata)): ?>
+                        <i class="fas fa-star"></i>
+                    <?php elseif ($i <= ceil($rata_rata) && $rata_rata - floor($rata_rata) >= 0.5): ?>
+                        <i class="fas fa-star-half-alt"></i>
+                    <?php else: ?>
+                        <i class="far fa-star"></i>
+                    <?php endif; ?>
+                <?php endfor; ?>
+            </div>
+            <span class="total-reviews">(<?= $total_ulasan ?> ulasan)</span>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <!-- Container Ulasan -->
+    <div class="reviews-container">
         <?php if (!empty($ulasan_list)): ?>
             <?php foreach ($ulasan_list as $review): ?>
                 <div class="review">
-                    <div class="review-header">
-                        <span><?= htmlspecialchars($review['username']) ?></span>
-                        <span>
-                            <?php for ($i = 0; $i < $review['nilai']; $i++): ?>
-                                ★
-                            <?php endfor; ?>
-                        </span>
+                    <div class="user-info">
+                        <img src="<?= htmlspecialchars(getFotoProfile($review['foto_profil'])) ?>" 
+                             alt="Foto Profil <?= htmlspecialchars($review['nama'] ?? $review['username']) ?>" 
+                             class="avatar"
+                             onerror="this.src='/CODINGAN/assets/default_profile.jpg'">
+                        <div class="user-details">
+                            <span class="username">
+                                <?= htmlspecialchars($review['nama'] ?: $review['username']) ?>
+                            </span>
+                            <?php if (!empty($review['created_at'])): ?>
+                                <span class="date">
+                                    <i class="far fa-clock"></i>
+                                    <?= date('d M Y, H:i', strtotime($review['created_at'])) ?>
+                                </span>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                    <p class="review-comment"><?= htmlspecialchars($review['ulasan']) ?></p>
+                    
+                    <div class="review-rating">
+                        <?php for ($i = 1; $i <= 5; $i++): ?>
+                            <i class="<?= $i <= $review['nilai'] ? 'fas fa-star' : 'far fa-star empty' ?>"></i>
+                        <?php endfor; ?>
+                    </div>
+                    
+                    <p class="review-comment"><?= nl2br(htmlspecialchars($review['ulasan'])) ?></p>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
-            <p>Belum ada ulasan untuk buku ini.</p>
+            <div class="no-reviews">
+                <i class="far fa-comment-alt"></i>
+                <p>Belum ada ulasan untuk buku ini.</p>
+                <p>Jadilah yang pertama memberikan ulasan!</p>
+            </div>
         <?php endif; ?>
-
-        <!-- Tombol Kembali -->
-        <a href="detail_buku.php?id=<?= $buku_id ?>" class="back-button">Kembali ke Detail Buku</a>
     </div>
+
+    <!-- Tombol Kembali -->
+    <a href="detail_buku.php?id=<?= $buku_id ?>" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        Kembali ke Detail Buku
+    </a>
+</div>
+
 </body>
 </html>

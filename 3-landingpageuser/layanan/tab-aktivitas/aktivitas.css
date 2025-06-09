@@ -178,176 +178,336 @@ header {
 }
 
 .isi {
-  padding: 20px;
+  padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 40px;
 }
 
 .isi h3 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  color: #2c3e50;
+  font-size: 2rem;
+  position: relative;
+  padding-bottom: 15px;
 }
+
+.isi h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #2e2b8d, #6b46c1);
+  border-radius: 2px;
+}
+
+/* --- STATISTIK HINGGA AKTIVITAS, Clean AI Style, No Box/Shadow --- */
 
 .statistik-wrapper {
   display: flex;
+  justify-content: center;
   align-items: flex-start;
-  gap: 60px;
-  padding: 0 40px;
+  gap: 2.5rem;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  margin-bottom: 2.5rem;
+  width: 100%;
 }
 
 .text1 {
-  flex: 1;
-  font-size: 16px;
-  line-height: 1.5;
-  min-width: 0;
-  text-align: justify;
-  hyphens: auto;
+  flex: 1 1 320px;
+  background: #f6f7fb;
+  padding: 2rem 2.2rem;
+  font-size: 1.07rem;
+  color: #2e2b8d;
+  font-weight: 400;
+  text-align: left;
+  border-left: 4px solid #2e2b8d;
+  border-radius: 0 0.7rem 0.7rem 0;
+  margin: 0;
+  min-width: 230px;
+  max-width: 420px;
+  box-shadow: none;
+  line-height: 1.7;
+}
+
+.statistik {
+  flex: 1 1 340px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  min-width: 290px;
+  max-width: 430px;
+  width: 100%;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .statistik table {
-  width: auto;
-  border-collapse: collapse;
-  table-layout: auto;
-  max-width: 100%;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent;
+  font-size: 1.13rem;
+  border-radius: 0.7rem;
+  margin: 0;
+  box-shadow: none;
 }
 
 .statistik th,
 .statistik td {
-  padding: 16px;
+  padding: 1.1rem 1.7rem;
+  font-size: 1.07rem;
+  color: #2e2b8d;
+  font-weight: 500;
+  border: none;
+  background: transparent;
   text-align: left;
-  border: 1px solid #ddd;
-  white-space: nowrap;
-  font-size: 18px;
 }
 
 .statistik th {
+  background: #f6f7fb;
+  color: #22223B;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: left;
+}
+
+.statistik td:last-child {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #2e2b8d;
+}
+.statistik tr:nth-child(even) td {
+  background: #f6f7fb;
+}
+.statistik tr:not(:last-child) td {
+  border-bottom: 1px solid #f0f1f7;
+}
+
+.isi {
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 auto 2.5rem auto;
+  max-width: 1200px;
+}
+
+.isi h3 {
   text-align: center;
-  background-color: #333;
-  color: #fff;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  position: relative;
+  padding-bottom: 15px;
+  background: transparent;
+  border: none;
+}
+.isi h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #2e2b8d, #6b46c1);
+  border-radius: 2px;
 }
 
-@media (max-width: 768px) {
-  .statistik-wrapper {
-    flex-direction: column;
-    padding: 0;
-  }
-
-  .statistik table {
-    width: 100%;
-  }
-
-  .text1 {
-    margin-top: 10px;
-  }
-}
-
+/* AKTIVITAS */
 .aktivitas {
-  max-width: 800px;
-  margin: 40px auto;
-  text-align: center;
-  padding: 0 20px;
+  max-width: 1100px;
+  margin: 2.5rem auto 1.5rem auto;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow-x: auto;
 }
 
 .aktivitas h3 {
-  font-size: 24px;
-  color: #2c3e50;
-  margin-bottom: 20px;
   text-align: center;
+  font-size: 2rem;
+  color: #22223B;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
+  letter-spacing: -1px;
+  position: relative;
+  padding-bottom: 10px;
+  background: transparent;
+  border: none;
+}
+.aktivitas h3::after {
+  content: '';
+  display: block;
+  margin: 0.5rem auto 0 auto;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #2e2b8d, #6b46c1);
+  border-radius: 2px;
 }
 
 .aktivitas table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 0.7rem;
   margin: 0 auto;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  overflow: hidden;
+  font-size: 1.05rem;
+  box-shadow: none;
 }
 
-.success-notification {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-.warning-notification {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-.error-notification {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-.info-notification {
-    background-color: #d1ecf1;
-    color: #0c5460;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.9em;
-}
-
-.status-pengajuan-menunggu {
-    color: #004085;
-    background-color: #cce5ff;
-    padding: 5px;
-    border-radius: 4px;
-}
-
-.status-pengajuan-ditolak {
-    color: #721c24;
-    background-color: #f8d7da;
-    padding: 5px;
-    border-radius: 4px;
-}
-
-.status-pengajuan-diterima {
-    color: #155724;
-    background-color: #d4edda;
-    padding: 5px;
-    border-radius: 4px;
+.aktivitas th, .aktivitas td {
+  padding: 1.1rem 1.2rem;
+  text-align: left;
+  font-weight: 500;
+  color: #2e2b8d;
+  border: none;
+  background: transparent;
 }
 .aktivitas th {
-  background-color: #2c3e50;
-  color: white;
-  padding: 16px 20px;
-  text-align: left;
-  font-weight: 600;
+  background-color: #f6f7fb;
+  color: #22223B;
+  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 700;
   letter-spacing: 0.5px;
 }
-
-.aktivitas td {
-  padding: 16px 20px;
-  border-bottom: 1px solid #eee;
+.aktivitas td:last-child {
+  text-align: center;
+}
+.aktivitas tr:nth-child(even) td {
+  background: #f6f7fb;
+}
+.aktivitas tr:not(:last-child) td {
+  border-bottom: 1px solid #f0f1f7;
 }
 
-.aktivitas tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.aktivitas tr:hover {
-  background-color: #f5faff;
-  transition: background-color 0.2s ease;
-}
-
-.aktivitas tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.aktivitas td:nth-child(4),
-.aktivitas td:nth-child(5) {
-  text-transform: capitalize;
+/* Remove box/shadow from notification & status */
+.success-notification,
+.warning-notification,
+.error-notification,
+.info-notification {
+  background: #f6f7fb;
+  color: #2e2b8d;
+  padding: 0.95em 1.2em;
+  border-radius: 0.4em;
+  font-size: 0.97em;
   font-weight: 500;
+  border-left-width: 4px;
+  border-left-style: solid;
+  margin-bottom: 1.1em;
+  box-shadow: none;
+}
+.success-notification { border-left-color: #28a745; }
+.warning-notification { border-left-color: #ffc107; }
+.error-notification { border-left-color: #dc3545; color: #b11a2b; }
+.info-notification { border-left-color: #17a2b8; }
+
+.status-pengajuan-menunggu,
+.status-pengajuan-ditolak,
+.status-pengajuan-diterima {
+  background: #f6f7fb;
+  color: #2e2b8d;
+  padding: 7px 15px;
+  border-radius: 1em;
+  font-size: 0.91em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  border: 2px solid #2e2b8d;
+  box-shadow: none;
+}
+.status-pengajuan-ditolak { border-color: #dc3545; color: #b11a2b; }
+.status-pengajuan-diterima { border-color: #28a745; color: #189b3d; }
+.status-pengajuan-menunggu { border-color: #2e2b8d; color: #2e2b8d; }
+
+/* RESPONSIVE */
+@media (max-width: 1050px) {
+  .statistik-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.3rem;
+    padding: 0 2vw;
+  }
+  .text1, .statistik {
+    min-width: 0;
+    max-width: 100%;
+    border-radius: 0.7rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .isi h3, .aktivitas h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  .statistik th, .statistik td,
+  .aktivitas th, .aktivitas td {
+    font-size: 0.95rem;
+    padding: 0.7rem 0.7rem;
+  }
+  .text1 { padding: 1rem 0.9rem; }
+}
+
+@media (max-width: 500px) {
+  .statistik table, .aktivitas table {
+    font-size: 0.89rem;
+  }
+  .statistik th, .statistik td,
+  .aktivitas th, .aktivitas td {
+    padding: 0.4rem 0.4rem;
+  }
+  .statistik-wrapper { gap: 0.7rem; }
+}
+
+/* Improved responsive design for aktivitas */
+@media (max-width: 768px) {
+  .aktivitas {
+    margin: 40px auto;
+    padding: 20px 15px;
+  }
+
+  .aktivitas h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .aktivitas table {
+    font-size: 14px;
+  }
+
+  .aktivitas th,
+  .aktivitas td {
+    padding: 12px 8px;
+  }
+
+  .status-pengajuan-menunggu,
+  .status-pengajuan-ditolak,
+  .status-pengajuan-diterima {
+    padding: 6px 10px;
+    font-size: 0.75em;
+  }
 }
 
 .laporan-kerusakan {

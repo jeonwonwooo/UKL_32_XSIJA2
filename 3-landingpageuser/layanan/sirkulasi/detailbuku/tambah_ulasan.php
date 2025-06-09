@@ -23,24 +23,33 @@ if ($existing_rating) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Ulasan</title>
+    <link rel="stylesheet" href="tambah_ulasan.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> 
 </head>
 <body>
     <h2>Tambah Ulasan untuk Buku</h2>
     <form action="proses_rating.php" method="POST">
         <input type="hidden" name="buku_id" value="<?= $buku_id ?>">
         <input type="hidden" name="action" value="create">
-        <label for="rating">Berikan Rating:</label>
-        <select name="nilai" id="rating">
-            <option type= "radio" value="1" required>1</option>
-            <option type= "radio" value="2" required>2</option>
-            <option type= "radio" value="3" required>3</option>
-            <option type= "radio" value="4" required>4</option>
-            <option type= "radio" value="5" required>5</option>
-        </select>
-        <br>
+
+        <label for="rating" requiered>Rating (1-5):</label>
+<div id="rating-stars">
+    <input type="radio" name="nilai" value="5" id="star5">
+    <label for="star5" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="4" id="star4">
+    <label for="star4" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="3" id="star3">
+    <label for="star3" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="2" id="star2">
+    <label for="star2" class="star">&#9733;</label>
+    <input type="radio" name="nilai" value="1" id="star1">
+    <label for="star1" class="star">&#9733;</label>
+</div>
+        <!-- Ulasan -->
         <label for="ulasan">Ulasan:</label>
-        <textarea name="ulasan" id="ulasan" rows="4"></textarea>
-        <br>
+        <textarea name="ulasan" id="ulasan" rows="4" requiered></textarea>
+
+        <!-- Tombol Kirim -->
         <button type="submit">Kirim Ulasan</button>
     </form>
 </body>
