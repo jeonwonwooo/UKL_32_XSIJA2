@@ -1,251 +1,229 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
-
+/* BASIC DASHBOARD STYLING */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: #0f172a;
+    color: #fff;
 }
 
-/* Sidebar */
+/* SIDEBAR */
 .sidebar {
-  width: 250px;
-  background-color: #2c3e50;
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding: 20px;
-  overflow-y: auto;
+    width: 250px;
+    background: linear-gradient(to bottom, #5a4fcf, #8a7aff);
+    color: white;
+    padding: 25px 0;
+    position: fixed;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar .logo {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 25px;
+}
+
+.sidebar .logo img {
+    width: 200px;
+    margin-bottom: 5px;
 }
 
 .sidebar nav ul {
-  list-style: none;
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
 }
 
 .sidebar nav ul li {
-  margin: 15px 0;
+    margin: 12px 0;
 }
 
 .sidebar nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-  display: block;
-  padding: 10px;
-  border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
 }
 
-.sidebar nav ul li a.active,
-.sidebar nav ul li a:hover {
-  background-color: #34495e;
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background-color: rgba(255,255,255,0.25);
+    font-weight: 600;
 }
 
-/* Container Utama */
-.container {
-  max-width: calc(100% - 250px); /* Sesuaikan dengan lebar sidebar */
-  margin-left: 270px; /* Geser konten ke kanan agar tidak tertutup sidebar */
-  padding: 30px;
+/* MAIN CONTENT */
+.content {
+    margin-left: 250px;
+    padding: 2rem;
+    width: calc(100% - 250px);
+    background-color: #0f172a;
+    color: #fff;
+    min-height: 100vh;
 }
 
-/* Judul Halaman */
-h1 {
-  font-size: 32px;
-  color: #3b4465;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+/* Status Message */
+.content p {
+    background-color: rgba(0, 119, 204, 0.2);
+    padding: 0.8rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-left: 4px solid #0077cc;
 }
 
-/* Form Filter */
-.filter-form {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+.content p span {
+    color: #ff6b6b;
+    font-weight: 500;
 }
 
-.filter-form label {
-  font-weight: bold;
-  white-space: nowrap;
+/* Top Header */
+.topbar {
+    background-color: #0f172a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.filter-form select,
-.filter-form input[type="text"],
-.filter-form button {
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: all 0.3s ease;
+.topbar h1 {
+    color: #ff6b6b;
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 600;
 }
 
-.filter-form select:focus,
-.filter-form input[type="text"]:focus,
-.filter-form button:focus {
-  outline: none;
-  border-color: #4c75af;
-  box-shadow: 0 0 5px rgba(76, 117, 175, 0.3);
+/* Dashboard Content */
+.dashboard-content {
+    background-color: #0f172a;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.filter-form button {
-  background-color: #4c75af;
-  color: white;
-  border: none;
-  cursor: pointer;
+.dashboard-content h2 {
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
 }
 
-.filter-form button:hover {
-  background-color: #3b5e9d;
+/* Stat Cards */
+.stat-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
 }
 
-/* Tombol Umum */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.stat-card {
+    background-color: #0f3460;
+    padding: 1.8rem 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-left: 4px solid #ff6b6b;
 }
 
-.btn-sm {
-  padding: 6px 10px;
-  font-size: 12px;
-  margin-right: 5px;
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    background-color: #133b6e;
 }
 
-.btn:hover {
-  transform: scale(1.05);
+.stat-card h3 {
+    font-size: 2.2rem;
+    margin: 1rem 0 0.5rem;
+    color: #fff;
+    font-weight: 700;
 }
 
-.btn-success {
-  background-color: #28a745;
-  color: white;
+.stat-card p {
+    color: #a5a5a5;
+    font-size: 0.95rem;
+    margin: 0;
 }
 
-.btn-primary {
-  background-color: #4c75af;
-  color: white;
+.stat-icon {
+    font-size: 2.5rem;
+    color: #ff6b6b;
+    margin-bottom: 1rem;
 }
 
-.btn-warning {
-  background-color: #ffc107;
-  color: #212529;
+/* Quick Link Button */
+.quick-link {
+    margin-top: 3rem;
+    text-align: center;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
+.quick-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: linear-gradient(135deg, #ff6b6b, #8a7aff);
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
+.quick-link a:hover {
+    background: linear-gradient(135deg, #ff6b6b, #8a7aff);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
 }
 
-/* Table Styling */
-.peminjaman-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.peminjaman-table th,
-.peminjaman-table td {
-  padding: 15px;
-  border: 1px solid #e0e0e0;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.peminjaman-table thead {
-  background-color: #4c75af;
-  color: #fff;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.peminjaman-table tbody tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-.peminjaman-table tbody tr:hover {
-  background-color: #eef2f7;
-  transform: scale(1.01);
-}
-
-/* Span untuk denda */
-.denda {
-  color: #e74c3c;
-  font-weight: bold;
-}
-
-.denda {
-    color: red;
-    font-weight: bold;
-}
-
-.actions a {
-    margin-right: 5px;
-}
-
-.status-pengajuan-menunggu {
-    color: orange;
-}
-
-.status-pengajuan-diterima {
-    color: green;
-}
-
-.status-pengajuan-ditolak {
-    color: red;
-}
-
-/* Pesan jika tidak ada data */
-.no-data {
-  text-align: center;
-  padding: 30px;
-  color: #888;
-  font-style: italic;
-}
-
-/* Responsive Design */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .container {
-    margin-left: 0;
-    max-width: 100%;
-    padding: 20px;
-  }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px 0;
+    }
 
-  .filter-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    .sidebar .logo {
+        padding: 0 15px 15px;
+        margin-bottom: 15px;
+    }
 
-  .filter-form label {
-    margin-bottom: 5px;
-  }
+    .sidebar nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+    }
+
+    .sidebar nav ul li {
+        margin: 8px 5px;
+    }
+
+    .sidebar nav ul li a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1.5rem;
+    }
 }

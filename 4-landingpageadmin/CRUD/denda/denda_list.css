@@ -1,251 +1,275 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
-
+/* BASIC DASHBOARD STYLING */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+/* DASAR */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0f172a;
+    color: #fff;
 }
 
-/* Sidebar */
+/* SIDEBAR */
 .sidebar {
-  width: 250px;
-  background-color: #2c3e50;
-  color: #fff;
-  height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  padding: 20px;
-  overflow-y: auto;
+    width: 250px;
+    background: linear-gradient(to bottom, #5a4fcf, #8a7aff);
+    color: white;
+    padding: 25px 0;
+    position: fixed;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
 }
 
 .sidebar .logo {
-  text-align: center;
-  margin-bottom: 20px;
+    text-align: center;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 25px;
+}
+
+.sidebar .logo img {
+    width: 200px;
+    margin-bottom: 5px;
 }
 
 .sidebar nav ul {
-  list-style: none;
+    list-style: none;
+    padding: 0 20px;
+    margin: 0;
 }
 
 .sidebar nav ul li {
-  margin: 15px 0;
+    margin: 12px 0;
 }
 
 .sidebar nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-  display: block;
-  padding: 10px;
-  border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.2s ease;
 }
 
-.sidebar nav ul li a.active,
-.sidebar nav ul li a:hover {
-  background-color: #34495e;
+.sidebar nav ul li a:hover,
+.sidebar nav ul li a.active {
+    background-color: rgba(255,255,255,0.25);
+    font-weight: 600;
 }
 
-/* Container Utama */
+
 .container {
-  max-width: calc(100% - 250px); /* Sesuaikan dengan lebar sidebar */
-  margin-left: 270px; /* Geser konten ke kanan agar tidak tertutup sidebar */
-  padding: 30px;
+    margin-left: 250px;
+    padding: 2rem;
 }
 
-/* Judul Halaman */
 h1 {
-  font-size: 32px;
-  color: #3b4465;
-  text-align: center;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
-/* Form Filter */
-.filter-form {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
+/* FILTER BAR */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.filter-form label {
-  font-weight: bold;
-  white-space: nowrap;
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.filter-form select,
-.filter-form input[type="text"],
-.filter-form button {
-  padding: 8px 12px;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: all 0.3s ease;
+/* Dropdown Select */
+select {
+    padding: 0.4rem 0.6rem;
+    border-radius: 5px;
+    border: none;
+    background-color: #1e293b;
+    color: #fff;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
 }
 
-.filter-form select:focus,
-.filter-form input[type="text"]:focus,
-.filter-form button:focus {
-  outline: none;
-  border-color: #4c75af;
-  box-shadow: 0 0 5px rgba(76, 117, 175, 0.3);
+select:hover {
+    background-color: #293754;
 }
 
-.filter-form button {
-  background-color: #4c75af;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.filter-form button:hover {
-  background-color: #3b5e9d;
-}
-
-/* Tombol Umum */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  text-decoration: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-sm {
-  padding: 6px 10px;
-  font-size: 12px;
-  margin-right: 5px;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-}
-
-.btn-success {
-  background-color: #28a745;
-  color: white;
+/* Label Filter */
+.filter-group label {
+    font-weight: 500;
+    color: #ff6b6b;
 }
 
 .btn-primary {
-  background-color: #4c75af;
-  color: white;
+    background: linear-gradient(135deg, #ff6b6b, #8a7aff);
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
 }
 
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* TABEL ARTIKEL */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-table thead {
+    background-color: #0f172a;
+    color: #ff6b6b;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+.custom-table tr:hover {
+    background-color: #293754;
+}
+
+/* Gambar di dalam sel */
+.custom-table img {
+    border-radius: 6px;
+    max-width: 80px;
+    height: auto;
+}
+
+/* TOMBOL AKSI */
+.aksi-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-width: 90px;
+    text-align: center;
+}
+
+.btn-sm {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+/* Warna tombol */
 .btn-warning {
-  background-color: #ffc107;
-  color: #212529;
+    background-color: #fbbf24;
+    color: #000;
+}
+.btn-warning:hover {
+    background-color: #f59e0b;
+}
+
+.btn-success {
+    background-color: #10b981;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #059669;
 }
 
 .btn-danger {
-  background-color: #dc3545;
-  color: white;
+    background-color: #ef4444;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #dc2626;
 }
 
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Table Styling */
-.peminjaman-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.peminjaman-table th,
-.peminjaman-table td {
-  padding: 15px;
-  border: 1px solid #e0e0e0;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.peminjaman-table thead {
-  background-color: #4c75af;
-  color: #fff;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.peminjaman-table tbody tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-.peminjaman-table tbody tr:hover {
-  background-color: #eef2f7;
-  transform: scale(1.01);
-}
-
-/* Span untuk denda */
-.denda {
-  color: #e74c3c;
-  font-weight: bold;
-}
-
-.denda {
-    color: red;
-    font-weight: bold;
-}
-
-.actions a {
-    margin-right: 5px;
-}
-
-.status-pengajuan-menunggu {
-    color: orange;
-}
-
-.status-pengajuan-diterima {
-    color: green;
-}
-
-.status-pengajuan-ditolak {
-    color: red;
-}
-
-/* Pesan jika tidak ada data */
-.no-data {
-  text-align: center;
-  padding: 30px;
-  color: #888;
-  font-style: italic;
-}
-
-/* Responsive Design */
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .container {
-    margin-left: 0;
-    max-width: 100%;
-    padding: 20px;
-  }
+    .filter-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 
-  .filter-form {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    .filter-group {
+        margin-bottom: 1rem;
+    }
 
-  .filter-form label {
-    margin-bottom: 5px;
-  }
+    select {
+        width: 100%;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 15px 0;
+    }
+
+    .sidebar .logo {
+        padding: 0 15px 15px;
+        margin-bottom: 15px;
+    }
+
+    .sidebar nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+    }
+
+    .sidebar nav ul li {
+        margin: 8px 5px;
+    }
+
+    .sidebar nav ul li a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 1.5rem;
+    }
 }
