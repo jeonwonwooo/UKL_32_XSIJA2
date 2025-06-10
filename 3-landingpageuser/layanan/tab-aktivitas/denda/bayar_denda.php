@@ -109,27 +109,9 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bayar Denda</title>
     <link rel="stylesheet" href="bayar_denda.css">
-    <style>
-        .tutorial-pembayaran {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        .metode-pembayaran {
-            margin-bottom: 15px;
-        }
-        .metode-option {
-            margin-right: 15px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bayar Denda</h1>
-        
         <?php if (isset($_SESSION['success_message'])): ?>
             <div class="alert alert-success">
                 <?= $_SESSION['success_message'] ?>

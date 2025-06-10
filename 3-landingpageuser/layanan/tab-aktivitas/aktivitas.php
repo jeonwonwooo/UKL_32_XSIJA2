@@ -325,7 +325,7 @@ if (!empty($activities)) {
                 $status = $latest_activity['status'] ?? null;
                 $status_pengajuan = $latest_activity['status_pengajuan'] ?? null;
                 $jumlah_pengajuan = isset($latest_activity['jumlah_pengajuan']) && is_numeric($latest_activity['jumlah_pengajuan']) ? (int)$latest_activity['jumlah_pengajuan'] : 0;
-                $sisa_kesempatan = max(0, 3 - $jumlah_pengajuan);
+                $sisa_kesempatan = ($status === 'dipinjam') ? max(0, 3 - $jumlah_pengajuan) : 0;
                 $denda_id = $latest_activity['denda_id'] ?? null;
                 $denda_status = $latest_activity['denda_status'] ?? 'belum_dibayar';
                 $denda_nominal = $latest_activity['denda_nominal'] ?? 0;
@@ -393,14 +393,14 @@ if (!empty($activities)) {
             <span>Anda memiliki denda yang belum dibayar. Segera lakukan pembayaran sebelum mengajukan pengembalian!</span>
         </div>
     </div>
-<?php elseif ($status_pengajuan === 'ditolak' && $sisa_kesempatan > 0): ?>
+<?php elseif ($status_pengajuan === 'ditolak' && $jumlah_pengajuan >= 0): ?>
     <div class="notification warning-notification">
         <i class="fas fa-exclamation-triangle"></i>
         <div class="notification-content">
-            <span>Pengajuan ditolak. Sisa kesempatan pengajuan: <?= $sisa_kesempatan ?></span>
+            <span>Pengajuan ditolak. Sisa kesempatan pengajuan: <?= $jumlah_pengajuan ?></span>
         </div>
     </div>
-<?php elseif ($status_pengajuan === 'ditolak' && $sisa_kesempatan <= 0): ?>
+<?php elseif ($status_pengajuan === 'ditolak' && $jumlah_pengajuan <= 0): ?>
     <div class="notification error-notification">
         <i class="fas fa-exclamation-circle"></i>
         <div class="notification-content">
@@ -454,11 +454,7 @@ if (!empty($activities)) {
     $denda_status = $activity['denda_status'] ?? null;
     $denda_nominal = $activity['denda_nominal'] ?? 0;
     $peminjaman_id = $activity['peminjaman_id'] ?? null;
-
-    // Sisa kesempatan = 3 - jumlah_pengajuan (tampil jika status dipinjam)
-$sisa_kesempatan = $status === 'dipinjam'
-    ? (($status_pengajuan === null || $status_pengajuan === '-' || $status_pengajuan === '') ? 3 : max(0, 3 - $jumlah_pengajuan))
-    : '-';
+$sisa_kesempatan = ($status === 'dipinjam') ? max(0, 3 - $jumlah_pengajuan) : 0;
     // Denda harian
     $denda_harian_info = hitungDendaHarian($activity['batas_pengembalian']);
     $display_denda = $denda_nominal;
@@ -479,7 +475,7 @@ $sisa_kesempatan = $status === 'dipinjam'
         <td><?= htmlspecialchars($activity['tanggal_pinjam']) ?></td>
         <td><?= htmlspecialchars($status) ?></td>
         <td><?= htmlspecialchars($status_pengajuan ?? '-') ?></td>
-        <td><?= $status === 'dipinjam' ? $sisa_kesempatan : '-' ?></td>
+        <td><?= $status === 'dipinjam' ? $jumlah_pengajuan : '-' ?></td>
         <td>
             <?php if ($ada_denda_harian): ?>
                 <span style="color: #dc3545; font-weight: bold;">
@@ -508,26 +504,28 @@ $sisa_kesempatan = $status === 'dipinjam'
             <?php endif; ?>
         </td>
         <td>
-            <?php if ($status === 'dikembalikan'): ?>
-                <span class="status-pengajuan-diterima">Buku telah dikembalikan</span>
-            <?php elseif ($denda_status === 'proses' && in_array($denda_pembayaran, ['pending', 'failed'])): ?>
-                <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
-            <?php elseif ($ada_denda): ?>
-                <a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/denda/bayar_denda.php?id=<?= htmlspecialchars($denda_id) ?>" class="btn-action red">
-                    <?= $status_pengajuan === 'ditolak' ? 'Bayar Lagi' : 'Bayar Denda' ?>
-                </a>
-            <?php elseif ($status === 'dipinjam' && $status_pengajuan === 'menunggu'): ?>
-                <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
-            <?php elseif ($status === 'dipinjam' && $sisa_kesempatan > 0): ?>
-                <a href="ajukan-kembali.php?id=<?= htmlspecialchars($peminjaman_id) ?>" class="btn-action">
-                    <?= $status_pengajuan === 'ditolak' ? 'Ajukan Kembali' : 'Ajukan Pengembalian' ?>
-                </a>
-            <?php elseif ($status === 'dipinjam' && $sisa_kesempatan <= 0): ?>
-                <span class="status-pengajuan-ditolak">BATAS<br>PENGAJUAN<br>TERCAPAI</span>
-            <?php else: ?>
-                <span class="btn-action disabled">Tidak Ada Aksi</span>
-            <?php endif; ?>
-        </td>
+    <?php if ($status === 'dikembalikan'): ?>
+        <span class="status-pengajuan-diterima">Buku telah dikembalikan</span>
+    <?php elseif ($ada_denda): ?>
+    <?php if ($denda_status === 'proses' && $denda_pembayaran === 'pending'): ?>
+        <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
+    <?php else: ?>
+        <a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/denda/bayar_denda.php?id=<?= htmlspecialchars($denda_id) ?>" class="btn-action red">
+            <?= $denda_pembayaran === 'failed' ? 'Bayar Lagi' : 'Bayar Denda' ?>
+        </a>
+    <?php endif; ?>
+    <?php elseif ($status_pengajuan === 'menunggu'): ?>
+        <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
+    <?php elseif ($status_pengajuan === 'ditolak' && $sisa_kesempatan > 0): ?>
+        <a href="ajukan-kembali.php?id=<?= htmlspecialchars($peminjaman_id) ?>" class="btn-action">Ajukan Kembali</a>
+    <?php elseif ($status_pengajuan === 'ditolak' && $sisa_kesempatan <= 0): ?>
+        <span class="status-pengajuan-ditolak">BATAS<br>PENGAJUAN<br>TERCAPAI</span>
+    <?php elseif ($status === 'dipinjam'): ?>
+        <a href="ajukan-kembali.php?id=<?= htmlspecialchars($peminjaman_id) ?>" class="btn-action">Ajukan Pengembalian</a>
+    <?php else: ?>
+        <span class="btn-action disabled">Tidak Ada Aksi</span>
+    <?php endif; ?>
+</td>
     </tr>
 <?php endforeach; ?>
                     </tbody>
