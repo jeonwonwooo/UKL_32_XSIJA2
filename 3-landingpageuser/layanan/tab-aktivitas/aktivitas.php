@@ -381,7 +381,12 @@ if (!empty($activities)) {
             <span>Denda sudah <b>LUNAS</b>. Terima kasih telah melakukan pembayaran.</span>
         </div>
     </div>
-<?php elseif ($denda_status === 'belum_dibayar' && $denda_pembayaran === 'pending'): ?>
+<?php elseif (
+    $denda_status === 'belum_dibayar'
+    && $denda_pembayaran === 'pending'
+    && $denda_id !== null
+    && $denda_nominal > 0
+): ?>
     <div class="notification warning-notification">
         <i class="fas fa-exclamation-triangle"></i>
         <div class="notification-content">
@@ -409,11 +414,11 @@ if (!empty($activities)) {
             <span>Pengajuan sedang menunggu verifikasi admin.</span>
         </div>
     </div>
-<?php elseif ($status === 'dipinjam' && $sisa_kesempatan > 0): ?>
+<?php elseif ($status === 'dipinjam' && ($status_pengajuan === null || $status_pengajuan === '-' || $status_pengajuan === '')): ?>
     <div class="notification info-notification">
         <i class="fas fa-info-circle"></i>
         <div class="notification-content">
-            <span>Anda dapat mengajukan pengembalian. Sisa kesempatan: <?= $sisa_kesempatan ?></span>
+            <span>Anda dapat mengajukan pengembalian. Sisa kesempatan: 3</span>
         </div>
     </div>
 <?php else: ?>
@@ -424,7 +429,6 @@ if (!empty($activities)) {
         </div>
     </div>
 <?php endif; ?>
-
             <?php if (!empty($activities)): ?>
                 <h3>Aktivitas Terbaru</h3>
                 <table>
@@ -452,8 +456,9 @@ if (!empty($activities)) {
     $peminjaman_id = $activity['peminjaman_id'] ?? null;
 
     // Sisa kesempatan = 3 - jumlah_pengajuan (tampil jika status dipinjam)
-    $sisa_kesempatan = $status === 'dipinjam' ? max(0, 3 - $jumlah_pengajuan) : '-';
-
+$sisa_kesempatan = $status === 'dipinjam'
+    ? (($status_pengajuan === null || $status_pengajuan === '-' || $status_pengajuan === '') ? 3 : max(0, 3 - $jumlah_pengajuan))
+    : '-';
     // Denda harian
     $denda_harian_info = hitungDendaHarian($activity['batas_pengembalian']);
     $display_denda = $denda_nominal;
