@@ -9,7 +9,7 @@
 /* Background */
 body {
   font-family: "Poppins", sans-serif;
-  background: url("/CODINGAN/assets/fotoku.png") no-repeat center center fixed;
+  background: url("fotoku.png") no-repeat center center fixed;
   background-size: cover;
   display: flex;
   justify-content: center;

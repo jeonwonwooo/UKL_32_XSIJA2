@@ -20,8 +20,7 @@ if (!isset($_SESSION['username'])) {
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   </head>
-  <body>
-    <header>
+  <header>
       <div class="logo">
         <img src="logo.png" alt="Logo Perpus" srcset="" />
       </div>
@@ -36,7 +35,7 @@ if (!isset($_SESSION['username'])) {
           <li>
             <button class="btn-logout">
               <i class="fas fa-arrow-left"></i>
-              <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali</a>
+              <a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Kembali</a>
             </button>
           </li>
         </ul>

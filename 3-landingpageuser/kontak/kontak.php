@@ -22,25 +22,26 @@ if (!isset($_SESSION['username'])) {
   </head>
 
   <header>
-    <div class="logo">
-      <img src="logo.png" alt="Logo Perpus" srcset="" />
-    </div>
-    <nav class="navbar">
-      <ul>
-        <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+      <div class="logo">
+        <img src="logo.png" alt="Logo Perpus" srcset="" />
+      </div>
+      <nav class="navbar">
+        <ul>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
         <li><a href="/CODINGAN/3-landingpageuser/profil/umum/profil.php">Tentang</a></li>
         <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
         <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
         <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
         <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
-        <li>
-          <button class="btn-logout">
-            <i class="fas fa-arrow-left"></i> <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali</a>
-          </button>
-        </li>
-      </ul>
-    </nav>
-  </header>
+          <li>
+            <button class="btn-logout">
+              <i class="fas fa-arrow-left"></i>
+              <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali</a>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
   <b <div class="contact-container">
     <div class="contact-card">
         <h2>KONTAK</h2>
@@ -82,8 +83,7 @@ if (!isset($_SESSION['username'])) {
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
-              class="fab fa-linkedin"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
           <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
@@ -97,8 +97,7 @@ if (!isset($_SESSION['username'])) {
       </div>
     </div>
     <div class="footer-bottom">
-      Copyright © 2024 Library of Riverhill Senior High School. All Rights
-      Reserved
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
     </div>
   </footer>
   </body>

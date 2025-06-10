@@ -24,9 +24,10 @@ try {
               WHERE d.id = ? AND d.anggota_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$denda_id, $_SESSION['user_id']]);
-    $denda = $stmt->fetch(PDO::FETCH_ASSOC);
+    $denda = $stmt->fetch();
 
     if (!$denda) {
+        $denda = false;
         throw new Exception("Data denda tidak ditemukan atau bukan milik Anda.");
     }
 
@@ -69,8 +70,8 @@ try {
         }
 
         // Generate nama file unik
-        $new_filename = "denda_" . $denda_id . "_" . uniqid() . "." . $file_extension;
-        $target_file = $target_dir . $new_filename;
+        $new_filename = 'bukti_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $file_extension;
+        $target_file = "{$target_dir}{$new_filename}";
 
         // Pindahkan file ke direktori target
         if (!move_uploaded_file($_FILES['bukti_pembayaran']['tmp_name'], $target_file)) {
@@ -141,7 +142,7 @@ try {
                 <?= $error_message ?>
             </div>
         <?php endif; ?>
-
+        <?php if ($denda): ?>
         <div class="denda-info">
             <h2>Informasi Denda</h2>
             <table>
@@ -178,6 +179,8 @@ try {
                     <td><?= htmlspecialchars($denda['keterangan']) ?></td>
                 </tr>
             </table>
+        </div>
+        <?php endif; ?>
         </div>
 
         <form action="" method="POST" enctype="multipart/form-data">

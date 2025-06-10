@@ -78,7 +78,7 @@ try {
 
 <header>
     <div class="logo">
-        <img src="../../logo.png" alt="Logo Perpus" />
+      <img src="../../logo.png" alt="Logo Perpus" srcset="" />
     </div>
     <nav class="navbar">
             <ul>
@@ -86,17 +86,17 @@ try {
                 <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.html">Kontak</a></li>
+                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
                 <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
                 <li>
                     <button class="btn-logout">
                         <i class="fas fa-arrow-left"></i>
-                        <a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Kembali</a>
+                        <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Kembali</a>
                     </button>
                 </li>
             </ul>
         </nav>
-</header>
+  </header>
 
 <main>
     <section class="hero">

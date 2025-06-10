@@ -14,7 +14,7 @@ try {
     // Update status peminjaman menjadi 'dikembalikan'
     $update_query = "
         UPDATE peminjaman
-        SET status = 'dikembalikan', status_pengajuan = 'diterima', akses_berakhir = CURDATE()
+        SET status = 'dikembalikan', status_pengajuan = 'diterima', tanggal_kembali = CURDATE()
         WHERE id = ?
     ";
     $stmt_update = $conn->prepare($update_query);
