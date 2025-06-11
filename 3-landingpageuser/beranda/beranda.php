@@ -52,12 +52,7 @@
         <h5><i>Portal Perpustakaan SMA Rivenhill</i></h5>
         <br />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-          omnis molestias nobis. Assumenda quaerat blanditiis natus officia
-          quidem, minima quae aliquam iste ducimus perspiciatis
-          molestiasinventore? Consectetur, aperiam. Dignissimos, laboriosam?
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae
-          omnis molestias nobis.
+          Perpustakaan SMA Rivenhill menyediakan berbagai koleksi buku berkualitas untuk mendukung pembelajaran siswa. Dengan fasilitas modern dan suasana nyaman, kami berkomitmen menjadi pusat informasi dan pengetahuan bagi seluruh warga sekolah. Mari jelajahi dunia melalui halaman-halaman buku bersama kami.
         </p>
       </div>
     </section>
@@ -70,10 +65,7 @@
         <h3>Kami Adalah</h3>
         <h6>Perpustakaan SMA Rivenhill</h6>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
-          esse adipisci expedita distinctio et dolorum laborum ut ullam
-          voluptates ratione assumenda delectus eveniet. In enim sed, incidunt
-          inventore qui facilis.
+          Sebagai jantung pengetahuan sekolah, kami menyediakan berbagai koleksi buku berkualitas untuk membantu siswa dalam memahami ilmu. Tim pustakawan kami siap membantu Anda menemukan referensi yang dibutuhkan untuk tugas sekolah maupun pengembangan pribadi.
         </p>
       </div>
     </section>
@@ -102,10 +94,7 @@
               <div class="card-content">
                 <h4>Sirkulasi</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, esse adipisci expedita distinctio et dolorum
-                  laborum ut ullam voluptates ratione assumenda delectus
-                  eveniet. In enim sed, incidunt inventore qui facilis.
+                  Layanan peminjaman dan pengembalian buku dengan sistem yang mudah bagi pengguna dan cepat. Setiap anggota dapat meminjam berbagai macam buku dengan durasi peminjaman selama 7 hari. 
                 </p>
               </div>
             </div>
@@ -118,10 +107,7 @@
               <div class="card-content">
                 <h4>Referensi</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, esse adipisci expedita distinctio et dolorum
-                  laborum ut ullam voluptates ratione assumenda delectus
-                  eveniet. In enim sed, incidunt inventore qui facilis.
+                  Koleksi referensi kami meliputi ensiklopedia, kamus, buku statistik, dan bahan penelitian lainnya yang dapat diakses di tempat. Kami juga menyediakan akses ke jurnal online dan database akademik terpercaya.
                 </p>
               </div>
             </div>
@@ -134,10 +120,7 @@
               <div class="card-content">
                 <h4>Repository</h4>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Reiciendis, esse adipisci expedita distinctio et dolorum
-                  laborum ut ullam voluptates ratione assumenda delectus
-                  eveniet. In enim sed, incidunt inventore qui facilis.
+                  Arsip digital karya siswa dan guru SMA Rivenhill, termasuk skripsi, laporan penelitian, dan karya tulis lainnya. Repository kami menjadi sumber inspirasi dan referensi untuk pengembangan akademik sekolah.
                 </p>
               </div>
             </div>
@@ -159,9 +142,7 @@
       <div class="left">
         <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-          adipiscing elit. Repudiandae omnis molestias nobis.
+          Perpustakaan SMA Rivenhill berkomitmen menjadi pusat pembelajaran yang mendukung visi sekolah dalam menciptakan generasi berwawasan luas. Kami buka setiap hari Senin-Jumat pukul 07.30-15.30 WIB.
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>

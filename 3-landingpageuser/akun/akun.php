@@ -113,31 +113,35 @@ try {
         }
         
         // Handle update profil data
-        elseif (isset($_POST['update_profil'])) {
-            $nama = trim($_POST['nama']);
-            $email = trim($_POST['email']);
-            
-            if (!empty($nama) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                // Cek apakah email sudah digunakan user lain
-                $stmt_check = $conn->prepare("SELECT id FROM anggota WHERE email = ? AND id != ?");
-                $stmt_check->execute([$email, $user_id]);
-                
-                if ($stmt_check->rowCount() == 0) {
-                    $stmt_update = $conn->prepare("UPDATE anggota SET nama = ?, email = ? WHERE id = ?");
-                    if ($stmt_update->execute([$nama, $email, $user_id])) {
-                        $user['nama'] = $nama;
-                        $user['email'] = $email;
-                        $pesan_profil = "Profil berhasil diperbarui!";
-                    } else {
-                        $pesan_profil = "Gagal memperbarui profil.";
-                    }
-                } else {
-                    $pesan_profil = "Email sudah digunakan oleh pengguna lain.";
-                }
+elseif (isset($_POST['update_profil'])) {
+    $nama = trim($_POST['nama']);
+    $email = trim($_POST['email']);
+    $username = trim($_POST['username']);
+    
+    if (!empty($nama) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Cek apakah email sudah digunakan user lain
+        $stmt_check = $conn->prepare("SELECT id FROM anggota WHERE email = ? AND id != ?");
+        $stmt_check->execute([$email, $user_id]);
+        $stmt_check = $conn->prepare("SELECT id FROM anggota WHERE username = ? AND id != ?");
+        $stmt_check->execute([$username, $user_id]);
+        
+        if ($stmt_check->rowCount() == 0) {
+            $stmt_update = $conn->prepare("UPDATE anggota SET nama = ?, email = ?, username = ? WHERE id = ?");
+            if ($stmt_update->execute([$nama, $email, $username, $user_id])) {
+                $user['nama'] = $nama;
+                $user['email'] = $email;
+                $user['username'] = $username;
+                $pesan_profil = "Profil berhasil diperbarui!";
             } else {
-                $pesan_profil = "Nama dan email harus diisi dengan benar.";
+                $pesan_profil = "Gagal memperbarui profil.";
             }
+        } else {
+            $pesan_profil = "Email sudah digunakan oleh pengguna lain.";
         }
+    } else {
+        $pesan_profil = "Data harus diisi dengan benar.";
+    }
+}
         
         // Handle ganti password
         elseif (isset($_POST['ganti_password'])) {
@@ -353,6 +357,10 @@ try {
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
                 </div>
                 <button type="submit" class="btn-primary">Simpan Perubahan</button>
             </form>

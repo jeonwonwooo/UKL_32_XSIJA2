@@ -103,24 +103,30 @@ if ($status === 'success') {
 <body>
     <header>
     <div class="logo">
-      <img src="../../logo.png" alt="Logo Perpus" srcset="" />
+        <img src="../../logo.png" alt="Logo Perpus" srcset="" />
     </div>
     <nav class="navbar">
-            <ul>
-                <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
-                <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
-                <li>
-                    <button class="btn-logout">
-                        <i class="fas fa-arrow-left"></i>
-                        <a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Kembali</a>
-                    </button>
-                </li>
-            </ul>
-        </nav>
-  </header>
+        <ul>
+            <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+            <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
+            <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a></li>
+            <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
+            <li class="profil"><a href="/CODINGAN/3-landingpageuser/akun/akun.php" class="akun"><i class="fas fa-user"></i></a></li>
+            <li>
+                <button class="btn-logout">
+                    <i class="fas fa-arrow-left"></i>
+                    <a href="<?= 
+                        ($dokumen['tipe_dokumen'] === 'jurnal' || 
+                         $dokumen['tipe_dokumen'] === 'artikel_konferensi' || 
+                         $dokumen['tipe_dokumen'] === 'modul_pelajaran') 
+                        ? '/CODINGAN/3-landingpageuser/layanan/referensi/referensi.php' 
+                        : '/CODINGAN/3-landingpageuser/layanan/repository/repository.php' 
+                    ?>">Kembali</a>
+                </button>
+            </li>
+        </ul>
+    </nav>
+</header>
     <main>
         <section class="judul">
             <h1>Detail Dokumen</h1>
@@ -225,32 +231,30 @@ if ($status === 'success') {
         <p id="notif-favorit" style="display: none; color: green;">Dokumen berhasil ditambahkan ke favorit Anda!</p>
     </main>
     <footer class="footer">
-        <div class="container">
-            <div class="left">
-                <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-                    omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-                    adipiscing elit. Repudiandae omnis molestias nobis.
-                </p>
-                <div class="social-icons">
-                    <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="right">
-                <h2>Tautan Fungsional</h2>
-                <ul>
-                    <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.html">Beranda</a></li>
-                    <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.html">Layanan</a></li>
-                    <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-                </ul>
-            </div>
+    <div class="container">
+      <div class="left">
+        <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
+        <p>
+          Perpustakaan SMA Rivenhill berkomitmen menjadi pusat pembelajaran yang mendukung visi sekolah dalam menciptakan generasi berwawasan luas. Kami buka setiap hari Senin-Jumat pukul 07.30-15.30 WIB.
+        </p>
+        <div class="social-icons">
+          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
-        <div class="footer-bottom">
-            Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
-        </div>
-    </footer>
+      </div>
+      <div class="right">
+        <h2>Tautan Fungsional</h2>
+        <ul>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
+    </div>
+  </footer>
 </body>
 </html>

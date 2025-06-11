@@ -54,14 +54,7 @@ if (!isset($_SESSION['username'])) {
         <div class="sejarah-content">
           <div class="sej-text">
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro
-              corrupti veniam, aperiam, aspernatur hic asperiores, beatae
-              quisquam eaque quasi provident mollitia iure. Non sapiente vitae
-              labore explicabo expedita blanditiis recusandae? Lorem ipsum dolor
-              sit amet consectetur adipisicing elit. Quo magni soluta amet.
-              Necessitatibus labore modi quas veritatis molestiae temporibus ex
-              delectus consectetur cum unde ullam, iste minus odio, rerum
-              corporis. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Situs ini dikembangkan sejak 2024 sebagai bagian dari komitmen sekolah dalam mendukung pendidikan berkualitas. Kami terus berinovasi untuk memenuhi kebutuhan literasi siswa dan guru, termasuk transformasi digital.
             </p>
           </div>
           <div class="sej-img">
@@ -75,19 +68,15 @@ if (!isset($_SESSION['username'])) {
           <div class="visi-content">
             <h4>VISI</h4>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reiciendis, esse adipisci expedita distinctio et dolorum laborum
-              ut ullam voluptates ratione assumenda delectus eveniet. In enim
-              sed, incidunt inventore qui facilis.
+              Menjadi pusat sumber belajar yang inspiratif dan inovatif bagi komunitas SMA Rivenhill, mendorong budaya literasi, serta mendukung pengembangan potensi akademik dan karakter siswa melalui layanan informasi yang berkualitas.
             </p>
           </div>
           <div class="misi-content">
             <h4>MISI</h4>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Reiciendis, esse adipisci expedita distinctio et dolorum laborum
-              ut ullam voluptates ratione assumenda delectus eveniet. In enim
-              sed, incidunt inventore qui facilis.
+              1. Menyediakan koleksi bahan pustaka yang relevan dan mutakhir<br>
+              2. Menciptakan lingkungan belajar yang nyaman dan kondusif<br>
+              3. Menerapkan teknologi informasi untuk kemudahan akses<br>
             </p>
           </div>
         </div>
@@ -95,10 +84,7 @@ if (!isset($_SESSION['username'])) {
       <section class="pengelola">
         <h2>Pengelola</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis,
-          esse adipisci expedita distinctio et dolorum laborum ut ullam
-          voluptates ratione assumenda delectus eveniet. In enim sed, incidunt
-          inventore qui facilis.
+          Perpustakaan kami dikelola oleh tim profesional yang terdiri dari kepala perpustakaan & 3 petugas. Kami siap memberikan pelayanan terbaik dengan pendekatan yang ramah dan solutif untuk kebutuhan informasi Anda.
         </p>
         <button class="sapa">
           <a href="/CODINGAN/3-landingpageuser/profil/petugas/petugas.php"
@@ -113,9 +99,7 @@ if (!isset($_SESSION['username'])) {
       <div class="left">
         <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-          adipiscing elit. Repudiandae omnis molestias nobis.
+          Perpustakaan SMA Rivenhill berkomitmen menjadi pusat pembelajaran yang mendukung visi sekolah dalam menciptakan generasi berwawasan luas. Kami buka setiap hari Senin-Jumat pukul 07.30-15.30 WIB.
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>

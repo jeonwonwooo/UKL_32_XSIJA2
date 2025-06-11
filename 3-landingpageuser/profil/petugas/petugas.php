@@ -84,11 +84,6 @@ if (!isset($_SESSION['username'])) {
               <h4>Syarivatun Nisa’I Nur Aulia</h4>
               <p>Siswi SMK Telkom Sidoarjo</p>
               <p>Jurusan Sistem Informasi, Jaringan, dan Aplikasi</p>
-              <a
-                href="/CODINGAN/3-landingpageuser/profil/petugas/pengelola/pengelola.html"
-                class="exploreme"
-                >Explore more</a
-              >
             </div>
           </div>
         </div>
@@ -100,14 +95,11 @@ if (!isset($_SESSION['username'])) {
       <div class="left">
         <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-          adipiscing elit. Repudiandae omnis molestias nobis.
+          Perpustakaan SMA Rivenhill berkomitmen menjadi pusat pembelajaran yang mendukung visi sekolah dalam menciptakan generasi berwawasan luas. Kami buka setiap hari Senin-Jumat pukul 07.30-15.30 WIB.
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i
-              class="fab fa-linkedin"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
           <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
@@ -121,8 +113,7 @@ if (!isset($_SESSION['username'])) {
       </div>
     </div>
     <div class="footer-bottom">
-      Copyright © 2024 Library of Riverhill Senior High School. All Rights
-      Reserved
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
     </div>
   </footer>
   </body>

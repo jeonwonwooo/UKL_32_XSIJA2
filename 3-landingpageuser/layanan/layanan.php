@@ -97,9 +97,7 @@ if (!isset($_SESSION['username'])) {
       <div class="left">
         <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae
-          omnis molestias nobis. Lorem ipsum dolor sit amet consectetur
-          adipiscing elit. Repudiandae omnis molestias nobis.
+          Perpustakaan SMA Rivenhill didukung oleh tim profesional yang berdedikasi untuk memberikan layanan terbaik. Kami buka Senin-Jumat pukul 07.30-15.30 WIB, siap membantu kebutuhan informasi dan literasi seluruh warga sekolah.
         </p>
         <div class="social-icons">
           <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>

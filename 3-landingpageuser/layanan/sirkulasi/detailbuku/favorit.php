@@ -83,7 +83,6 @@ try {
     <nav class="navbar">
             <ul>
                 <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Katalog</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Aktivitas</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php">Favorit</a></li>
                 <li><a href="/CODINGAN/3-landingpageuser/kontak/kontak.php">Kontak</a></li>
@@ -91,7 +90,7 @@ try {
                 <li>
                     <button class="btn-logout">
                         <i class="fas fa-arrow-left"></i>
-                        <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php">Kembali</a>
+                        <a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Kembali</a>
                     </button>
                 </li>
             </ul>
@@ -167,28 +166,30 @@ try {
 
 <footer class="footer">
     <div class="container">
-        <div class="left">
-            <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
-            <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Repudiandae omnis molestias nobis.</p>
-            <div class="social-icons">
-                <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-            </div>
+      <div class="left">
+        <img src="logo.png" alt="Library of Riverhill Senior High School logo" />
+        <p>
+          Perpustakaan SMA Rivenhill berkomitmen menjadi pusat pembelajaran yang mendukung visi sekolah dalam menciptakan generasi berwawasan luas. Kami buka setiap hari Senin-Jumat pukul 07.30-15.30 WIB.
+        </p>
+        <div class="social-icons">
+          <a href="https://wa.me/6285936164597" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="https://www.linkedin.com/in/syarivatun-nisa-i-nur-aulia-3ab52b2bb/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://instagram.com/jeonwpnwoo" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
-        <div class="right">
-            <h2>Tautan Fungsional</h2>
-            <ul>
-                <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
-                    <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
-                    <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
-            </ul>
-        </div>
+      </div>
+      <div class="right">
+        <h2>Tautan Fungsional</h2>
+        <ul>
+          <li><a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Beranda</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/layanan/layanan.php">Layanan</a></li>
+          <li><a href="/CODINGAN/3-landingpageuser/galeri/galeri.php">Galeri</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
-        Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
+      Copyright © 2024 Library of Riverhill Senior High School. All Rights Reserved
     </div>
-</footer>
+  </footer>
 
 <?php
 function getIconClass($tipe_dokumen) {
