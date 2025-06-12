@@ -44,6 +44,7 @@ try {
             'keterangan' => "Denda keterlambatan selama {$selisih_hari} hari"
         ];
     }
+    
 
     // Update denda untuk peminjaman terlambat
     $query_terlambat = "
@@ -507,7 +508,7 @@ $sisa_kesempatan = ($status === 'dipinjam') ? max(0, 3 - $jumlah_pengajuan) : 0;
     <?php if ($status === 'dikembalikan'): ?>
         <span class="status-pengajuan-diterima">Buku telah dikembalikan</span>
     <?php elseif ($ada_denda): ?>
-    <?php if ($denda_status === 'proses' && $denda_pembayaran === 'pending'): ?>
+    <?php if ($denda_status === 'proses' && in_array($denda_pembayaran, ['pending', 'failed'])): ?>
         <span class="status-pengajuan-menunggu">Menunggu Verifikasi Admin</span>
     <?php else: ?>
         <a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/denda/bayar_denda.php?id=<?= htmlspecialchars($denda_id) ?>" class="btn-action red">
