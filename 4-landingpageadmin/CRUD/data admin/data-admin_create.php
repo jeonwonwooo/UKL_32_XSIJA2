@@ -7,9 +7,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
 
     $foto_profil = null;
-    if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
-        $file_name = basename($_FILES['foto_profil']['name']);
-        $file_tmp = $_FILES['foto_profil']['tmp_name'];
+    if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] === UPLOAD_ERR_OK) {
+        $file_name = basename($_FILES['photo_profil']['name']);
+        $file_tmp = $_FILES['photo_profil']['tmp_name'];
         $upload_dir = "/CODINGAN/4-landingpageadmin/uploads/";
 
         if (!is_dir($upload_dir)) {
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("INSERT INTO admin (nama, username, password, foto_profil) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO admin (nama, username, password, photo_profil) VALUES (?, ?, ?, ?)");
         $stmt->execute([$nama, $username, $password, $foto_profil]);
 
         header("Location: data-admin_list.php");

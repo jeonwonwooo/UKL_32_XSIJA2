@@ -23,6 +23,7 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <nav>
         <ul>
             <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/landingpage/accadmin.php"><i class="fas fa-user"></i>Profil</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php" class="active"><i class="fas fa-users"></i> Daftar Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php"><i class="fas fa-user-shield"></i> Daftar Admin</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php"><i class="fas fa-newspaper"></i> Daftar Artikel</a></li>
@@ -59,12 +60,12 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($anggota['nama']) ?></td>
                         <td><?= htmlspecialchars($anggota['email']) ?></td>
                         <td>
-                            <?php if ($anggota['foto_profil']): ?>
-                                <img src="/CODINGAN/4-landingpageadmin/uploads<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
-                            <?php else: ?>
-                                Tidak Ada Foto
-                            <?php endif; ?>
-                        </td>
+    <?php if ($anggota['foto_profil']): ?>
+        <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
+    <?php else: ?>
+        Tidak Ada Foto
+    <?php endif; ?>
+</td>
                         <td><?= htmlspecialchars($anggota['created_at']) ?></td>
                         <td>
                             <a href="data-anggota_edit.php?id=<?= $anggota['id'] ?>" class="btn btn-warning btn-sm">

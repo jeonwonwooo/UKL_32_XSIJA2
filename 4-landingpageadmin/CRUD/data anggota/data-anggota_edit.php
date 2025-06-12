@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
         $file_name = basename($_FILES['foto_profil']['name']);
         $file_tmp = $_FILES['foto_profil']['tmp_name'];
-        $upload_dir = "../../uploads/";
+        $upload_dir = "/CODINGAN/4-landingpageadmin/uploads/";
 
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <?php if ($anggota['foto_profil']): ?>
                     <div style="margin-top: 10px;">
-                        <img src="../../uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
+                        <img src="CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
                         <span style="color: #fff; font-size: 14px;">Foto Saat Ini</span>
                     </div>
                 <?php endif; ?>

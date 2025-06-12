@@ -7,42 +7,42 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+$admin_id = $_SESSION['admin_id'];
 $pesan_profil = '';
 $pesan_password = '';
 
 try {
     // Ambil data pengguna dari database
-    $stmt = $conn->prepare("SELECT * FROM anggota WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch();
+    $stmt = $conn->prepare("SELECT * FROM admin WHERE id = ?");
+    $stmt->execute([$admin_id]);
+    $admin = $stmt->fetch();
 
-    if (!$user) {
-        die("Pengguna tidak ditemukan.");
+    if (!$admin) {
+        die("Admin tidak ditemukan.");
     }
 
     // Fungsi untuk mendapatkan foto profil
-    function getFotoProfile($user) {
+    function getFotoProfile($admin) {
         $default_photo = '/CODINGAN/assets/default_profile.jpg';
         
-        if (empty($user['foto_profil'])) {
+        if (empty($admin['photo_profil'])) {
             return $default_photo;
         }
         
-        $photo_path = $_SERVER['DOCUMENT_ROOT'] . $user['foto_profil'];
+        $photo_path = $_SERVER['DOCUMENT_ROOT'] . $admin['photo_profil'];
         if (!file_exists($photo_path)) {
             return $default_photo;
         }
         
-        return $user['foto_profil'];
+        return $admin['photo_profil'];
     }
 
-    $foto_profil = getFotoProfile($user);
+    $photo_profil = getFotoProfile($admin);
 
     // Proses form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
-        if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
+        if (isset($_FILES['photo_profil']) && $_FILES['photo_profil']['error'] === UPLOAD_ERR_OK) {
     $target_dir = "/CODINGAN/4-landingpageadmin/uploads/";
     $abs_target_dir = $_SERVER['DOCUMENT_ROOT'] . $target_dir;
 
@@ -53,28 +53,28 @@ try {
 
     // Validasi ekstensi file
     $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-    $file_extension = strtolower(pathinfo($_FILES['foto_profil']['name'], PATHINFO_EXTENSION));
+    $file_extension = strtolower(pathinfo($_FILES['photo_profil']['name'], PATHINFO_EXTENSION));
     if (in_array($file_extension, $allowed_ext)) {
         // Validasi ukuran file (maksimal 5MB)
-        if ($_FILES['foto_profil']['size'] <= 5 * 1024 * 1024) {
-            $new_filename = "profile_{$user_id}_" . time() . "." . $file_extension;
+        if ($_FILES['photo_profil']['size'] <= 5 * 1024 * 1024) {
+            $new_filename = "profile_{$admin_id}_" . time() . "." . $file_extension;
             $target_file = $new_filename; // Simpan hanya nama file
             $abs_target_file = $abs_target_dir . $new_filename;
 
-            if (move_uploaded_file($_FILES['foto_profil']['tmp_name'], $abs_target_file)) {
+            if (move_uploaded_file($_FILES['photo_profil']['tmp_name'], $abs_target_file)) {
                 // Hapus foto lama jika bukan default
-                if ($user['foto_profil'] && $user['foto_profil'] != '/CODINGAN/assets/default_profile.jpg') {
-                    $old_file = $_SERVER['DOCUMENT_ROOT'] . "/CODINGAN/4-landingpageadmin/uploads/" . $user['foto_profil'];
+                if ($admin['photo_profil'] && $admin['photo_profil'] != '/CODINGAN/assets/default_profile.jpg') {
+                    $old_file = $_SERVER['DOCUMENT_ROOT'] . "/CODINGAN/4-landingpageadmin/uploads/" . $admin['photo_profil'];
                     if (file_exists($old_file)) {
                         unlink($old_file);
                     }
                 }
 
                 // Update database
-                $stmt_update = $conn->prepare("UPDATE anggota SET foto_profil = ? WHERE id = ?");
-                if ($stmt_update->execute([$target_file, $user_id])) {
-                    $user['foto_profil'] = $target_file;
-                    $foto_profil = $target_file;
+                $stmt_update = $conn->prepare("UPDATE admin SET photo_profil = ? WHERE id = ?");
+                if ($stmt_update->execute([$target_file, $admin_id])) {
+                    $admin['photo_profil'] = $target_file;
+                    $photo_profil = $target_file;
                     $pesan_profil = "Foto profil berhasil diperbarui!";
                 } else {
                     $pesan_profil = "Gagal menyimpan foto profil ke database.";
@@ -91,19 +91,19 @@ try {
 }
         
         // Handle hapus foto profil
-        elseif (isset($_POST['hapus_foto_profil'])) {
-            if ($user['foto_profil'] && $user['foto_profil'] != '/CODINGAN/assets/default_profile.jpg') {
-                $old_file = $_SERVER['DOCUMENT_ROOT'] . $user['foto_profil'];
+        elseif (isset($_POST['hapus_photo_profil'])) {
+            if ($admin['photo_profil'] && $admin['photo_profil'] != '/CODINGAN/assets/default_profile.jpg') {
+                $old_file = $_SERVER['DOCUMENT_ROOT'] . $admin['photo_profil'];
                 if (file_exists($old_file)) {
                     unlink($old_file);
                 }
             }
             
             // Update database untuk menghapus foto profil
-            $stmt_update = $conn->prepare("UPDATE anggota SET foto_profil = NULL WHERE id = ?");
-            if ($stmt_update->execute([$user_id])) {
-                $user['foto_profil'] = null;
-                $foto_profil = '/CODINGAN/assets/default_profile.jpg';
+            $stmt_update = $conn->prepare("UPDATE admin SET photo_profil = NULL WHERE id = ?");
+            if ($stmt_update->execute([$admin_id])) {
+                $admin['photo_profil'] = null;
+                $photo_profil = '/CODINGAN/assets/default_profile.jpg';
                 $pesan_profil = "Foto profil berhasil dihapus!";
             } else {
                 $pesan_profil = "Gagal menghapus foto profil.";
@@ -118,17 +118,17 @@ elseif (isset($_POST['update_profil'])) {
     
     if (!empty($nama) && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
         // Cek apakah email sudah digunakan user lain
-        $stmt_check = $conn->prepare("SELECT id FROM anggota WHERE email = ? AND id != ?");
-        $stmt_check->execute([$email, $user_id]);
-        $stmt_check = $conn->prepare("SELECT id FROM anggota WHERE username = ? AND id != ?");
-        $stmt_check->execute([$username, $user_id]);
+        $stmt_check = $conn->prepare("SELECT id FROM admin WHERE email = ? AND id != ?");
+        $stmt_check->execute([$email, $admin_id]);
+        $stmt_check = $conn->prepare("SELECT id FROM admin WHERE username = ? AND id != ?");
+        $stmt_check->execute([$username, $admin_id]);
         
         if ($stmt_check->rowCount() == 0) {
-            $stmt_update = $conn->prepare("UPDATE anggota SET nama = ?, email = ?, username = ? WHERE id = ?");
-            if ($stmt_update->execute([$nama, $email, $username, $user_id])) {
-                $user['nama'] = $nama;
-                $user['email'] = $email;
-                $user['username'] = $username;
+            $stmt_update = $conn->prepare("UPDATE admin SET nama = ?, email = ?, username = ? WHERE id = ?");
+            if ($stmt_update->execute([$nama, $email, $username, $admin_id])) {
+                $admin['nama'] = $nama;
+                $admin['email'] = $email;
+                $admin['username'] = $username;
                 $pesan_profil = "Profil berhasil diperbarui!";
             } else {
                 $pesan_profil = "Gagal memperbarui profil.";
@@ -147,12 +147,12 @@ elseif (isset($_POST['update_profil'])) {
             $password_baru = $_POST['password_baru'];
             $konfirmasi = $_POST['konfirmasi'];
             
-            if (password_verify($password_lama, $user['password'])) {
+            if (password_verify($password_lama, $admin['password'])) {
                 if ($password_baru === $konfirmasi) {
                     if (strlen($password_baru) >= 6) {
                         $password_hash = password_hash($password_baru, PASSWORD_DEFAULT);
-                        $stmt_update = $conn->prepare("UPDATE anggota SET password = ? WHERE id = ?");
-                        if ($stmt_update->execute([$password_hash, $user_id])) {
+                        $stmt_update = $conn->prepare("UPDATE admin SET password = ? WHERE id = ?");
+                        if ($stmt_update->execute([$password_hash, $admin_id])) {
                             $pesan_password = "Password berhasil diubah!";
                         } else {
                             $pesan_password = "Gagal mengubah password.";
@@ -171,16 +171,16 @@ elseif (isset($_POST['update_profil'])) {
         // Handle hapus akun
         elseif (isset($_POST['hapus_akun'])) {
             // Hapus foto profil jika ada
-            if ($user['foto_profil'] && $user['foto_profil'] != '/CODINGAN/assets/default_profile.jpg') {
-                $old_file = $_SERVER['DOCUMENT_ROOT'] . $user['foto_profil'];
+            if ($admin['photo_profil'] && $admin['photo_profil'] != '/CODINGAN/assets/default_profile.jpg') {
+                $old_file = $_SERVER['DOCUMENT_ROOT'] . $admin['photo_profil'];
                 if (file_exists($old_file)) {
                     unlink($old_file);
                 }
             }
             
             // Hapus akun dari database
-            $stmt_delete = $conn->prepare("DELETE FROM anggota WHERE id = ?");
-            if ($stmt_delete->execute([$user_id])) {
+            $stmt_delete = $conn->prepare("DELETE FROM admin WHERE id = ?");
+            if ($stmt_delete->execute([$admin_id])) {
                 session_destroy();
                 header("Location: login.php?pesan=akun_dihapus");
                 exit();
@@ -201,7 +201,7 @@ elseif (isset($_POST['update_profil'])) {
     <title>Profil Akun</title>
     <link rel="icon" type="image/x-icon" href="/CODINGAN/assets/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/> 
-    <link rel="stylesheet" href="akun.css">
+    <link rel="stylesheet" href="accadmin.css">
     <style>
         .alert {
             padding: 10px;
@@ -273,7 +273,7 @@ elseif (isset($_POST['update_profil'])) {
     <div class="navbar-container">
         <a href="#profile" class="navbar-brand"><i class="fas fa-user-circle"></i> My Account</a>
         <nav class="navbar-menu">
-            <a href="/CODINGAN/3-landingpageuser/beranda/beranda.php">Kembali Beranda</a>
+            <a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php">Kembali Dashboard</a>
             <a href="#profile" class="<?= isset($_GET['tab']) && $_GET['tab'] === 'profile' ? 'active' : '' ?>">Edit Profil</a>
             <a href="#ganti-password">Ganti Password</a>
             <a href="#quick-access">Akses Cepat</a>
@@ -288,13 +288,13 @@ elseif (isset($_POST['update_profil'])) {
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="profile-card">
-            <?php if ($user['foto_profil']): ?>
-    <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($user['foto_profil']) ?>" alt="Foto Profil" width="50">
+            <?php if ($admin['photo_profil']): ?>
+    <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($admin['photo_profil']) ?>" alt="Foto Profil" width="50">
 <?php else: ?>
     <img src="/CODINGAN/assets/default_profile.jpg" alt="Foto Profil" width="50">
 <?php endif; ?>
-            <h3><?= htmlspecialchars($user['nama']) ?></h3>
-            <p><?= htmlspecialchars($user['email']) ?></p>
+            <h3><?= htmlspecialchars($admin['nama']) ?></h3>
+            <p><?= htmlspecialchars($admin['email']) ?></p>
         </div>
         <nav class="profile-menu">
             <ul>
@@ -324,8 +324,8 @@ elseif (isset($_POST['update_profil'])) {
                 <label>Foto Profil:</label>
                 <div class="image-upload-container">
                     <div class="image-upload">
-                        <?php if ($user['foto_profil']): ?>
-    <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($user['foto_profil']) ?>" alt="Foto Profil" width="50">
+                        <?php if ($admin['photo_profil']): ?>
+    <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($admin['photo_profil']) ?>" alt="Foto Profil" width="50">
 <?php else: ?>
     <img src="/CODINGAN/assets/default_profile.jpg" alt="Foto Profil" width="50">
 <?php endif; ?>
@@ -334,9 +334,9 @@ elseif (isset($_POST['update_profil'])) {
                         <button type="button" class="btn-secondary" onclick="document.getElementById('foto-profil').click()">
                             <i class="fas fa-camera"></i> Ubah Foto
                         </button>
-                        <?php if ($user['foto_profil'] && $user['foto_profil'] != '/CODINGAN/assets/default_profile.jpg'): ?>
+                        <?php if ($admin['photo_profil'] && $admin['photo_profil'] != '/CODINGAN/assets/default_profile.jpg'): ?>
                         <form method="POST" style="margin: 0;" onsubmit="return confirm('Yakin ingin menghapus foto profil?');">
-                            <input type="hidden" name="hapus_foto_profil" value="1">
+                            <input type="hidden" name="hapus_photo_profil" value="1">
                             <button type="submit" class="btn-danger">
                                 <i class="fas fa-trash"></i> Hapus Foto
                             </button>
@@ -348,7 +348,7 @@ elseif (isset($_POST['update_profil'])) {
 
             <!-- Form Upload Foto -->
             <form method="POST" enctype="multipart/form-data" id="foto-form" style="display: none;">
-                <input type="file" name="foto_profil" id="foto-profil" accept=".jpg,.jpeg,.png,.gif,.webp" onchange="previewAndSubmit()">
+                <input type="file" name="photo_profil" id="foto-profil" accept=".jpg,.jpeg,.png,.gif,.webp" onchange="previewAndSubmit()">
             </form>
 
             <!-- Form Update Profil -->
@@ -356,15 +356,15 @@ elseif (isset($_POST['update_profil'])) {
                 <input type="hidden" name="update_profil" value="1">
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="nama" value="<?= htmlspecialchars($user['nama']) ?>" required>
+                    <input type="text" name="nama" value="<?= htmlspecialchars($admin['nama']) ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" value="<?= htmlspecialchars($user['email']) ?>" required>
+                    <input type="email" name="email" value="<?= htmlspecialchars($admin['email']) ?>" required>
                 </div>
                 <div class="form-group">
                     <label>Username</label>
-                    <input type="text" name="username" value="<?= htmlspecialchars($user['username']) ?>" required>
+                    <input type="text" name="username" value="<?= htmlspecialchars($admin['username']) ?>" required>
                 </div>
                 <button type="submit" class="btn-primary">Simpan Perubahan</button>
             </form>
@@ -400,15 +400,10 @@ elseif (isset($_POST['update_profil'])) {
         <section id="quick-access" class="content-section">
             <h2><i class="fas fa-bolt"></i> Akses Cepat</h2>
             <div class="quick-access-grid">
-                <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/detailbuku/favorit.php" class="quick-access-card">
-                    <div class="quick-access-icon"><i class="fas fa-heart"></i></div>
-                    <h3>Favorit</h3>
-                    <p>Lihat daftar favorit Anda</p>
-                </a>
-                <a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php" class="quick-access-card">
-                    <div class="quick-access-icon"><i class="fas fa-history"></i></div>
-                    <h3>Aktivitas</h3>
-                    <p>Riwayat aktivitas Anda</p>
+                <a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="quick-access-card">
+                    <div class="quick-access-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>Dashboard</h3>
+                    <p>Kembali bekerja, Bung!</p>
                 </a>
             </div>
         </section>

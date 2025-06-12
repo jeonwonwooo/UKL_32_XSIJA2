@@ -6,19 +6,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama = trim($_POST['nama']);
     $password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
     $email = trim($_POST['email']);
-
     $foto_profil = null;
+
     if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
-        $file_name = basename($_FILES['foto_profil']['name']);
-        $file_tmp = $_FILES['foto_profil']['tmp_name'];
-        $upload_dir = "../uploads/";
+        // Validasi ekstensi file
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $file_extension = strtolower(pathinfo($_FILES['foto_profil']['name'], PATHINFO_EXTENSION));
+        if (!in_array($file_extension, $allowed_ext)) {
+            die("Format file tidak didukung. Hanya JPG, JPEG, PNG, GIF, WEBP.");
+        }
+
+        // Validasi ukuran file (maksimal 5MB)
+        if ($_FILES['foto_profil']['size'] > 5 * 1024 * 1024) {
+            die("Ukuran file terlalu besar. Maksimal 5MB.");
+        }
+
+        // Generate nama file unik
+        $new_filename = 'profile_' . uniqid() . '.' . $file_extension;
+        $upload_dir = $_SERVER['DOCUMENT_ROOT'] . "/CODINGAN/4-landingpageadmin/uploads/";
 
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0777, true);
         }
 
-        move_uploaded_file($file_tmp, $upload_dir . $file_name);
-        $foto_profil = $file_name;
+        $target_file = $upload_dir . $new_filename;
+        if (!move_uploaded_file($_FILES['foto_profil']['tmp_name'], $target_file)) {
+            die("Gagal mengupload file.");
+        }
+
+        // Simpan hanya nama file di database (tanpa path lengkap)
+        $foto_profil = $new_filename;
     }
 
     try {
@@ -70,13 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <span class="file-custom">Pilih File...</span>
     </div>
     <small class="text-muted">Biarkan kosong jika tidak ingin mengupload foto.</small>
-
-    <!-- Jika ada file yang diupload sebelumnya (misalnya saat edit) -->
-    <?php if (!empty($foto_profil_sebelumnya)): ?>
-        <div class="preview-image">
-            <img src="../uploads/<?= htmlspecialchars($foto_profil_sebelumnya) ?>" alt="Foto Profil" class="preview-img">
-        </div>
-    <?php endif; ?>
 </div>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
