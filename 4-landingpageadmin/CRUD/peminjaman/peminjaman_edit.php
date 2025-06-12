@@ -1,122 +1,127 @@
 <?php
 include 'formkoneksi.php';
-
-// Debugging: Pastikan $conn ada
-if (!$conn) {
-    die("Koneksi database tidak tersedia.");
-}
-
 // Ambil ID dari URL
 $peminjaman_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$peminjaman_id) {
-    die("ID PEMINJAMAN TIDAK VALID");
+    die("ID peminjaman tidak valid.");
 }
 
-// Ambil data peminjaman beserta username anggota
+// Query untuk mengambil data peminjaman (inner join dengan anggota dan buku)
 $query = "
-    SELECT p.id, a.username, p.tanggal_pinjam, p.batas_pengembalian
-    FROM peminjaman p
-    JOIN anggota a ON p.anggota_id = a.id
+    SELECT 
+        p.id, p.anggota_id, p.buku_id, p.tanggal_pinjam, p.batas_pengembalian,
+        p.status,
+        a.username, b.judul, b.tipe_buku
+    FROM `peminjaman` p
+    JOIN `anggota` a ON p.anggota_id = a.id
+    JOIN `buku` b ON p.buku_id = b.id
     WHERE p.id = ?
 ";
 $stmt = $conn->prepare($query);
-$stmt->bindValue(1, $peminjaman_id, PDO::PARAM_INT);
-$stmt->execute();
+$stmt->execute([$peminjaman_id]);
 $peminjaman = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$peminjaman) {
     die("Data peminjaman tidak ditemukan.");
 }
 
-// Inisialisasi variabel dengan data dari database
-$username = $peminjaman['username'];
+// Variabel awal
+$anggota_id = $peminjaman['anggota_id'];
+$buku_id = $peminjaman['buku_id'];
 $tanggal_pinjam = $peminjaman['tanggal_pinjam'];
 $batas_pengembalian = $peminjaman['batas_pengembalian'];
+
+// Ambil list anggota
+$anggota_list = $conn->query("SELECT id, username FROM `anggota` ORDER BY username")->fetchAll(PDO::FETCH_ASSOC);
+
+// Ambil list buku fisik
+$buku_list = $conn->query("SELECT id, judul FROM `buku` WHERE tipe_buku = 'Buku Fisik' ORDER BY judul")->fetchAll(PDO::FETCH_ASSOC);
+
 $error = '';
 $success = '';
 
+// Jika form disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
-    $username = trim($_POST['username']);
+    $anggota_id = intval($_POST['anggota_id']);
+    $buku_id = intval($_POST['buku_id']);
     $tanggal_pinjam = $_POST['tanggal_pinjam'];
     $batas_pengembalian = $_POST['batas_pengembalian'];
 
-    // Validasi data
-    if (empty($username) || empty($tanggal_pinjam) || empty($batas_pengembalian)) {
-        $error = "Semua field wajib diisi.";
-    } else {
+    // Validasi
+    if ($anggota_id && $buku_id && $tanggal_pinjam && $batas_pengembalian) {
         try {
-            // Cari anggota_id berdasarkan username
-            $anggota_query = "SELECT id FROM anggota WHERE username = ?";
-            $stmt_anggota = $conn->prepare($anggota_query);
-            $stmt_anggota->bindValue(1, $username, PDO::PARAM_STR);
-            $stmt_anggota->execute();
-            $anggota = $stmt_anggota->fetch(PDO::FETCH_ASSOC);
+            $stmt_update = $conn->prepare("
+                UPDATE `peminjaman`
+                SET anggota_id = ?, buku_id = ?, tanggal_pinjam = ?, 
+                    batas_pengembalian = ?
+                WHERE id = ?
+            ");
+            $stmt_update->execute([
+                $anggota_id,
+                $buku_id,
+                $tanggal_pinjam,
+                $batas_pengembalian,
+                $peminjaman_id
+            ]);
 
-            if (!$anggota) {
-                $error = "Username tidak ditemukan.";
-            } else {
-                // Update data peminjaman
-                $update_query = "
-                    UPDATE peminjaman
-                    SET anggota_id = ?, tanggal_pinjam = ?, batas_pengembalian = ?
-                    WHERE id = ?
-                ";
-                $stmt_update = $conn->prepare($update_query);
-                $stmt_update->bindValue(1, $anggota['id'], PDO::PARAM_INT);
-                $stmt_update->bindValue(2, $tanggal_pinjam, PDO::PARAM_STR);
-                $stmt_update->bindValue(3, $batas_pengembalian, PDO::PARAM_STR);
-                $stmt_update->bindValue(4, $peminjaman_id, PDO::PARAM_INT);
-
-                if ($stmt_update->execute()) {
-                    $success = "Data peminjaman berhasil diperbarui.";
-                } else {
-                    $error = "Gagal memperbarui data peminjaman.";
-                }
-            }
-        } catch (Exception $e) {
-            $error = "Error: " . $e->getMessage();
+            $success = "✅ Data peminjaman berhasil diperbarui.";
+        } catch (PDOException $e) {
+            $error = "❌ Gagal memperbarui data: " . $e->getMessage();
         }
+    } else {
+        $error = "⚠️ Semua field wajib diisi.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Peminjaman</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="peminjaman_edit.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Edit Data Peminjaman</h1>
+<div class="container">
+    <h2>Edit Data Peminjaman</h2>
 
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
+    <?php if ($error): ?>
+        <div style="color: red; margin-bottom: 10px;"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
-        <?php if (!empty($success)): ?>
-            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
+    <?php if ($success): ?>
+        <div style="color: green; margin-bottom: 10px;"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
 
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username Anggota</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username..." value="<?= htmlspecialchars($username) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="tanggal_pinjam" class="form-label">Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" value="<?= htmlspecialchars($tanggal_pinjam) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="batas_pengembalian" class="form-label">Batas Pengembalian</label>
-                <input type="date" class="form-control" id="batas_pengembalian" name="batas_pengembalian" value="<?= htmlspecialchars($batas_pengembalian) ?>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Perbarui Peminjaman</button>
-            <a href="peminjaman_list.php" class="btn btn-secondary">Kembali</a>
-        </form>
-    </div>
+    <form method="POST">
+        <label for="anggota_id">Pilih Anggota:</label>
+        <select name="anggota_id" id="anggota_id" required>
+            <option value="">-- Pilih Username --</option>
+            <?php foreach ($anggota_list as $a): ?>
+                <option value="<?= $a['id'] ?>" <?= ($a['id'] == $anggota_id) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($a['username']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="buku_id">Pilih Buku Fisik:</label>
+        <select name="buku_id" id="buku_id" required>
+            <option value="">-- Pilih Buku --</option>
+            <?php foreach ($buku_list as $b): ?>
+                <option value="<?= $b['id'] ?>" <?= ($b['id'] == $buku_id) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($b['judul']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="tanggal_pinjam">Tanggal Pinjam:</label>
+        <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" value="<?= htmlspecialchars($tanggal_pinjam) ?>" required>
+
+        <label for="batas_pengembalian">Batas Pengembalian:</label>
+        <input type="date" name="batas_pengembalian" id="batas_pengembalian" value="<?= htmlspecialchars($batas_pengembalian) ?>" required>
+
+        <button type="submit">Simpan Perubahan</button>
+        <a href="peminjaman_list.php" class="back-link">↩ Kembali</a>
+    </form>
+</div>
 </body>
 </html>

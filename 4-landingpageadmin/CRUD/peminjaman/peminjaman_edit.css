@@ -1,0 +1,136 @@
+/* Global Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+/* Judul */
+h2 {
+    font-size: 1.8rem;
+    color: #ffcc70;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+}
+
+/* Form Container */
+form {
+    background-color: #161b22;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Label Form */
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #c9d1d9;
+}
+
+/* Input dan Select */
+input[type="text"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #21262d;
+    color: #c9d1d9;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    background-color: #2a3038;
+    outline: none;
+}
+
+/* Custom Select Arrow (Optional) */
+select {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%238b949e' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 12px;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+/* Pesan Error dan Sukses */
+.error,
+.success {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.error {
+    background-color: #dc354540;
+    color: #dc3545;
+    border-left: 4px solid #dc3545;
+}
+
+.success {
+    background-color: #23863640;
+    color: #238636;
+    border-left: 4px solid #238636;
+}
+
+/* Tombol */
+button.btn,
+button[type="submit"] {
+    background-color: #ff7f3f;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    align-self: flex-start;
+}
+
+button.btn:hover,
+button[type="submit"]:hover {
+    background-color: #ffac38;
+}
+
+/* Link Kembali */
+.back-link {
+    display: inline-block;
+    margin-top: 1.2rem;
+    color: #ff7f3f;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.back-link:hover {
+    color: #ffac38;
+}

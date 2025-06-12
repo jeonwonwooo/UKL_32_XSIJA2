@@ -64,7 +64,7 @@ $totalPeminjaman = $conn->query("SELECT COUNT(*) FROM peminjaman")->fetch_row()[
     <?php endif; ?>
 
     <header class="topbar">
-        <h1>Welcome, <?= htmlspecialchars($_SESSION['admin_username']); ?>!</h1>
+        <h1>Welcome, <?= htmlspecialchars($_SESSION['username']); ?>!</h1>
     </header>
 
     <section class="dashboard-content">
@@ -98,7 +98,10 @@ $totalPeminjaman = $conn->query("SELECT COUNT(*) FROM peminjaman")->fetch_row()[
         </div>
 
         <div class="quick-link">
-            <a href="https://docs.google.com/forms/d/1UukF8hMDByICqzV-IbEtry1HQt4NeZ9jBpYsqrJYdu0/edit"  target="_blank">💬 Lihat Kotak Saran</a>
+            <a href="https://docs.google.com/forms/d/1UukF8hMDByICqzV-IbEtry1HQt4NeZ9jBpYsqrJYdu0/edit"  target="_blank">💬 Lihat Kotak Keluhan</a>
+        </div>
+        <div class="quick-link">
+            <a href="https://docs.google.com/forms/d/1jDVw_zkQB3E3MsZmYMt6i7anROh-0j5uUIi9V30Wr0s/edit"  target="_blank">💬 Lihat Kotak Saran</a>
         </div>
     </section>
 </main>

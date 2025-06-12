@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Edit Dokumen</title>
-    <link rel="stylesheet" href="buku_edit.css">
+    <link rel="stylesheet" href="dokumen_edit.css">
 </head>
 <body>
 <div class="container mt-5">

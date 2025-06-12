@@ -37,7 +37,7 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <nav>
         <ul>
-            <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php"><i class="fas fa-users"></i> Daftar Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php"><i class="fas fa-user-shield"></i> Daftar Admin</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php"><i class="fas fa-newspaper"></i> Daftar Artikel</a></li>
@@ -45,7 +45,7 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php"><i class="fas fa-box-open"></i> Daftar Peminjaman</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/denda/denda_list.php"><i class="fas fa-money-bill-wave"></i> Denda Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php"><i class="fas fa-file-alt"></i> Daftar Dokumen</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php"><i class="fas fa-heart"></i> Favorit Pengguna</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/favorit/favorit_list.php" class="active"><i class="fas fa-heart"></i> Favorit Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/rating-ulasan/rating-ulasan_list.php"><i class="fas fa-star"></i> Penilaian Pengguna</a></li>
             <li><a href="/CODINGAN/z-yakinlogout/formyakin.php"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
@@ -53,7 +53,6 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </aside>
     <div class="container">
         <h1><i class="fas fa-heart"></i> Daftar Favorit</h1>
-        <a href="favorit_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Favorit</a>
         <table class="custom-table">
             <thead>
                 <tr>
@@ -83,9 +82,6 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             </td>
                             <td><?= htmlspecialchars($favorite['created_at']) ?></td>
                             <td>
-                                <a href="favorit_edit.php?id=<?= $favorite['id'] ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
                                 <a href="process_favorit.php?id=<?= $favorite['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
                                     <i class="fas fa-trash"></i> Hapus
                                 </a>

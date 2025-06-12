@@ -51,11 +51,11 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
     <nav>
         <ul>
-            <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/landingpage/dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data anggota/data-anggota_list.php"><i class="fas fa-users"></i> Daftar Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/data admin/data-admin_list.php"><i class="fas fa-user-shield"></i> Daftar Admin</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/artikel/artikel_list.php"><i class="fas fa-newspaper"></i> Daftar Artikel</a></li>
-            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php"><i class="fas fa-book"></i> Daftar Buku</a></li>
+            <li><a href="/CODINGAN/4-landingpageadmin/CRUD/buku/buku_list.php" class="active"><i class="fas fa-book"></i> Daftar Buku</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/peminjaman/peminjaman_list.php"><i class="fas fa-box-open"></i> Daftar Peminjaman</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/denda/denda_list.php"><i class="fas fa-money-bill-wave"></i> Denda Pengguna</a></li>
             <li><a href="/CODINGAN/4-landingpageadmin/CRUD/dokumen/dokumen_list.php"><i class="fas fa-file-alt"></i> Daftar Dokumen</a></li>
@@ -117,7 +117,7 @@ $buku = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php 
 $file_url = "/CODINGAN/4-landingpageadmin/" . htmlspecialchars($row['file_path']);
 if (!empty($row['file_path']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $file_url)) { ?>
-    <td><a href="<?= $file_url ?>" target="_blank">Buka Ebook</a></td>
+    <td><a href="<?= $file_url ?>" target="_blank" class="btn btn-primary btn-sm">Buka Ebook</a></td>
 <?php } else { ?>
     <td>-</td>
 <?php } ?>

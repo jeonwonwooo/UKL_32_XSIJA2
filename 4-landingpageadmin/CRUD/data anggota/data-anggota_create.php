@@ -62,14 +62,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div class="form-group">
-                <label for="foto_profil">Foto Profil</label>
-                <div class="file-input-container">
-                    <input type="file" id="foto_profil" name="foto_profil" accept="image/*">
-                    <span class="file-custom">Pilih File...</span>
-                </div>
-                <small class="text-muted">Biarkan kosong jika tidak ingin mengupload foto.</small>
-            </div>
+            <!-- Input Foto Profil -->
+<div class="form-group">
+    <label for="foto_profil">Foto Profil</label>
+    <div class="file-input-container">
+        <input type="file" id="foto_profil" name="foto_profil" accept="image/*">
+        <span class="file-custom">Pilih File...</span>
+    </div>
+    <small class="text-muted">Biarkan kosong jika tidak ingin mengupload foto.</small>
+
+    <!-- Jika ada file yang diupload sebelumnya (misalnya saat edit) -->
+    <?php if (!empty($foto_profil_sebelumnya)): ?>
+        <div class="preview-image">
+            <img src="../uploads/<?= htmlspecialchars($foto_profil_sebelumnya) ?>" alt="Foto Profil" class="preview-img">
+        </div>
+    <?php endif; ?>
+</div>
             <div class="button-group">
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
                 <a href="data-anggota_list.php" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>

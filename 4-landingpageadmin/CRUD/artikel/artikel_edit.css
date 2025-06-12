@@ -1,225 +1,191 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Alexandria:wght@400;700&display=swap");
-
+/* BASIC RESET */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Background */
 body {
-  font-family: "Poppins", sans-serif;
-  background: url("fotoku.png") no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  position: relative;
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
 }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: -1;
-}
-
-/* Container */
+/* Kontainer Utama */
 .container {
-  background: rgba(255, 255, 255, 0.104);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 17px;
-  width: 80vw;
-  max-width: 600px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  color: #333;
-  border: 2px solid #ddd;
+    width: 100%;
+    max-width: 800px;
+    background-color: #161b22;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Judul */
+/* Judul Halaman */
 .container h1 {
-  font-family: "Alexandria", sans-serif;
-  font-size: 30px;
-  font-weight: 700;
-  color: whitesmoke;
-  margin-top: 4px;
-  margin-bottom: 2px;
+    color: #ffd8a3;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #30363d;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Form */
-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
+/* Form Group */
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #c9d1d9;
 }
 
 .form-control,
 .form-select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  background-color: transparent;
-  color: #ffffff;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.form-control::placeholder {
-  color: #ffffff;
-  font-family: "Poppins", sans-serif;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #21262d;
+    color: #c9d1d9;
+    font-size: 0.95rem;
+    outline: none;
+    transition: background-color 0.3s ease;
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #007bff;
+    background-color: #2a3038;
 }
 
-.form-label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #ffffff;
-  font-family: "Poppins", sans-serif;
+.form-control::placeholder {
+    color: #8b949e;
+    opacity: 0.7;
 }
 
-textarea {
-  scrollbar-width: thin;
-  scrollbar-color: #007bff #f1f1f1;
-  resize: none;
-  overflow-y: auto;
-}
-
-.form-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-line='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px;
-  background-color: #f8f9fa00;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  padding: 10px 40px 10px 15px;
-  font-size: 16px;
-  font-family: "Poppins", sans-serif;
-  color: #ffffff;
-  cursor: pointer;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.form-select:hover {
-  border-color: #007bff;
-}
-
-.form-select:focus {
-  border-color: #007bff;
-  background-color: #ffffff00;
-  outline: none;
-}
-
-.form-select option {
-  background-color: #ffffff;
-  color: #333;
-  padding: 10px;
-  font-family: "Poppins", sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.form-select option:hover {
-  background-color: #007bff;
-  color: #ffffff;
-}
-
-.form-select option:checked {
-  background-color: #0056b3;
-  color: #ffffff;
-}
-
+/* Custom File Input */
 .file-input-container {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  width: 100%;
-  margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
 }
 
 .file-input-container input[type="file"] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  cursor: pointer;
-  height: 100%;
-  width: 100%;
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    height: 100%;
 }
 
 .file-custom {
-  display: block;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 15px;
-  background-color: transparent;
-  color: #ffffff;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-  cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+    display: inline-block;
+    padding: 10px 12px;
+    background-color: #21262d;
+    color: #8b949e;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.file-custom:hover {
-  background-color: #f8f9fa;
-  border-color: #007bff;
+.file-input-container:hover .file-custom {
+    background-color: #2a3038;
 }
 
-.file-input-container + small {
-  display: block;
-  margin-bottom: 2%;
-  font-size: 12px;
-  color: #ffffff;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
+.text-muted {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #8b949e;
 }
 
+/* Tombol Aksi */
 .btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 15px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, text-decoration 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary {
-  background-color: #007bff;
-  color: white;
+    background-color: #ff7f3f;
+    color: white;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
+    background-color: #ffac38;
 }
 
 .btn-secondary {
-  background-color: #6c757d;
-  color: white;
-  text-decoration: none;
+    background-color: #8b949e;
+    color: white;
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
+    background-color: #76808f;
 }
 
-.button-group {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  justify-content: center;
+/* Preview Gambar */
+.preview-image {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.preview-img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.no-image {
+    width: 100px;
+    height: 100px;
+    background-color: #21262d;
+    color: #8b949e;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #30363d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }

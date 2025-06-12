@@ -1,44 +1,53 @@
 <?php
 include 'formkoneksi.php';
 
-// Debugging: Pastikan $conn ada
-if (!$conn) {
-    die("Koneksi database tidak tersedia.");
-}
-
-// Inisialisasi variabel
-$username = '';
-$tanggal_pinjam = date('Y-m-d'); // Default hari ini
-$batas_pengembalian = date('Y-m-d', strtotime('+7 days')); // Default 7 hari setelah pinjam
+$tanggal_pinjam = date('Y-m-d');
+$batas_pengembalian = date('Y-m-d', strtotime('+7 days'));
 $error = '';
 $success = '';
+$buku_list = [];
+
+// Ambil daftar buku fisik (langsung saat halaman dibuka)
+try {
+    $stmt_buku = $conn->query("SELECT id, judul FROM buku WHERE tipe_buku = 'Buku Fisik'");
+    $buku_list = $stmt_buku->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    $error = "Gagal mengambil daftar buku: " . $e->getMessage();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
     $username = trim($_POST['username']);
     $tanggal_pinjam = $_POST['tanggal_pinjam'];
     $batas_pengembalian = $_POST['batas_pengembalian'];
+    $buku_id = intval($_POST['buku_id']);
 
-    // Validasi data
-    if (empty($username) || empty($tanggal_pinjam) || empty($batas_pengembalian)) {
-        $error = "Semua field wajib diisi.";
+    if (empty($username) || empty($tanggal_pinjam) || empty($batas_pengembalian) || $buku_id <= 0) {
+        $error = "Semua kolom harus diisi.";
     } else {
-        try {
-            // Cari anggota_id berdasarkan username
-            $anggota_query = "SELECT id FROM anggota WHERE username = ?";
-            $stmt_anggota = $conn->prepare($anggota_query);
-            $stmt_anggota->bindValue(1, $username, PDO::PARAM_STR);
-            $stmt_anggota->execute();
-            $stmt_anggota->execute();
-            $anggota = $stmt_anggota->fetch(PDO::FETCH_ASSOC);
+        // Cek user
+        $stmt_anggota = $conn->prepare("SELECT id FROM anggota WHERE username = ?");
+        $stmt_anggota->execute([$username]);
+        $anggota = $stmt_anggota->fetch(PDO::FETCH_ASSOC);
 
-            if (!$anggota) {
-                $error = "Username tidak ditemukan.";
-            } else {
-                echo "Silakan pilih buku terlebih dahulu dari katalog.";
+        if ($anggota) {
+            $anggota_id = $anggota['id'];
+
+            // Simpan peminjaman
+            try {
+                $stmt_insert = $conn->prepare("
+                    INSERT INTO peminjaman (
+                        anggota_id, buku_id, tanggal_pinjam, batas_pengembalian, status
+                    ) VALUES (?, ?, ?, ?, 'dipinjam')
+                ");
+                $stmt_insert->execute([
+                    $anggota_id, $buku_id, $tanggal_pinjam, $batas_pengembalian
+                ]);
+                $success = "Peminjaman berhasil disimpan!";
+            } catch (PDOException $e) {
+                $error = "Gagal menyimpan peminjaman: " . $e->getMessage();
             }
-        } catch (Exception $e) {
-            $error = "Error: " . $e->getMessage();
+        } else {
+            $error = "Username tidak ditemukan.";
         }
     }
 }
@@ -46,43 +55,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Peminjaman</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="peminjaman_create.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>Form Peminjaman</h1>
+    <h2>Form Peminjaman Buku Fisik</h2>
+    <?php if (!empty($error)): ?>
+        <div class="error"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
 
-        <?php if (!empty($error)): ?>
-            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
+    <?php if (!empty($success)): ?>
+        <div class="success"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
 
-        <?php if (!empty($success)): ?>
-            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
-        <?php endif; ?>
+    <form method="POST" action="">
+        <label for="username">Username Anggota:</label>
+        <input type="text" name="username" id="username" required>
 
-        <form action="" method="POST">
-            <div class="mb-3">
-                <label for="username" class="form-label">Username Anggota</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username..." value="<?= htmlspecialchars($username) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="tanggal_pinjam" class="form-label">Tanggal Pinjam</label>
-                <input type="date" class="form-control" id="tanggal_pinjam" name="tanggal_pinjam" value="<?= htmlspecialchars($tanggal_pinjam) ?>" required>
-            </div>
-            <div class="mb-3">
-                <label for="batas_pengembalian" class="form-label">Batas Pengembalian</label>
-                <input type="date" class="form-control" id="batas_pengembalian" name="batas_pengembalian" value="<?= htmlspecialchars($batas_pengembalian) ?>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Simpan Peminjaman</button>
-            <a href="/CODINGAN/3-landingpageuser/layanan/sirkulasi/katalog/katalog.php" class="btn btn-secondary">Ke Katalog Buku</a>
-        </form>
-    </div>
+        <label for="tanggal_pinjam">Tanggal Pinjam:</label>
+        <input type="date" name="tanggal_pinjam" id="tanggal_pinjam" value="<?= htmlspecialchars($tanggal_pinjam) ?>" required>
+
+        <label for="batas_pengembalian">Batas Pengembalian:</label>
+        <input type="date" name="batas_pengembalian" id="batas_pengembalian" value="<?= htmlspecialchars($batas_pengembalian) ?>" required>
+
+        <label for="buku_id">Pilih Buku Fisik:</label>
+        <select name="buku_id" id="buku_id" required>
+            <option value="">-- Pilih Buku --</option>
+            <?php foreach ($buku_list as $buku): ?>
+                <option value="<?= htmlspecialchars($buku['id']) ?>">
+                    <?= htmlspecialchars($buku['judul']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <button type="submit" class="btn">Simpan Peminjaman</button>
+    </form>
+
 </body>
-
 </html>

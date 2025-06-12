@@ -1,9 +1,9 @@
 <?php
-session_start();
-require_once 'formkoneksi.php';
+include 'formkoneksi.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: /CODINGAN/1-pagebeforelogin/1-beforelogin.php?error=haruslogindulu.");
     exit();
 }
 

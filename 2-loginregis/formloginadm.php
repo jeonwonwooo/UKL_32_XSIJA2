@@ -13,13 +13,22 @@
 <body>
     <?php
     session_start();
+    if (isset($_SESSION['success'])) {
+        $success = $_SESSION['success'];
+        unset($_SESSION['success']);
+    }
     if (isset($_SESSION['error'])) {
         $error = $_SESSION['error'];
         unset($_SESSION['error']);
     }
     ?>
+    <?php if (isset($success)): ?>
+        <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background-color: #d4edda; color: #155724; padding: 10px; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;">
+            <?php echo htmlspecialchars($success); ?>
+        </div>
+    <?php endif; ?>
     <?php if (isset($error)): ?>
-        <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 420px; background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center; z-index: 1000;">
+        <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center;">
             <?php echo htmlspecialchars($error); ?>
         </div>
     <?php endif; ?>

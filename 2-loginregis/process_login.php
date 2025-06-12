@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($admin) {
     $_SESSION['admin_id'] = $admin['id'];
-    $_SESSION['admin_username'] = $admin['username'];
     $_SESSION['username'] = $admin['username']; // <--- TAMBAHKAN INI
     $_SESSION['role'] = 'admin';
 
@@ -34,6 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     header("Location: /CODINGAN/4-landingpageadmin/landingpage/dashboard.php");
     exit;
+            } else {
+                $_SESSION['error'] = "Username atau password salah.";
+                header("Location: /CODINGAN/2-loginregis/formloginadm.php");
+                exit;
 }
         } catch (PDOException $e) {
             $_SESSION['error'] = "Terjadi kesalahan. Silakan coba lagi.";
