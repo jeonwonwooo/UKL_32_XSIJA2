@@ -21,6 +21,7 @@ $query = "
         p.batas_pengembalian, 
         p.status, 
         p.status_pengajuan,
+        p.tanggal_kembali,
         d.nominal AS denda_nominal,
         d.status AS denda_status
     FROM 
@@ -30,18 +31,16 @@ $query = "
     JOIN 
         buku b ON p.buku_id = b.id
     LEFT JOIN 
-        denda d ON p.anggota_id = d.anggota_id AND d.status = 'belum_dibayar'
+        denda d ON p.id = d.peminjaman_id AND d.status = 'belum_dibayar'
 ";
 
 // Tambahkan kondisi filter
-if ($filter === 'fisik') {
-    $query .= " WHERE b.tipe_buku = 'fisik'";
-} elseif ($filter === 'dipinjam') {
+if ($filter === 'dipinjam') {
     $query .= " WHERE p.status = 'dipinjam'";
 } elseif ($filter === 'dikembalikan') {
     $query .= " WHERE p.status = 'dikembalikan'";
 } elseif ($filter === 'denda') {
-    $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian AND d.id IS NULL";
+    $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian";
 } elseif ($filter === 'pengajuan') {
     $query .= " WHERE p.status_pengajuan = 'menunggu'";
 }
@@ -80,7 +79,7 @@ try {
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="peminjaman_list.css">
     <link rel="icon" href="/CODINGAN/assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">      
 </head>
 <body>
 
@@ -111,10 +110,6 @@ try {
     <form action="" method="GET" class="filter-form">
         <label for="filter">Filter:</label>
         <select name="filter" id="filter" onchange="this.form.submit()">
-            <option value="semua" <?= $filter === 'semua' ? 'selected' : '' ?>>Semua</option>
-            <option value="fisik" <?= $filter === 'fisik' ? 'selected' : '' ?>>Fisik</option>
-            <option value="ebook" <?= $filter === 'ebook' ? 'selected' : '' ?>>Ebook</option>
-            <option value="jurnal" <?= $filter === 'jurnal' ? 'selected' : '' ?>>Jurnal</option>
             <option value="dipinjam" <?= $filter === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
             <option value="dikembalikan" <?= $filter === 'dikembalikan' ? 'selected' : '' ?>>Dikembalikan</option>
             <option value="denda" <?= $filter === 'denda' ? 'selected' : '' ?>>Kena Denda</option>
@@ -145,7 +140,7 @@ try {
         <tbody>
             <?php if (empty($peminjaman)): ?>
                 <tr>
-                    <td colspan="10" class="no-data">Tidak ada data peminjaman.</td>
+                    <td colspan="10" style="text-align:center;" class="no-data">Tidak ada data peminjaman.</td>
                 </tr>
             <?php else: ?>
                 <?php foreach ($peminjaman as $pinjam): ?>
@@ -157,20 +152,20 @@ try {
                         <td><?= htmlspecialchars($pinjam['tanggal_pinjam']) ?></td>
                         <td><?= htmlspecialchars($pinjam['batas_pengembalian']) ?></td>
                         <td><?= htmlspecialchars(ucfirst($pinjam['status'])) ?></td>
-                        <td><?= !empty($pinjam['denda_status']) ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
+                        <td><?= !empty($pinjam['denda_status']) && $pinjam['denda_status'] === 'belum_dibayar' ? '<span class="denda">' . htmlspecialchars($pinjam['denda_status']) . '</span>' : '-' ?></td>
                         <td><?= htmlspecialchars(ucfirst($pinjam['status_pengajuan'] ?? '-')) ?></td>
                         <td class="actions">
-    <?php if ($pinjam['status_pengajuan'] === 'menunggu' && $pinjam['status'] === 'dipinjam'): ?>
-        <!-- Tombol Terima Pengajuan -->
-        <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>" class="btn btn-primary">Terima Pengajuan</a>
-        <!-- Tombol Tolak Pengajuan -->
-        <a href="tolak_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger">Tolak Pengajuan</a>
-    <?php elseif ($pinjam['status_pengajuan'] === 'diterima' && $pinjam['status'] === 'dikembalikan'): ?>
-        <span class="status-success">Buku telah dikembalikan</span>
-    <?php endif; ?>
-    <a href="peminjaman_edit.php?id=<?= $pinjam['id'] ?>" class="btn btn-warning">Edit</a>
-    <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
-</td>
+                            <?php if ($pinjam['status_pengajuan'] === 'menunggu' && $pinjam['status'] === 'dipinjam'): ?>
+                                <!-- Tombol Terima Pengajuan -->
+                                <a href="process_peminjaman.php?id=<?= $pinjam['id'] ?>" class="btn btn-primary">Terima Pengajuan</a>
+                                <!-- Tombol Tolak Pengajuan -->
+                                <a href="tolak_pengembalian.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger">Tolak Pengajuan</a>
+                            <?php elseif ($pinjam['status_pengajuan'] === 'diterima' && $pinjam['status'] === 'dikembalikan'): ?>
+                                <span class="status-success">Buku telah dikembalikan</span>
+                            <?php endif; ?>
+                            <a href="peminjaman_edit.php?id=<?= $pinjam['id'] ?>" class="btn btn-warning">Edit</a>
+                            <a href="peminjaman_delete.php?id=<?= $pinjam['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>

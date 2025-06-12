@@ -2,7 +2,8 @@
 include 'formkoneksi.php';
 
 // Ambil parameter filter dan pencarian dari URL
-$filter = $_GET['filter'] ?? 'semua';
+$filter_status = $_GET['filter_status'] ?? 'semua';
+$filter_tipe = $_GET['filter_tipe'] ?? 'semua';
 $search = $_GET['search'] ?? '';
 
 // Query dasar - join ke tabel kategori
@@ -24,12 +25,18 @@ $conditions = [];
 $params = [];
 
 // Filter status
-if ($filter === 'tersedia') {
+if ($filter_status === 'tersedia') {
     $conditions[] = "dokumen.status = ?";
     $params[] = 'tersedia';
-} elseif ($filter === 'tidak tersedia') {
+} elseif ($filter_status === 'tidak tersedia') {
     $conditions[] = "dokumen.status = ?";
     $params[] = 'tidak tersedia';
+}
+
+// Filter tipe dokumen
+if ($filter_tipe !== 'semua') {
+    $conditions[] = "dokumen.tipe_dokumen = ?";
+    $params[] = $filter_tipe;
 }
 
 // Pencarian
@@ -92,18 +99,36 @@ try {
     <h1>Daftar Dokumen</h1>
 
     <!-- Filter and Search Bar -->
-    <div class="filter-bar">
-        <a href="dokumen_create.php" class="btn btn-success">Tambah Dokumen</a>
-        <form method="GET" class="filter-form">
-            <select name="filter" onchange="this.form.submit()">
-                <option value="semua" <?= ($filter === 'semua') ? 'selected' : '' ?>>Semua</option>
-                <option value="tersedia" <?= ($filter === 'tersedia') ? 'selected' : '' ?>>Tersedia</option>
-                <option value="tidak tersedia" <?= ($filter === 'tidak tersedia') ? 'selected' : '' ?>>Tidak Tersedia</option>
-            </select>
-            <input type="text" name="search" placeholder="Cari judul, penulis, atau tipe dokumen..." value="<?= htmlspecialchars($search) ?>">
-            <button type="submit" class="btn btn-primary">Cari</button>
-        </form>
-    </div>
+<div class="filter-bar">
+    <a href="dokumen_create.php" class="btn btn-success">Tambah Dokumen</a>
+    <form method="GET" class="filter-form">
+        <!-- Filter Status -->
+        <label for="filter_status">Status:</label>
+        <select name="filter_status" id="filter_status" onchange="this.form.submit()">
+            <option value="semua" <?= ($filter_status === 'semua') ? 'selected' : '' ?>>Semua</option>
+            <option value="tersedia" <?= ($filter_status === 'tersedia') ? 'selected' : '' ?>>Tersedia</option>
+            <option value="tidak tersedia" <?= ($filter_status === 'tidak tersedia') ? 'selected' : '' ?>>Tidak Tersedia</option>
+        </select>
+
+        <!-- Filter Tipe Dokumen -->
+        <label for="filter_tipe">Tipe Dokumen:</label>
+        <select name="filter_tipe" id="filter_tipe" onchange="this.form.submit()">
+            <option value="semua" <?= ($filter_tipe === 'semua') ? 'selected' : '' ?>>Semua Tipe</option>
+            <option value="jurnal" <?= ($filter_tipe === 'jurnal') ? 'selected' : '' ?>>Jurnal</option>
+            <option value="modul" <?= ($filter_tipe === 'modul') ? 'selected' : '' ?>>Modul</option>
+            <option value="laporan" <?= ($filter_tipe === 'laporan') ? 'selected' : '' ?>>Laporan</option>
+            <option value="artikel_konferensi" <?= ($filter_tipe === 'artikel_konferensi') ? 'selected' : '' ?>>Artikel</option>
+            <option value="karya_murid" <?= ($filter_tipe === 'karya_murid') ? 'selected' : '' ?>>Karya Murid</option>
+            <option value="tugas_akhir" <?= ($filter_tipe === 'tugas_akhir') ? 'selected' : '' ?>>Tugas Akhir</option>
+            <option value="makalah" <?= ($filter_tipe === 'makalah') ? 'selected' : '' ?>>Makalah</option>
+            <!-- Add more document types as needed -->
+        </select>
+
+        <!-- Pencarian -->
+        <input type="text" name="search" placeholder="Cari judul, penulis, atau tipe dokumen..." value="<?= htmlspecialchars($search) ?>">
+        <button type="submit" class="btn btn-primary">Cari</button>
+    </form>
+</div>
 
     <!-- Table -->
     <table class="custom-table">

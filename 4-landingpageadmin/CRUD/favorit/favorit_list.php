@@ -1,8 +1,12 @@
 <?php
 include 'formkoneksi.php';
 
-// Fetch all favorite entries (buku & dokumen)
-$stmt = $conn->query("
+// Ambil parameter filter dan pencarian dari URL
+$filter = $_GET['filter'] ?? 'semua';
+$search = $_GET['search'] ?? '';
+
+// Query dasar
+$query = "
     SELECT 
         f.id, 
         f.user_id, 
@@ -16,7 +20,43 @@ $stmt = $conn->query("
     JOIN anggota a ON f.user_id = a.id
     LEFT JOIN buku b ON f.buku_id = b.id
     LEFT JOIN dokumen d ON f.dokumen_id = d.id
-");
+";
+
+$conditions = [];
+$params = [];
+
+// Tambahkan kondisi filter
+if ($filter === 'buku') {
+    $conditions[] = "f.buku_id IS NOT NULL";
+} elseif ($filter === 'dokumen') {
+    $conditions[] = "f.dokumen_id IS NOT NULL";
+}
+
+// Tambahkan pencarian
+if (!empty($search)) {
+    $conditions[] = "(a.username LIKE ? OR b.judul LIKE ? OR d.judul LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+// Gabungkan kondisi
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(" AND ", $conditions);
+}
+
+// Persiapkan statement
+$stmt = $conn->prepare($query);
+
+// Bind parameter pencarian jika ada
+if (!empty($params)) {
+    foreach ($params as $key => $param) {
+        $stmt->bindValue($key + 1, $param, PDO::PARAM_STR);
+    }
+}
+
+// Eksekusi query
+$stmt->execute();
 $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -27,7 +67,7 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="favorit_list.css">
     <link rel="icon" href="/CODINGAN/assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">      
 </head>
 <body>
 
@@ -54,6 +94,27 @@ $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </aside>
     <div class="container">
         <h1><i class="fas fa-heart"></i> Daftar Favorit</h1>
+
+        <!-- Filter and Search Bar -->
+<div class="filter-bar">
+    <form method="GET" class="filter-form">
+        <!-- Filter -->
+        <label for="filter">Filter:</label>
+        <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="semua" <?= ($filter === 'semua') ? 'selected' : '' ?>>Semua</option>
+            <option value="buku" <?= ($filter === 'buku') ? 'selected' : '' ?>>Buku</option>
+            <option value="dokumen" <?= ($filter === 'dokumen') ? 'selected' : '' ?>>Dokumen</option>
+        </select>
+
+        <!-- Pencarian -->
+        <input type="text" name="search" placeholder="Cari berdasarkan nama anggota, judul buku, atau judul dokumen..." value="<?= htmlspecialchars($search) ?>">
+
+        <!-- Tombol Cari -->
+        <button type="submit">Cari</button>
+    </form>
+</div>
+
+        <!-- Table -->
         <table class="custom-table">
             <thead>
                 <tr>

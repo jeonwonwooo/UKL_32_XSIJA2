@@ -1,7 +1,17 @@
 <?php
 include 'formkoneksi.php';
 
-$stmt = $conn->query("SELECT * FROM anggota");
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$sql = "SELECT * FROM anggota WHERE 1=1";
+if (!empty($search)) {
+    $sql .= " AND (nama LIKE :search OR email LIKE :search OR username LIKE :search)";
+}
+$stmt = $conn->prepare($sql);
+if (!empty($search)) {
+    $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+}
+
+$stmt->execute();
 $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -12,7 +22,7 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="data-anggota_list.css">
     <link rel="icon" href="/CODINGAN/assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">      
 </head>
 <body>
 
@@ -37,48 +47,61 @@ $anggotas = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </ul>
     </nav>
 </aside>
-    <div class="container">
-        <h1><i class="fas fa-users"></i> Daftar Anggota</h1>
-        <a href="data-anggota_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Anggota</a>
-        <table class="custom-table">
-            <thead>
+<div class="container">
+    <h1><i class="fas fa-users"></i> Daftar Anggota</h1>
+    
+    <div class="search-container">
+    <form method="GET" action="" class="search-form">
+        <input type="text" name="search" placeholder="Cari nama, email, atau username..." value="<?= htmlspecialchars($search) ?>">
+        <button type="submit"><i class="fas fa-search"></i> Cari</button>
+    </form>
+    <a href="data-anggota_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Anggota</a>
+</div>
+    <table class="custom-table">
+        <thead>
+            <tr>
+                <th><i class="fas fa-hashtag"></i> ID</th>
+                <th><i class="fas fa-user"></i> Username</th>
+                <th><i class="fas fa-signature"></i> Nama</th>
+                <th><i class="fas fa-envelope"></i> Email</th>
+                <th><i class="fas fa-image"></i> Foto Profil</th>
+                <th><i class="fas fa-calendar-alt"></i> Dibuat Pada</th>
+                <th><i class="fas fa-cogs"></i> Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($anggotas)): ?>
+            <?php foreach ($anggotas as $anggota): ?>
                 <tr>
-                    <th><i class="fas fa-hashtag"></i> ID</th>
-                    <th><i class="fas fa-user"></i> Username</th>
-                    <th><i class="fas fa-signature"></i> Nama</th>
-                    <th><i class="fas fa-envelope"></i> Email</th>
-                    <th><i class="fas fa-image"></i> Foto Profil</th>
-                    <th><i class="fas fa-calendar-alt"></i> Dibuat Pada</th>
-                    <th><i class="fas fa-cogs"></i> Aksi</th>
+                    <td><?= htmlspecialchars($anggota['id']) ?></td>
+                    <td><?= htmlspecialchars($anggota['username']) ?></td>
+                    <td><?= htmlspecialchars($anggota['nama']) ?></td>
+                    <td><?= htmlspecialchars($anggota['email']) ?></td>
+                    <td>
+                        <?php if ($anggota['foto_profil']): ?>
+                            <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
+                        <?php else: ?>
+                            Tidak Ada Foto
+                        <?php endif; ?>
+                    </td>
+                    <td><?= htmlspecialchars($anggota['created_at']) ?></td>
+                    <td>
+                        <a href="data-anggota_edit.php?id=<?= $anggota['id'] ?>" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a href="process_data-anggota.php?action=delete&id=<?= $anggota['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
+                            <i class="fas fa-trash"></i> Hapus
+                        </a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($anggotas as $anggota): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($anggota['id']) ?></td>
-                        <td><?= htmlspecialchars($anggota['username']) ?></td>
-                        <td><?= htmlspecialchars($anggota['nama']) ?></td>
-                        <td><?= htmlspecialchars($anggota['email']) ?></td>
-                        <td>
-    <?php if ($anggota['foto_profil']): ?>
-        <img src="/CODINGAN/4-landingpageadmin/uploads/<?= htmlspecialchars($anggota['foto_profil']) ?>" alt="Foto Profil" width="50">
-    <?php else: ?>
-        Tidak Ada Foto
-    <?php endif; ?>
-</td>
-                        <td><?= htmlspecialchars($anggota['created_at']) ?></td>
-                        <td>
-                            <a href="data-anggota_edit.php?id=<?= $anggota['id'] ?>" class="btn btn-warning btn-sm">
-                                <i class="fas fa-edit"></i> Edit
-                            </a>
-                            <a href="process_data-anggota.php?action=delete&id=<?= $anggota['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">
-                                <i class="fas fa-trash"></i> Hapus
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="10" style="text-align:center;">Tidak ada data ditemukan</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

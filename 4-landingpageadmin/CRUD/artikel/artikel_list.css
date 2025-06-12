@@ -106,19 +106,84 @@ body {
     gap: 0.8rem;
 }
 
-/* Baris Filter dan Sortir */
+/* FILTER BAR */
 .filter-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
     align-items: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    padding: 15px;
 }
 
+/* SEARCH CONTAINER */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.search-container input[type="text"] {
+    padding: 10px 15px;
+    flex-grow: 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #1e2a38;
+    color: #c9d1d9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.search-container input[type="text"]::placeholder {
+    color: #8b949e;
+}
+
+.search-container input[type="text"]:focus {
+    outline: none;
+    border-color: #ff7f3f;
+    background-color: #2b3748;
+    box-shadow: 0 0 0 3px rgba(255, 127, 63, 0.2);
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff7f3f, #ffac38);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 127, 63, 0.2);
+    white-space: nowrap;
+}
+
+.search-container button:hover {
+    background: linear-gradient(135deg, #ffac38, #ff7f3f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 127, 63, 0.3);
+}
+
+.search-container button:active {
+    transform: translateY(1px);
+}
+
+/* FILTER GROUP */
 .filter-group {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 10px;
+    padding: 8px 12px;
 }
 
 .filter-group label {
@@ -131,9 +196,55 @@ body {
     padding: 6px 10px;
     border-radius: 6px;
     border: none;
-    background-color: #21262d;
+    background-color: #1e2a38;
     color: #c9d1d9;
     font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* TOMBOL TAMBAH ARTIKEL */
+.btn-primary {
+    background: #ff7f3f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 127, 63, 0.2);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-primary:hover {
+    background: #ffac38;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 127, 63, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .search-container {
+        min-width: 100%;
+    }
+    
+    .filter-group {
+        justify-content: space-between;
+    }
 }
 
 /* Tombol Umum */

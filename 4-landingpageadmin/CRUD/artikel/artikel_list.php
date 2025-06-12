@@ -1,21 +1,35 @@
 <?php
 include 'formkoneksi.php';
 
+// Ambil parameter dari URL
 $filter = $_GET['filter'] ?? 'semua';
 $order_by = $_GET['order_by'] ?? 'created_at';
+$search = $_GET['search'] ?? '';
 
+// Query dasar
 $query = "
     SELECT artikel.id, artikel.judul, artikel.gambar, artikel.tanggal_publikasi, admin.nama AS nama_admin, artikel.status
     FROM artikel
     JOIN admin ON artikel.admin_id = admin.id
 ";
 
+// Tambahkan kondisi filter
 if ($filter === 'draft') {
     $query .= " WHERE artikel.status = 'draft'";
 } elseif ($filter === 'published') {
     $query .= " WHERE artikel.status = 'published'";
 }
 
+// Tambahkan kondisi pencarian
+if (!empty($search)) {
+    if (strpos($query, 'WHERE') !== false) {
+        $query .= " AND artikel.judul LIKE :search";
+    } else {
+        $query .= " WHERE artikel.judul LIKE :search";
+    }
+}
+
+// Tambahkan pengurutan
 if ($order_by === 'judul') {
     $query .= " ORDER BY artikel.judul ASC";
 } elseif ($order_by === 'id') {
@@ -26,7 +40,14 @@ if ($order_by === 'judul') {
     $query .= " ORDER BY artikel.created_at DESC";
 }
 
+// Siapkan statement
 $stmt = $conn->prepare($query);
+
+// Bind parameter pencarian jika ada
+if (!empty($search)) {
+    $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+}
+
 $stmt->execute();
 $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
@@ -38,7 +59,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Dashboard Admin</title>
     <link rel="stylesheet" href="artikel_list.css">
     <link rel="icon" href="/CODINGAN/assets/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">      
 </head>
 <body>
 
@@ -63,27 +84,36 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </ul>
     </nav>
 </aside>
-    <div class="container">
+<div class="container">
     <h1><i class="fas fa-newspaper"></i> Daftar Artikel</h1>
-    <div class="filter-bar">
-        <div class="filter-group">
-            <label for="status-filter">Status:</label>
-            <select id="status-filter" name="status-filter" onchange="window.location.href=this.value;">
-                <option value="?filter=semua<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'semua' ? 'selected' : '' ?>>Semua</option>
-                <option value="?filter=draft<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'draft' ? 'selected' : '' ?>>Draft</option>
-                <option value="?filter=published<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'published' ? 'selected' : '' ?>>Published</option>
-            </select>
-        </div>
-        <div class="filter-group">
-            <label for="sort-by">Urutkan:</label>
-            <select id="sort-by" name="sort-by" onchange="window.location.href=this.value;">
-                <option value="?<?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=id" <?= $order_by == 'id' ? 'selected' : '' ?>>ID</option>
-                <option value="?<?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=judul" <?= $order_by == 'judul' ? 'selected' : '' ?>>Abjad</option>
-                <option value="?<?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=terbaru" <?= $order_by == 'terbaru' ? 'selected' : '' ?>>Terbaru</option>
-            </select>
-        </div>
-        <a href="artikel_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Artikel</a>
+
+<div class="filter-bar">
+    <div class="search-container">
+        <form method="GET" action="">
+            <input type="text" name="search" placeholder="Cari berdasarkan judul..." value="<?= htmlspecialchars($search) ?>">
+            <button type="submit"><i class="fas fa-search"></i> Cari</button>
+        </form>
     </div>
+    <div class="filter-group">
+        <label for="status-filter">Status:</label>
+        <select id="status-filter" name="status-filter" onchange="window.location.href=this.value;">
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?>filter=semua<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'semua' ? 'selected' : '' ?>>Semua</option>
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?>filter=draft<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'draft' ? 'selected' : '' ?>>Draft</option>
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?>filter=published<?= isset($_GET['order_by']) ? '&order_by=' . $_GET['order_by'] : '' ?>" <?= $filter == 'published' ? 'selected' : '' ?>>Published</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <label for="sort-by">Urutkan:</label>
+        <select id="sort-by" name="sort-by" onchange="window.location.href=this.value;">
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?><?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=id" <?= $order_by == 'id' ? 'selected' : '' ?>>ID</option>
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?><?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=judul" <?= $order_by == 'judul' ? 'selected' : '' ?>>Abjad</option>
+            <option value="?<?= isset($_GET['search']) ? 'search=' . urlencode($_GET['search']) . '&' : '' ?><?= $filter ? 'filter=' . $filter : 'filter=semua' ?>&order_by=terbaru" <?= $order_by == 'terbaru' ? 'selected' : '' ?>>Terbaru</option>
+        </select>
+    </div>
+    <a href="artikel_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Artikel</a>
+</div>
+
+    <!-- Table -->
     <table class="custom-table">
         <thead>
             <tr>
@@ -97,6 +127,7 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tr>
         </thead>
         <tbody>
+            <?php if (!empty($artikel)): ?>
             <?php foreach ($artikel as $row): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['id']) ?></td>
@@ -128,9 +159,13 @@ $artikel = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </td>
                 </tr>
             <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="10" style="text-align:center;">Tidak ada data ditemukan</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>
-
 </body>
 </html>

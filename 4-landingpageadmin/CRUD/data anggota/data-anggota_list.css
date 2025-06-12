@@ -84,6 +84,88 @@ body {
     color: #ffd8a3;
 }
 
+/* SEARCH CONTAINER */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.search-form {
+    flex-grow: 1;
+}
+
+.search-container input[type="text"] {
+    padding: 10px 15px;
+    width: 100%;
+    max-width: 400px; /* Atur lebar maksimum search bar */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #1e2a38;
+    color: #c9d1d9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-container input[type="text"]::placeholder {
+    color: #8b949e;
+}
+
+.search-container input[type="text"]:focus {
+    outline: none;
+    border-color: #ff7f3f;
+    background-color: #2b3748;
+    box-shadow: 0 0 0 3px rgba(255, 127, 63, 0.2);
+}
+
+.search-container button {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #ff7f3f, #ffac38);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 127, 63, 0.2);
+}
+
+.search-container button:hover {
+    background: linear-gradient(135deg, #ffac38, #ff7f3f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 127, 63, 0.3);
+}
+
+.search-container button:active {
+    transform: translateY(1px);
+}
+
+/* TOMBOL TAMBAH ANGGOTA */
+.btn-primary {
+    background: #ff7f3f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 127, 63, 0.2);
+}
+
+.btn-primary:hover {
+    background: #ffac38;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 127, 63, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
 /* CONTAINER (MENYESUAIKAN DENGAN HTML) */
 .container {
     margin-left: 260px;

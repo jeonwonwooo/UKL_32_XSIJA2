@@ -84,6 +84,80 @@ body {
     color: #ffd8a3;
 }
 
+/* FILTER BAR */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    padding: 15px;
+}
+
+/* SEARCH CONTAINER */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    min-width: 300px;
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-form label {
+    font-size: 0.9rem;
+    color: #c9d1d9;
+    white-space: nowrap;
+}
+
+.filter-form select,
+.filter-form input[type="text"] {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    background-color: #21262d;
+    color: #c9d1d9;
+    font-size: 0.85rem;
+    min-width: 150px;
+    transition: all 0.3s ease;
+}
+
+.filter-form select:focus,
+.filter-form input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #ff7f3f;
+    background-color: #2b3748;
+    box-shadow: 0 0 0 3px rgba(255, 127, 63, 0.2);
+}
+
+.filter-form button {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #ff7f3f, #ffac38);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 127, 63, 0.2);
+}
+
+.filter-form button:hover {
+    background: linear-gradient(135deg, #ffac38, #ff7f3f);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 127, 63, 0.3);
+}
+
+.filter-form button:active {
+    transform: translateY(1px);
+}
+
 /* CONTAINER UTAMA */
 .container {
     margin-left: 260px;

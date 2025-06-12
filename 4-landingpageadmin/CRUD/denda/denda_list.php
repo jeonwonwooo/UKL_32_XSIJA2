@@ -12,19 +12,57 @@ if (!$conn) {
     die("Koneksi database tidak tersedia.");
 }
 
-// Ambil semua data denda dengan informasi anggota
+// Ambil parameter filter dan pencarian dari URL
+$filter = $_GET['filter'] ?? 'semua';
+$search = $_GET['search'] ?? '';
+
+// Query dasar
 $query = "
-    SELECT d.*, 
-           a.username AS anggota_username,
-           a.username AS anggota_name,
-           b.judul AS judul_buku
-    FROM denda d
-    LEFT JOIN anggota a ON d.anggota_id = a.id
-    LEFT JOIN peminjaman p ON d.peminjaman_id = p.id
-    LEFT JOIN buku b ON p.buku_id = b.id
-    ORDER BY d.tanggal_denda DESC
+    SELECT 
+        d.*, 
+        a.username AS anggota_username,
+        b.judul AS judul_buku
+    FROM 
+        denda d
+    LEFT JOIN 
+        anggota a ON d.anggota_id = a.id
+    LEFT JOIN 
+        peminjaman p ON d.peminjaman_id = p.id
+    LEFT JOIN 
+        buku b ON p.buku_id = b.id
 ";
+
+// Tambahkan kondisi filter
+if ($filter === 'belum_dibayar') {
+    $query .= " WHERE d.status = 'belum_dibayar'";
+} elseif ($filter === 'proses') {
+    $query .= " WHERE d.status = 'proses'";
+} elseif ($filter === 'sudah_dibayar') {
+    $query .= " WHERE d.status = 'sudah_dibayar'";
+}
+
+// Tambahkan pencarian
+if (!empty($search)) {
+    if (strpos($query, 'WHERE') !== false) {
+        $query .= " AND (a.username LIKE ? OR b.judul LIKE ?)";
+    } else {
+        $query .= " WHERE (a.username LIKE ? OR b.judul LIKE ?)";
+    }
+}
+
+$query .= " ORDER BY d.tanggal_denda ASC";
+
+// Persiapkan statement
 $stmt = $conn->prepare($query);
+
+// Bind parameter pencarian jika ada
+if (!empty($search)) {
+    $searchParam = '%' . $search . '%';
+    $stmt->bindValue(1, $searchParam, PDO::PARAM_STR); // Binding pertama
+    $stmt->bindValue(2, $searchParam, PDO::PARAM_STR); // Binding kedua
+}
+
+// Eksekusi query
 $stmt->execute();
 $denda = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -48,7 +86,7 @@ if (isset($_GET['status'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Denda</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">     
     <link rel="stylesheet" href="denda_list.css">
     <style>
         .alert {
@@ -109,96 +147,109 @@ if (isset($_GET['status'])) {
         </ul>
     </nav>
 </aside>
-    <div class="container">
-        <h1>Daftar Denda</h1>
-        
-        <?= $status_message ?>
+<div class="container">
+    <h1>Daftar Denda</h1>
+    <?= $status_message ?>
+    <!-- Filter and Search Bar -->
+<div class="filter-bar">
+    <!-- Form Filter dan Pencarian -->
+    <form method="GET" class="filter-form">
+        <label for="filter">Filter:</label>
+        <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="semua" <?= $filter === 'semua' ? 'selected' : '' ?>>Semua</option>
+            <option value="belum_dibayar" <?= $filter === 'belum_dibayar' ? 'selected' : '' ?>>Belum Dibayar</option>
+            <option value="proses" <?= $filter === 'proses' ? 'selected' : '' ?>>Proses</option>
+            <option value="sudah_dibayar" <?= $filter === 'sudah_dibayar' ? 'selected' : '' ?>>Sudah Dibayar</option>
+        </select>
 
-        <!-- Tabel Denda -->
-        <table class="denda-table">
-            <thead>
+        <label for="search">Cari:</label>
+        <input type="text" name="search" id="search" placeholder="Cari berdasarkan nama anggota atau judul buku..." value="<?= htmlspecialchars($search) ?>">
+        <button type="submit">Cari</button>
+    </form>
+</div>
+    <!-- Table -->
+    <table class="denda-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Anggota</th>
+                <th>Buku</th>
+                <th>Nominal</th>
+                <th>Status</th>
+                <th>Tanggal Denda</th>
+                <th>Keterangan</th>
+                <th>Bukti Pembayaran</th>
+                <th>Status Pembayaran</th>
+                <th>Tanggal Pembayaran</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (empty($denda)): ?>
                 <tr>
-                    <th>ID</th>
-                    <th>Anggota</th>
-                    <th>Buku</th>
-                    <th>Nominal</th>
-                    <th>Status</th>
-                    <th>Tanggal Denda</th>
-                    <th>Keterangan</th>
-                    <th>Bukti Pembayaran</th>
-                    <th>Status Pembayaran</th>
-                    <th>Tanggal Pembayaran</th>
-                    <th>Aksi</th>
+                    <td colspan="11" style="text-align:center;" class="no-data">Tidak ada data denda.</td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php if (empty($denda)): ?>
+            <?php else: ?>
+                <?php foreach ($denda as $item): ?>
                     <tr>
-                        <td colspan="11" class="no-data">Tidak ada data denda.</td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($denda as $item): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($item['id']) ?></td>
-                            <td>
-                                <?= htmlspecialchars($item['anggota_name']) ?><br>
-                                <small><?= htmlspecialchars($item['anggota_username']) ?></small>
-                            </td>
-                            <td><?= htmlspecialchars($item['judul_buku'] ?? '-') ?></td>
-                            <td>Rp<?= number_format($item['nominal'], 0, ',', '.') ?></td>
-                            <td>
-                                <span class="badge <?= $item['status'] === 'sudah_dibayar' ? 'badge-success' : 'badge-danger' ?>">
-                                    <?= htmlspecialchars($item['status']) ?>
-                                </span>
-                            </td>
-                            <td><?= htmlspecialchars($item['tanggal_denda']) ?></td>
-                            <td><?= htmlspecialchars(substr($item['keterangan'], 0, 30)) . (strlen($item['keterangan']) > 30 ? '...' : '') ?></td>
-                            <td>
-                                <?php if (!empty($item['bukti_pembayaran'])): ?>
-                                    <a href="../../uploads/<?= htmlspecialchars($item['bukti_pembayaran']) ?>" target="_blank">
-                                        <img src="../../uploads/<?= htmlspecialchars($item['bukti_pembayaran']) ?>" alt="Bukti Pembayaran">
-                                    </a>
-                                <?php else: ?>
-                                    <span class="badge badge-warning">Tidak ada</span>
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php 
-                                $badge_class = '';
-                                switch ($item['status_pembayaran']) {
-                                    case 'success': $badge_class = 'badge-success'; break;
-                                    case 'failed': $badge_class = 'badge-danger'; break;
-                                    case 'pending': $badge_class = 'badge-warning'; break;
-                                    default: $badge_class = 'badge-secondary';
-                                }
-                                ?>
-                                <span class="badge <?= $badge_class ?>">
-                                    <?= htmlspecialchars($item['status_pembayaran']) ?>
-                                </span>
-                            </td>
-                            <td><?= htmlspecialchars($item['tanggal_pembayaran'] ?? '-') ?></td>
-                            <td class="actions">
-                                <?php if ($item['status'] === 'proses'): ?>
-                                    <a href="denda_terima.php?id=<?= $item['id'] ?>" class="btn btn-success btn-sm" 
-                                       onclick="return confirm('Terima pembayaran denda ini?')">
-                                        <i class="fas fa-check"></i> Terima
-                                    </a>
-                                    <a href="denda_tolak.php?id=<?= $item['id'] ?>" class="btn btn-warning btn-sm"
-                                       onclick="return confirm('Tolak pembayaran denda ini?')">
-                                        <i class="fas fa-times"></i> Tolak
-                                    </a>
-                                <?php endif; ?>
-                                
-                                <a href="hapus_denda.php?id=<?= $item['id'] ?>" class="btn btn-danger btn-sm" 
-                                   onclick="return confirm('Yakin hapus denda ini?')">
-                                    <i class="fas fa-trash"></i> Hapus
+                        <td><?= htmlspecialchars($item['id']) ?></td>
+                        <td>
+                            <?= htmlspecialchars($item['anggota_username']) ?><br>
+                        </td>
+                        <td><?= htmlspecialchars($item['judul_buku'] ?? '-') ?></td>
+                        <td>Rp<?= number_format($item['nominal'], 0, ',', '.') ?></td>
+                        <td>
+                            <span class="badge <?= $item['status'] === 'sudah_dibayar' ? 'badge-success' : 'badge-danger' ?>">
+                                <?= htmlspecialchars($item['status']) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($item['tanggal_denda']) ?></td>
+                        <td><?= htmlspecialchars(substr($item['keterangan'], 0, 30)) . (strlen($item['keterangan']) > 30 ? '...' : '') ?></td>
+                        <td>
+                            <?php if (!empty($item['bukti_pembayaran'])): ?>
+                                <a href="../../uploads/<?= htmlspecialchars($item['bukti_pembayaran']) ?>" target="_blank">
+                                    <img src="../../uploads/<?= htmlspecialchars($item['bukti_pembayaran']) ?>" alt="Bukti Pembayaran">
                                 </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
+                            <?php else: ?>
+                                <span class="badge badge-warning">Tidak ada</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php 
+                            $badge_class = '';
+                            switch ($item['status_pembayaran']) {
+                                case 'success': $badge_class = 'badge-success'; break;
+                                case 'failed': $badge_class = 'badge-danger'; break;
+                                case 'pending': $badge_class = 'badge-warning'; break;
+                                default: $badge_class = 'badge-secondary';
+                            }
+                            ?>
+                            <span class="badge <?= $badge_class ?>">
+                                <?= htmlspecialchars($item['status_pembayaran']) ?>
+                            </span>
+                        </td>
+                        <td><?= htmlspecialchars($item['tanggal_pembayaran'] ?? '-') ?></td>
+                        <td class="actions">
+                            <?php if ($item['status'] === 'proses'): ?>
+                                <a href="denda_terima.php?id=<?= $item['id'] ?>" class="btn btn-success btn-sm" 
+                                   onclick="return confirm('Terima pembayaran denda ini?')">
+                                    <i class="fas fa-check"></i> Terima
+                                </a>
+                                <a href="denda_tolak.php?id=<?= $item['id'] ?>" class="btn btn-warning btn-sm"
+                                   onclick="return confirm('Tolak pembayaran denda ini?')">
+                                    <i class="fas fa-times"></i> Tolak
+                                </a>
+                            <?php endif; ?>
+                            <a href="hapus_denda.php?id=<?= $item['id'] ?>" class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Yakin hapus denda ini?')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
