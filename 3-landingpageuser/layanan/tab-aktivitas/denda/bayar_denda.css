@@ -211,6 +211,12 @@ input[type="file"]:hover {
     color: #fff;
 }
 
+.btn-primary a {
+    background: #2d2d54;
+    color: #fff;
+    text-decoration: none;
+}
+
 .btn-primary:hover {
     background: #3e3e7a;
 }

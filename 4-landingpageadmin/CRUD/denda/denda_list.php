@@ -50,7 +50,7 @@ if (!empty($search)) {
     }
 }
 
-$query .= " ORDER BY d.tanggal_denda ASC";
+$query .= " ORDER BY d.id ASC";
 
 // Persiapkan statement
 $stmt = $conn->prepare($query);

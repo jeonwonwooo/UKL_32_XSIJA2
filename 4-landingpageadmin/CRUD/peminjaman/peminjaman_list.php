@@ -43,6 +43,8 @@ if ($filter === 'dipinjam') {
     $query .= " WHERE p.status = 'dipinjam' AND CURDATE() > p.batas_pengembalian";
 } elseif ($filter === 'pengajuan') {
     $query .= " WHERE p.status_pengajuan = 'menunggu'";
+} elseif ($filter === 'semua') {
+    $query .= " WHERE 1=1";
 }
 
 // Tambahkan pencarian
@@ -71,6 +73,7 @@ try {
 } catch (Exception $e) {
     die("Error: " . $e->getMessage());
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -110,6 +113,7 @@ try {
     <form action="" method="GET" class="filter-form">
         <label for="filter">Filter:</label>
         <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="semua" <?= $filter === 'semua' ? 'selected' : '' ?>>Semua</option>
             <option value="dipinjam" <?= $filter === 'dipinjam' ? 'selected' : '' ?>>Dipinjam</option>
             <option value="dikembalikan" <?= $filter === 'dikembalikan' ? 'selected' : '' ?>>Dikembalikan</option>
             <option value="denda" <?= $filter === 'denda' ? 'selected' : '' ?>>Kena Denda</option>

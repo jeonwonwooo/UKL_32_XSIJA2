@@ -207,7 +207,7 @@ try {
                 <ol>
                     <li>Login ke aplikasi BCA Mobile</li>
                     <li>Pilih menu "Transfer"</li>
-                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi dan masukkan PIN</li>
                 </ol>
@@ -218,7 +218,7 @@ try {
                 <ol>
                     <li>Login ke aplikasi Mandiri Mobile</li>
                     <li>Pilih menu "Transfer"</li>
-                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi dan masukkan PIN</li>
                 </ol>
@@ -229,7 +229,7 @@ try {
                 <ol>
                     <li>Login ke aplikasi BNI Mobile</li>
                     <li>Pilih menu "Transfer"</li>
-                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi dan masukkan PIN</li>
                 </ol>
@@ -240,7 +240,7 @@ try {
                 <ol>
                     <li>Login ke aplikasi BRI Mobile</li>
                     <li>Pilih menu "Transfer"</li>
-                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor rekening 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi dan masukkan PIN</li>
                 </ol>
@@ -262,7 +262,7 @@ try {
                 <ol>
                     <li>Buka aplikasi ShopeePay</li>
                     <li>Pilih menu "Pembayaran"</li>
-                    <li>Masukkan kode pembayaran 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan kode pembayaran 1234567890 (Perpustakaan SmA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi pembayaran</li>
                 </ol>
@@ -273,7 +273,7 @@ try {
                 <ol>
                     <li>Buka aplikasi Dana</li>
                     <li>Pilih menu "Pembayaran"</li>
-                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi pembayaran</li>
                 </ol>
@@ -284,7 +284,7 @@ try {
                 <ol>
                     <li>Buka aplikasi GoPay</li>
                     <li>Pilih menu "Pembayaran"</li>
-                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan SMA Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi pembayaran</li>
                 </ol>
@@ -295,7 +295,7 @@ try {
                 <ol>
                     <li>Buka aplikasi OVO</li>
                     <li>Pilih menu "Pembayaran"</li>
-                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan XYZ)</li>
+                    <li>Masukkan nomor virtual account 1234567890 (Perpustakaan Rivenhill)</li>
                     <li>Masukkan nominal Rp <?= number_format($denda['nominal'], 0, ',', '.') ?></li>
                     <li>Konfirmasi pembayaran</li>
                 </ol>
@@ -309,6 +309,7 @@ try {
                 <p>Pastikan Anda telah melakukan pembayaran sesuai dengan nominal denda yang tertera di atas.</p>
             </div>
             <button type="submit" class="btn btn-primary">Kirim Bukti Pembayaran</button>
+            <button class="btn btn-primary"><a href="/CODINGAN/3-landingpageuser/layanan/tab-aktivitas/aktivitas.php">Kembali</a></button>
         </form>
     </div>
 
