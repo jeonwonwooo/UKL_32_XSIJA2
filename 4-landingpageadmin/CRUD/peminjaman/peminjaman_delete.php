@@ -24,19 +24,25 @@ try {
 
     $buku_id = $row['buku_id'];
 
-    // 2. Hapus data peminjaman
-    $delete_query = "DELETE FROM peminjaman WHERE id = ?";
-    $stmt_delete = $conn->prepare($delete_query);
-    $stmt_delete->bindValue(1, $id, PDO::PARAM_INT);
-    $stmt_delete->execute();
+    // 2. Hapus data denda terkait peminjaman
+    $delete_denda_query = "DELETE FROM denda WHERE peminjaman_id = ?";
+    $stmt_delete_denda = $conn->prepare($delete_denda_query);
+    $stmt_delete_denda->bindValue(1, $id, PDO::PARAM_INT);
+    $stmt_delete_denda->execute();
 
-    // 3. Update status buku menjadi tersedia
+    // 3. Hapus data peminjaman
+    $delete_peminjaman_query = "DELETE FROM peminjaman WHERE id = ?";
+    $stmt_delete_peminjaman = $conn->prepare($delete_peminjaman_query);
+    $stmt_delete_peminjaman->bindValue(1, $id, PDO::PARAM_INT);
+    $stmt_delete_peminjaman->execute();
+
+    // 4. Update status buku menjadi tersedia
     $update_buku_query = "UPDATE buku SET status = 'tersedia' WHERE id = ?";
     $stmt_update_buku = $conn->prepare($update_buku_query);
     $stmt_update_buku->bindValue(1, $buku_id, PDO::PARAM_INT);
     $stmt_update_buku->execute();
 
-    echo "Data peminjaman berhasil dihapus dan status buku diperbarui ke 'tersedia'.";
+    echo "Data peminjaman berhasil dihapus, data denda terkait dihapus, dan status buku diperbarui ke 'tersedia'.";
     
 } catch (PDOException $e) {
     die("Database Error: " . $e->getMessage());
