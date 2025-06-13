@@ -31,7 +31,8 @@ $current_comment = $existing_review['ulasan'];
 
 // Proses form edit ulasan
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $new_rating = $_POST['nilai'];
+    // Check if 'nilai' is set in $_POST
+    $new_rating = isset($_POST['nilai']) ? (int)$_POST['nilai'] : null;
     $new_comment = trim($_POST['ulasan']);
 
     if ($new_rating >= 1 && $new_rating <= 5 && !empty($new_comment)) {
@@ -69,19 +70,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="hidden" name="action" value="update">
 
         <label for="rating">Rating (1-5):</label>
-<div id="rating-stars">
-    <input type="radio" name="nilai" value="5" id="star5">
-    <label for="star5" class="star">&#9733;</label>
-    <input type="radio" name="nilai" value="4" id="star4">
-    <label for="star4" class="star">&#9733;</label>
-    <input type="radio" name="nilai" value="3" id="star3">
-    <label for="star3" class="star">&#9733;</label>
-    <input type="radio" name="nilai" value="2" id="star2">
-    <label for="star2" class="star">&#9733;</label>
-    <input type="radio" name="nilai" value="1" id="star1">
-    <label for="star1" class="star">&#9733;</label>
-</div>
-
+        <div id="rating-stars">
+            <?php
+            // Pre-select the current rating
+            for ($i = 5; $i >= 1; $i--) {
+                $checked = ($i == $current_rating) ? 'checked' : '';
+                echo '<input type="radio" name="nilai" value="' . $i . '" id="star' . $i . '" ' . $checked . '>';
+                echo '<label for="star' . $i . '" class="star">&#9733;</label>';
+            }
+            ?>
+        </div>
 
         <label for="comment">Komentar:</label>
         <textarea id="comment" name="ulasan" rows="5" required><?= htmlspecialchars($current_comment) ?></textarea>
