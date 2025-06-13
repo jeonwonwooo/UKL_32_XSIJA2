@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tipe_buku = $_POST['tipe_buku'];
     $isbn = trim($_POST['isbn']);
     $status = $_POST['status'];
-    $kategori = $_POST['kategori']; // Baru ditambahkan
+    $kategori = $_POST['kategori'];
 
     $upload_dir = "../../uploads/";
     if (!is_dir($upload_dir)) {

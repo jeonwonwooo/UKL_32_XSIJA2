@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmt = $conn->prepare("
             INSERT INTO dokumen 
-            (judul, penulis, tahun_terbit, tipe_dokumen, deskripsi, admin_id, status, file_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            (judul, penulis, tahun_terbit, tipe_dokumen, deskripsi, status, file_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
             $judul,
@@ -47,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tahun_terbit,
             $tipe_dokumen,
             $deskripsi,
-            $admin_id,
             $status,
             $file_name
         ]);

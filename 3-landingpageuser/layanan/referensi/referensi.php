@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 $kategori = $_GET['kategori'] ?? 'all';
 $kata_kunci = $_GET['q'] ?? '';
 
-$tipe_referensi = ['artikel_konferensi', 'jurnal', 'modul_pelajaran'];
+$tipe_referensi = ['artikel_konferensi', 'jurnal', 'modul'];
 
 $filter_kategori = "";
 if ($kategori != 'all' && in_array($kategori, $tipe_referensi)) {
